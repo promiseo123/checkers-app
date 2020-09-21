@@ -8,8 +8,8 @@ a web micro-framework.
 
 - Austin Cepalia
 - Jack Thomas
+- Ferdous Zaman
 - Promise Omiponle
-- MEMBER4
 
 
 ## Prerequisites
