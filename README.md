@@ -8,7 +8,7 @@ a web micro-framework.
 
 - Austin Cepalia
 - Jack Thomas
-- MEMBER3
+- Promise Omiponle
 - MEMBER4
 
 
