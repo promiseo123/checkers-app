@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Austin Cepalia
-- MEMBER2
+- Jack Thomas
 - MEMBER3
 - MEMBER4
 
