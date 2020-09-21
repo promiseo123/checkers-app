@@ -10,6 +10,7 @@ a web micro-framework.
 - Jack Thomas
 - Ferdous Zaman
 - Promise Omiponle
+- Anthony DelPrincipe
 
 
 ## Prerequisites
