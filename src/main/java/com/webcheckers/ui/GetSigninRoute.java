@@ -33,6 +33,6 @@ public class GetSigninRoute implements Route{
         Map<String, Object> vm = new HashMap<>();
 
         // render the View
-        return templateEngine.render(new ModelAndView(vm , "sign-in.ftl"));
+        return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
     }
 }
