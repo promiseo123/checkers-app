@@ -25,6 +25,8 @@ public class GetHomeRoute implements Route {
 
   private final TemplateEngine templateEngine;
 
+  public final String PLAYER_KEY = "player";
+
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
