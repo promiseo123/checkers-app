@@ -20,6 +20,9 @@ public class GetSigninRoute implements Route{
 
     private final TemplateEngine templateEngine;
 
+    private final String TTL = "title";
+    private final String TITLE = "Sign In";
+
     public GetSigninRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
@@ -31,6 +34,7 @@ public class GetSigninRoute implements Route{
         LOG.finer("GetSigninRoute is invoked.");
         //
         Map<String, Object> vm = new HashMap<>();
+        vm.put(TTL,TITLE);
 
         // render the View
         return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
