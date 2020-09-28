@@ -143,9 +143,9 @@ public class WebServer {
     //Shows Sign-In page
     get(SIGNIN_URL,new GetSigninRoute(templateEngine));
 
-    //
+    //Posts login data to PlayerLobby
     post(SIGNIN_URL,new PostSigninRoute(templateEngine));
-    //
+
     LOG.config("WebServer is initialized.");
   }
 

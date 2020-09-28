@@ -13,26 +13,41 @@ import spark.TemplateEngine;
 
 import com.webcheckers.util.Message;
 
+/**
+ * The UI Controller to GET the Signin page.
+ *
+ * @author Jack Thomas
+ */
 public class GetSigninRoute implements Route{
     private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
 
-    private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
-
     private final TemplateEngine templateEngine;
 
+    //Title attribute key
     private final String TTL = "title";
+    //Title value
     private final String TITLE = "Sign In";
 
+    /**
+     *Constructor for Get signin route
+     *
+     * Sets up template engine
+     */
     public GetSigninRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
-        //
-        LOG.config("GetHomeRoute is initialized.");
+        LOG.config("GetSigninRoute is initialized.");
     }
 
+    /**
+     * Builds and displays the signin page when called
+     *
+     * Parameters: HTTP request and response
+     * Returns:templateEngine.render
+     */
     @Override
     public Object handle(Request request, Response response) {
         LOG.finer("GetSigninRoute is invoked.");
-        //
+        //setup view map
         Map<String, Object> vm = new HashMap<>();
         vm.put(TTL,TITLE);
 
