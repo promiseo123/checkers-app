@@ -1,4 +1,6 @@
-package com.webcheckers.model;
+package com.webcheckers.ui.Board;
+
+import com.webcheckers.model.Board;
 
 import java.util.ArrayList;
 import java.util.Iterator;

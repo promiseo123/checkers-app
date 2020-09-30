@@ -88,7 +88,7 @@ public class GetHomeRoute implements Route {
         }
 
         mv.put("activeColor", game.getTurn());
-        mv.put("board", game.getBoard());
+        mv.put("board", game.getBoardView());
 
         currentUser.playing();
 

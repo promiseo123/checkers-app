@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.ui.Board.BoardView;
+
 import java.util.Random;
 
 public class Game {
@@ -10,7 +12,7 @@ public class Game {
     private TURN turn;
     public enum TURN {red, white};
 
-    private BoardView board;
+    private Board board;
 
     /**
      * Game: Constructor for a game that assigns relevant variables
@@ -24,7 +26,7 @@ public class Game {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
         this.turn = TURN.red;
-        this.board = new BoardView();
+        this.board = new Board();
 
     }
 
@@ -60,8 +62,12 @@ public class Game {
      *
      * @return  this.board
      */
-    public BoardView getBoard() {
+    public Board getBoard() {
         return this.board;
+    }
+
+    public BoardView getBoardView() {
+        return this.board.getBoardView();
     }
 
     /**
