@@ -14,20 +14,16 @@ import static spark.Spark.halt;
 
 public class GetStartGameRoute implements Route {
 
-    private final TemplateEngine templateEngine;
     private PlayerLobby lobby;
 
-    public GetStartGameRoute(PlayerLobby lobby, final TemplateEngine templateEngine) {
+    public GetStartGameRoute(PlayerLobby lobby) {
         this.lobby = lobby;
-        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     }
 
     @Override
     public Object handle(Request request, Response response){
         final Session session = request.session();
         final String gameID = Game.generateRandomGameID();
-
-        Map<String, Object> vm = new HashMap<>();
 
         // Get the player who requested to start the game (RED)
         Player thisPlayer = session.attribute(GetHomeRoute.PLAYER_KEY);

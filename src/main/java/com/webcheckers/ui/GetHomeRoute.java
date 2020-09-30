@@ -64,6 +64,7 @@ public class GetHomeRoute implements Route {
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
+
     Player currentUser = session.attribute(PLAYER_KEY);
     if (currentUser != null){
 
@@ -93,7 +94,6 @@ public class GetHomeRoute implements Route {
 
         return templateEngine.render(new ModelAndView(mv, "game.ftl"));
       }
-
 
       vm.put(CURRENT_USER_KEY, currentUser);
 
