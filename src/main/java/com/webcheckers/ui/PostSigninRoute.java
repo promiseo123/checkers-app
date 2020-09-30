@@ -26,7 +26,7 @@ public class PostSigninRoute implements Route{
     private static final String MESSAGE_ATTR = "message";
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
-    private final String ERROR = "That is not valid, try again";
+    private final String ERROR = "That username is not valid or already in use. Try again";
     private final String NAME_PARAM = "PlayerName";
 
     /**

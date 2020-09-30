@@ -15,4 +15,14 @@ public class Player {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Player) {
+
+            // Two players are equal if they have the same name
+            return ((Player) other).name.equals(this.name);
+        }
+        return false;
+    }
 }
