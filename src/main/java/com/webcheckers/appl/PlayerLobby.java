@@ -21,4 +21,8 @@ public class PlayerLobby {
         else return null;
     }
 
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
 }

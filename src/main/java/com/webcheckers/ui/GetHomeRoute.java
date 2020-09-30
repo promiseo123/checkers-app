@@ -29,6 +29,8 @@ public class GetHomeRoute implements Route {
 
   public final String PLAYER_KEY = "player";
 
+  private Player player;
+
   public PlayerLobby lobby;
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -36,10 +38,12 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(final TemplateEngine templateEngine, Player player, PlayerLobby lobby) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     //
     LOG.config("GetHomeRoute is initialized.");
+    this.player=player;
+    this.lobby=lobby;
   }
 
   /**
@@ -63,9 +67,18 @@ public class GetHomeRoute implements Route {
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
-    // display current signed-in Player
-    vm.put(PLAYER_KEY, this.signedInPlayer);
 
+    vm.put(PLAYER_KEY, this.player);
+
+    if (this.lobby.getPlayers().contains(this.player)) {
+      for(int i=0; i<this.lobby.getPlayers().size();i++) {
+        // display current signed-in Player
+        vm.put(PLAYER_KEY, this.player.getName());
+        vm.put("message", this.lobby.getPlayers().get(i).getName());
+      }
+    } else {
+        vm.put("message", this.lobby.getPlayers().size()+" players are signed in");
+    }
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }
