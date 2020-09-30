@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -21,8 +22,9 @@ public class GetHomeRoute implements Route {
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
   private final TemplateEngine templateEngine;
+  private final PlayerLobby playerLobby;
 
-  public final String PLAYER_KEY = "player";
+  public static final String PLAYER_KEY = "player";
 
   public final String CURRENT_USER_KEY = "currentUser";
 
@@ -32,8 +34,9 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+    this.playerLobby = playerLobby;
     //
     LOG.config("GetHomeRoute is initialized.");
   }

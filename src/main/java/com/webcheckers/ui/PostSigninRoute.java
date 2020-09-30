@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.ModelAndView;
@@ -22,16 +23,20 @@ import spark.TemplateEngine;
 import static spark.Spark.halt;
 
 public class PostSigninRoute implements Route{
+    private static final String MESSAGE_ATTR = "message";
     private final TemplateEngine templateEngine;
+    private final PlayerLobby playerLobby;
     private final String ERROR = "That is not valid, try again";
+    private final String NAME_PARAM = "PlayerName";
 
     /**
      *Constructor for POST signin
      *
      * Sets up template engine
      */
-    public PostSigninRoute(TemplateEngine templateEngine){
+    public PostSigninRoute( PlayerLobby playerLobby, TemplateEngine templateEngine){
         this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
     }
 
     /**
@@ -49,11 +54,14 @@ public class PostSigninRoute implements Route{
         Message message = Message.error(ERROR);
         vm.put("message",message);
         ModelAndView mv = new ModelAndView(vm,"signin.ftl");
-
-        //session.attribute(GetHomeRoute.PLAYER_KEY,PLAYER)
-        //if (player == null){vm.put(MESSAGE_ATTR, message);}
-        //response.redirect(WebServer.HOME_URL);
-        //halt();
+        String name = request.queryParams(NAME_PARAM);
+        Player player = playerLobby.signIn(name);
+        if (player != null){
+            session.attribute(GetHomeRoute.PLAYER_KEY,player);
+            response.redirect(WebServer.HOME_URL);
+            halt();
+        }
+        vm.put(MESSAGE_ATTR, message);
         return templateEngine.render(mv);
     }
 }

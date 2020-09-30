@@ -15,7 +15,7 @@ public class PlayerLobby {
         if (name.matches("[A-Za-z0-9\\\\s]+")&&!this.players.contains(new Player(name))){
             //String consists of at least 1 alphanumeric character.
             Player newplayer = new Player(name);
-            //$nameofarraylist.add(newPlayer);
+            players.add(newplayer);
             return newplayer;
         }
         else return null;
