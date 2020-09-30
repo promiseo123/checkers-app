@@ -12,7 +12,7 @@ public class PlayerLobby {
         /*
         Evaluates given playername and returns Player if valid
          */
-        if (name.matches("[A-Za-z0-9\\\\s]+")&&!this.players.contains(new Player(name))){
+        if (name.matches("[A-Za-z0-9\\s]+")&&!this.players.contains(new Player(name))){
             //String consists of at least 1 alphanumeric character.
             Player newplayer = new Player(name);
             players.add(newplayer);
