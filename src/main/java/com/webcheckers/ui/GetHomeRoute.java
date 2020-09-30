@@ -5,13 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import spark.*;
 
 import com.webcheckers.util.Message;
 
@@ -29,7 +24,8 @@ public class GetHomeRoute implements Route {
 
   public final String PLAYER_KEY = "player";
 
-  public PlayerLobby lobby;
+  public final String CURRENT_USER_KEY = "currentUser";
+
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
@@ -56,16 +52,17 @@ public class GetHomeRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
+    final Session session = request.session();
     //
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
-
-    // display current signed-in Player
-    vm.put(PLAYER_KEY, this.signedInPlayer);
-
+    Player currentUser = session.attribute(PLAYER_KEY);
+    if (currentUser != null){
+      vm.put(CURRENT_USER_KEY,currentUser);
+    }
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }

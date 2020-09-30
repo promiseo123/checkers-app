@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.ModelAndView;
 import spark.Request;
@@ -48,7 +49,7 @@ public class PostSigninRoute implements Route{
         Message message = Message.error(ERROR);
         vm.put("message",message);
         ModelAndView mv = new ModelAndView(vm,"signin.ftl");
-        //playerlobby functionality here
+
         //session.attribute(GetHomeRoute.PLAYER_KEY,PLAYER)
         //if (player == null){vm.put(MESSAGE_ATTR, message);}
         //response.redirect(WebServer.HOME_URL);
