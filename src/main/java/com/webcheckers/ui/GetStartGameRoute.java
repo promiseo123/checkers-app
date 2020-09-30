@@ -31,13 +31,15 @@ public class GetStartGameRoute implements Route {
         if (thisPlayer != null) {
             String opponentName = request.queryParams("desiredOpponent");
 
-            GameCenter.newGame(gameID, thisPlayer, lobby.getPlayer(opponentName));
+            if (!lobby.getPlayer(opponentName).isPlaying()) {
+                GameCenter.newGame(gameID, thisPlayer, lobby.getPlayer(opponentName));
 
-            lobby.assignPlayerToGame(thisPlayer.getName(), gameID);
-            lobby.markPlayerWithColor(thisPlayer.getName(), Player.COLOR.RED);
+                lobby.assignPlayerToGame(thisPlayer.getName(), gameID);
+                lobby.markPlayerWithColor(thisPlayer.getName(), Player.COLOR.RED);
 
-            lobby.assignPlayerToGame(opponentName, gameID);
-            lobby.markPlayerWithColor(opponentName, Player.COLOR.WHITE);
+                lobby.assignPlayerToGame(opponentName, gameID);
+                lobby.markPlayerWithColor(opponentName, Player.COLOR.WHITE);
+            }
 
             // Go home. Let that controller worry about redirecting users to games.
             response.redirect(WebServer.HOME_URL);
