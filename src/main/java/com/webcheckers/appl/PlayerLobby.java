@@ -25,4 +25,19 @@ public class PlayerLobby {
         return this.players;
     }
 
+    public List<Player> getOtherPlayers(String ignoreName) {
+
+        // Perhaps there is a better way to do this (collection method of some sort?)
+        List<Player> otherPlayers = new ArrayList<>();
+        for (Player player : players) {
+            if (!player.getName().equals(ignoreName)) {
+                otherPlayers.add(player);
+            }
+        }
+        if (otherPlayers.size() >= 1) {
+            return otherPlayers;
+        }
+        return null;
+    }
+
 }

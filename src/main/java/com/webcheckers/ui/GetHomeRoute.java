@@ -64,15 +64,13 @@ public class GetHomeRoute implements Route {
     vm.put("message", WELCOME_MSG);
     Player currentUser = session.attribute(PLAYER_KEY);
     if (currentUser != null){
-      vm.put(CURRENT_USER_KEY,currentUser);
-      playerLobby.getPlayers().remove(currentUser);
-      //vm.put("message", "Other players signed in:");
-      // display a list of all other signed in Players
-      vm.put("users", playerLobby.getPlayers());
-      playerLobby.getPlayers().add(currentUser);
+      vm.put(CURRENT_USER_KEY, currentUser);
+
+      // Display a list of all other signed in Players
+      vm.put("users", playerLobby.getOtherPlayers(currentUser.getName()));
     } else {
       //display a message of the number of signed-in players
-      vm.put("Num", playerLobby.getPlayers().size()+" players are signed in.");
+      vm.put("Num", playerLobby.getPlayers().size() + " players are signed in.");
     }
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));

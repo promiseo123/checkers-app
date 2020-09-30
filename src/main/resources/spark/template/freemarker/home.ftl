@@ -21,12 +21,18 @@
     <#include "message.ftl" />
     <p>Current Players:</p>
      <#if currentUser??>
+       <#if !users??>
+           <p>No one else is playing right now.</p>
+       <#else>
         <#list users as user>
           <p>${user}
         </#list>
+          </#if>
         <#else>
         <p>${Num}</p>
-        </#if>
+      </#if>
+
+
 
     <!-- TODO: future content on the Home:
             to start games,
