@@ -85,6 +85,16 @@ public class Player {
     }
 
     /**
+     * nameEquals: Returns whether this Player's name is equal to the name param
+     *
+     * @param name      name to compare against
+     * @return          If this Player's name is the same as name param
+     */
+    public boolean nameEquals(String name) {
+        return this.name == name;
+    }
+
+    /**
      * getGameID: Gets the current game ID of this Player
      *
      * @return  this.currentGameID

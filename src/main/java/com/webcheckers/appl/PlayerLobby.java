@@ -47,7 +47,7 @@ public class PlayerLobby {
      */
     public Player getPlayer(String name) {
         for (Player player : players) {
-            if (player.getName().equals(name)) {
+            if (player.nameEquals(name)) {
                 return player;
             }
         }
@@ -66,7 +66,7 @@ public class PlayerLobby {
         // Perhaps there is a better way to do this (collection method of some sort?)
         List<Player> otherPlayers = new ArrayList<>();
         for (Player player : players) {
-            if (!player.getName().equals(ignoreName)) {
+            if (!player.nameEquals(ignoreName)) {
                 otherPlayers.add(player);
             }
         }
@@ -85,7 +85,7 @@ public class PlayerLobby {
      */
     public void assignPlayerToGame(String playerName, String gameID) {
         for (Player player : players) {
-            if (player.getName().equals(playerName)) {
+            if (player.nameEquals(playerName)) {
                 player.assignToGame(gameID);
                 break;
             }
@@ -99,7 +99,7 @@ public class PlayerLobby {
      */
     public void markPlayerAsPlaying(String playerName) {
         for (Player player : players) {
-            if (player.getName().equals(playerName)) {
+            if (player.nameEquals(playerName)) {
                 player.playing();
                 break;
             }
@@ -114,7 +114,7 @@ public class PlayerLobby {
      */
     public void markPlayerWithColor(String playerName, Player.COLOR color) {
         for (Player player : players) {
-            if (player.getName().equals(playerName)) {
+            if (player.nameEquals(playerName)) {
                 player.setColor(color);
                 break;
             }

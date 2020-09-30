@@ -152,7 +152,7 @@ public class WebServer {
     post(SIGNIN_URL,new PostSigninRoute(playerLobby,templateEngine));
 
     // Triggers a new game with the selected player
-    get(STARTGAME_URL, new GetStartGameRoute(playerLobby));
+    get(STARTGAME_URL, new GetStartGameRoute(playerLobby, templateEngine));
 
     LOG.config("WebServer is initialized.");
   }
