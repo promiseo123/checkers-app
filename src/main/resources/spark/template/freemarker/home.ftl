@@ -19,6 +19,9 @@
 
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
+    <#list users as user>
+      <p>${user}
+    </#list>
 
     <!-- TODO: future content on the Home:
             to start games,
