@@ -50,4 +50,22 @@ public class PlayerLobby {
         }
     }
 
+    public void markPlayerAsPlaying(String playerName) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                player.playing();
+                break;
+            }
+        }
+    }
+
+    public void markPlayerWithColor(String playerName, Player.COLOR color) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                player.setColor(color);
+                break;
+            }
+        }
+    }
+
 }

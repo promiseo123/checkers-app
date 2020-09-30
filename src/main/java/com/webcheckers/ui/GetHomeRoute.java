@@ -56,7 +56,7 @@ public class GetHomeRoute implements Route {
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
     final Session session = request.session();
-    //
+
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
 
@@ -64,8 +64,33 @@ public class GetHomeRoute implements Route {
     vm.put("message", WELCOME_MSG);
     Player currentUser = session.attribute(PLAYER_KEY);
     if (currentUser != null){
+
+      // First, check if the user should be redirected to a game
+      if (currentUser.readyToPlay()) {
+        Map<String, Object> mv = new HashMap<>();
+        mv.put("title", "New Game");
+        mv.put("gameID", currentUser.getGameID());
+        mv.put("currentUser", currentUser);
+        mv.put("viewMode", "PLAY");
+        mv.put("modeOptionsAsJSON", "");
+        if (currentUser.getColor() == Player.COLOR.RED) {
+           mv.put("redPlayer", currentUser);
+        }
+        else {
+          mv.put("whitePlayer", currentUser);
+        }
+
+        mv.put("activeColor", "red");
+
+        currentUser.playing();
+
+        return templateEngine.render(new ModelAndView(mv, "game.ftl"));
+      }
+
+
       vm.put(CURRENT_USER_KEY, currentUser);
       System.out.println(currentUser.debugString());
+
       // Display a list of all other signed in Players
       vm.put("users", playerLobby.getOtherPlayers(currentUser.getName()));
     } else {

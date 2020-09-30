@@ -8,6 +8,8 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
+import static spark.Spark.halt;
+
 public class GetStartGameRoute implements Route {
 
     private PlayerLobby lobby;
@@ -23,19 +25,22 @@ public class GetStartGameRoute implements Route {
         final Session session = request.session();
         final String gameID = Game.generateRandomGameID();
 
-        // Get the player who requested to start the game
+        // Get the player who requested to start the game (RED)
         Player thisPlayer = session.attribute(GetHomeRoute.PLAYER_KEY);
 
         if (thisPlayer != null) {
-            System.out.println(thisPlayer.getName());
             lobby.assignPlayerToGame(thisPlayer.getName(), gameID);
+            lobby.markPlayerWithColor(thisPlayer.getName(), Player.COLOR.RED);
             String opponentName = request.queryParams("desiredOpponent");
-            System.out.println(opponentName);
             lobby.assignPlayerToGame(opponentName, gameID);
+            lobby.markPlayerWithColor(opponentName, Player.COLOR.WHITE);
+
+
+            // Go home. Let that controller worry about redirecting users to games.
+            response.redirect(WebServer.HOME_URL);
+            halt();
         }
         return null;
-
-        
 
     }
 }
