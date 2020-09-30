@@ -14,10 +14,17 @@ public class BoardView implements Iterable{
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
-    public BoardView(Space[][] board) {
-        for (int rowNum = 0; rowNum < 8; rowNum++) {
-            rows.add(new Row(rowNum, board));
+    public BoardView(Space[][] board, boolean reverse) {
+        if (reverse) {
+            for (int rowNum = 0; rowNum < 8; rowNum++) {
+                rows.add(new Row(-(rowNum-7), board, reverse));
+            }
+        } else {
+            for (int rowNum = 0; rowNum < 8; rowNum++) {
+                rows.add(new Row(rowNum, board, reverse));
+            }
         }
+
     }
 
     // --------------------------------- METHODS --------------------------------- //

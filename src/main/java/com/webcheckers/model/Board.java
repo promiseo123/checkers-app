@@ -5,17 +5,23 @@ import com.webcheckers.ui.Board.Space;
 import com.webcheckers.ui.Board.Piece;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Board {
 
     Space[][] board;
-    BoardView view;
+    BoardView redView;
+    BoardView whiteView;
 
     public Board() {
         this.board = new Space[8][8];
         constructBoard(this.board);
 
-        this.view = new BoardView(board);
+        this.whiteView = new BoardView(board, false);
+        //Collections.reverse(Arrays.asList(this.board));
+        this.redView = new BoardView(board, true);
+        //Collections.reverse(Arrays.asList(this.board));
     }
 
     private void constructBoard(Space[][] board) {
@@ -44,7 +50,12 @@ public class Board {
         }
     }
 
-    public BoardView getBoardView() {
-        return this.view;
+    public BoardView getBoardView(Player.COLOR playerColor) {
+        if (playerColor == Player.COLOR.WHITE) {
+            return this.whiteView;
+        } else {
+            return redView;
+        }
+
     }
 }

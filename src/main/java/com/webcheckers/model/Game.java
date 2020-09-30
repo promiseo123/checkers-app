@@ -66,8 +66,8 @@ public class Game {
         return this.board;
     }
 
-    public BoardView getBoardView() {
-        return this.board.getBoardView();
+    public BoardView getBoardView(Player.COLOR color) {
+        return this.board.getBoardView(color);
     }
 
     /**

@@ -13,13 +13,20 @@ public class Row implements Iterable {
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
-    public Row(int index, Space[][] board) {
+    public Row(int index, Space[][] board, boolean reverse) {
         this.index = index;
 
          // For each of the 8 spaces, assign color based on both the row and col number
-         for (int colNum = 0; colNum < 8; colNum++) {
-             spaces.add(colNum, board[index][colNum]);
-         }
+        if (reverse) {
+            for (int colNum = 0; colNum < 8; colNum++) {
+                spaces.add(colNum, board[index][-(colNum-7)]);
+            }
+        } else {
+            for (int colNum = 0; colNum < 8; colNum++) {
+                spaces.add(colNum, board[index][colNum]);
+            }
+        }
+
     }
 
     // --------------------------------- METHODS --------------------------------- //
