@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PlayerLobby {
 
-    private List<Player> players= new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
 
     public Player signIn(String name){
         /*
@@ -24,6 +24,15 @@ public class PlayerLobby {
 
     public List<Player> getPlayers() {
         return this.players;
+    }
+
+    public Player getPlayer(String name) {
+        for (Player player : players) {
+            if (player.getName().equals(name)) {
+                return player;
+            }
+        }
+        return null;
     }
 
     public List<Player> getOtherPlayers(String ignoreName) {

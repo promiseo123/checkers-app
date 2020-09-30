@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
@@ -29,9 +30,13 @@ public class GetStartGameRoute implements Route {
         Player thisPlayer = session.attribute(GetHomeRoute.PLAYER_KEY);
 
         if (thisPlayer != null) {
+            String opponentName = request.queryParams("desiredOpponent");
+
+            GameCenter.newGame(gameID, thisPlayer, lobby.getPlayer(opponentName));
+
             lobby.assignPlayerToGame(thisPlayer.getName(), gameID);
             lobby.markPlayerWithColor(thisPlayer.getName(), Player.COLOR.RED);
-            String opponentName = request.queryParams("desiredOpponent");
+
             lobby.assignPlayerToGame(opponentName, gameID);
             lobby.markPlayerWithColor(opponentName, Player.COLOR.WHITE);
 

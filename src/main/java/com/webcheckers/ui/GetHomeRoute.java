@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -67,6 +69,8 @@ public class GetHomeRoute implements Route {
 
       // First, check if the user should be redirected to a game
       if (currentUser.readyToPlay()) {
+        Game game = GameCenter.getGameByID(currentUser.getGameID());
+
         Map<String, Object> mv = new HashMap<>();
         mv.put("title", "New Game");
         mv.put("gameID", currentUser.getGameID());
@@ -75,12 +79,14 @@ public class GetHomeRoute implements Route {
         mv.put("modeOptionsAsJSON", "");
         if (currentUser.getColor() == Player.COLOR.RED) {
            mv.put("redPlayer", currentUser);
+           mv.put("whitePlayer",  game.getWhitePlayer());
         }
         else {
           mv.put("whitePlayer", currentUser);
+          mv.put("redPlayer", game.getRedPlayer());
         }
 
-        mv.put("activeColor", "red");
+        mv.put("activeColor", game.getTurn());
 
         currentUser.playing();
 
