@@ -10,12 +10,15 @@ public class Game {
     private TURN turn;
     public enum TURN {red, white};
 
+    private Board board;
 
     public Game(String gameID, Player redPlayer, Player whitePlayer) {
         this.gameID = gameID;
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
         this.turn = TURN.red;
+        this.board = new Board();
+
     }
 
     public Player getRedPlayer() {
@@ -28,6 +31,10 @@ public class Game {
 
     public TURN getTurn() {
         return turn;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public void switchTurns() {

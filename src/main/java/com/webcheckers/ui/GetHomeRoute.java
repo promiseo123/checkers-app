@@ -87,6 +87,7 @@ public class GetHomeRoute implements Route {
         }
 
         mv.put("activeColor", game.getTurn());
+        mv.put("board", game.getBoard());
 
         currentUser.playing();
 
@@ -95,7 +96,6 @@ public class GetHomeRoute implements Route {
 
 
       vm.put(CURRENT_USER_KEY, currentUser);
-      System.out.println(currentUser.debugString());
 
       // Display a list of all other signed in Players
       vm.put("users", playerLobby.getOtherPlayers(currentUser.getName()));

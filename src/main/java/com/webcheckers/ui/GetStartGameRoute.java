@@ -15,8 +15,6 @@ public class GetStartGameRoute implements Route {
 
     private PlayerLobby lobby;
 
-    //TODO maybe: keep track of which players are in which games (via gameIDs)
-
     public GetStartGameRoute(PlayerLobby lobby) {
         this.lobby = lobby;
     }
