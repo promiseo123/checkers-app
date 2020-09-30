@@ -14,9 +14,9 @@ public class BoardView implements Iterable{
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
-    public BoardView() {
+    public BoardView(Space[][] board) {
         for (int rowNum = 0; rowNum < 8; rowNum++) {
-            rows.add(new Row(rowNum));
+            rows.add(new Row(rowNum, board));
         }
     }
 

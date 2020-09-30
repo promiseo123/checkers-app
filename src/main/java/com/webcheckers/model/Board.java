@@ -12,10 +12,10 @@ public class Board {
     BoardView view;
 
     public Board() {
-        //this.board = new Space[8][8];
-        //constructBoard(this.board);
+        this.board = new Space[8][8];
+        constructBoard(this.board);
 
-        this.view = new BoardView();
+        this.view = new BoardView(board);
     }
 
     private void constructBoard(Space[][] board) {
