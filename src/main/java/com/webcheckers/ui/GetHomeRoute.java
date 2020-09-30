@@ -65,7 +65,7 @@ public class GetHomeRoute implements Route {
     Player currentUser = session.attribute(PLAYER_KEY);
     if (currentUser != null){
       vm.put(CURRENT_USER_KEY, currentUser);
-
+      System.out.println(currentUser.debugString());
       // Display a list of all other signed in Players
       vm.put("users", playerLobby.getOtherPlayers(currentUser.getName()));
     } else {

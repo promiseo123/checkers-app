@@ -2,9 +2,22 @@ package com.webcheckers.model;
 
 public class Player {
     private String name;
+    private String currentGameID;
+    private boolean inGame;
 
     public Player(String name) {
         this.name=name;
+        this.currentGameID = "";
+        inGame = false;
+    }
+
+    public void assignToGame(String gameID) {
+        this.currentGameID = gameID;
+        inGame = true;
+    }
+
+    public void donePlaying() {
+        inGame = false;
     }
 
     public String getName() {
@@ -14,6 +27,10 @@ public class Player {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String debugString() {
+        return name + " with currentGameID " + currentGameID;
     }
 
     @Override

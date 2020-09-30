@@ -25,7 +25,7 @@
            <p>No one else is playing right now.</p>
        <#else>
         <#list users as user>
-          <p>${user}
+          <a href="/startgame?desiredOpponent=${user}">${user}</a>
         </#list>
           </#if>
         <#else>

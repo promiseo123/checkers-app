@@ -8,6 +8,7 @@ import java.util.List;
 public class PlayerLobby {
 
     private List<Player> players= new ArrayList<>();
+
     public Player signIn(String name){
         /*
         Evaluates given playername and returns Player if valid
@@ -38,6 +39,15 @@ public class PlayerLobby {
             return otherPlayers;
         }
         return null;
+    }
+
+    public void assignPlayerToGame(String playerName, String gameID) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                player.assignToGame(gameID);
+                break;
+            }
+        }
     }
 
 }
