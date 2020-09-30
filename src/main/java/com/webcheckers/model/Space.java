@@ -45,7 +45,7 @@ public class Space {
     }
 
     public boolean isValid() {
-        return this.color == COLOR.BLACK;
+        return this.color == COLOR.BLACK && this.piece == null;
     }
 
     public Piece getPiece() {

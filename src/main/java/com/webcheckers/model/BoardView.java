@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Board implements Iterable{
+public class BoardView implements Iterable{
 
     // --------------------------------- VARIABLES --------------------------------- //
 
@@ -12,7 +12,7 @@ public class Board implements Iterable{
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
-    public Board() {
+    public BoardView() {
         for (int rowNum = 0; rowNum < 8; rowNum++) {
             rows.add(new Row(rowNum));
         }
@@ -22,7 +22,7 @@ public class Board implements Iterable{
 
     @Override
     public Iterator iterator() {
-        return null;
+        return rows.iterator();
     }
 
 }

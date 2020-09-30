@@ -37,7 +37,7 @@ public class Row implements Iterable {
 
     @Override
     public Iterator iterator() {
-        return null;
+        return spaces.iterator();
     }
 
     public int getIndex() {

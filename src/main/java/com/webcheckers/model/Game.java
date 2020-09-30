@@ -10,7 +10,7 @@ public class Game {
     private TURN turn;
     public enum TURN {red, white};
 
-    private Board board;
+    private BoardView board;
 
     /**
      * Game: Constructor for a game that assigns relevant variables
@@ -24,7 +24,7 @@ public class Game {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
         this.turn = TURN.red;
-        this.board = new Board();
+        this.board = new BoardView();
 
     }
 
@@ -60,7 +60,7 @@ public class Game {
      *
      * @return  this.board
      */
-    public Board getBoard() {
+    public BoardView getBoard() {
         return this.board;
     }
 
