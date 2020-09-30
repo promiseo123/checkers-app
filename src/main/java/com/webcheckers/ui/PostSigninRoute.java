@@ -34,7 +34,7 @@ public class PostSigninRoute implements Route{
      *
      * Sets up template engine
      */
-    public PostSigninRoute( PlayerLobby playerLobby, TemplateEngine templateEngine){
+    public PostSigninRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine){
         this.templateEngine = templateEngine;
         this.playerLobby = playerLobby;
     }

@@ -19,9 +19,14 @@
 
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
-    <#list users as user>
-      <p>${user}
-    </#list>
+    <p>Current Players:</p>
+     <#if currentUser??>
+        <#list users as user>
+          <p>${user}
+        </#list>
+        <#else>
+        <p>${Num}</p>
+        </#if>
 
     <!-- TODO: future content on the Home:
             to start games,
