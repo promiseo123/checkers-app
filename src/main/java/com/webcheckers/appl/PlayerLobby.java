@@ -9,6 +9,13 @@ public class PlayerLobby {
 
     private List<Player> players = new ArrayList<>();
 
+    /**
+     * signIn: Evaluates the inputted username and determined when it's valid or not.
+     *         If it is, create a new player with that name. If not, return null.
+     *
+     * @param name      Inputted name
+     * @return          Player object with that name
+     */
     public Player signIn(String name){
         /*
         Evaluates given playername and returns Player if valid
@@ -22,10 +29,22 @@ public class PlayerLobby {
         else return null;
     }
 
+    /**
+     * getPlayers: Returns the ArrayList of all current players
+     *
+     * @return      this.players
+     */
     public List<Player> getPlayers() {
         return this.players;
     }
 
+    /**
+     * getPlayer: Returns a player based on the inputted name by cycling through
+     *            all players and comparing the names
+     *
+     * @param name      Name you wanna look up
+     * @return          Player of that name (if found), otherwise null
+     */
     public Player getPlayer(String name) {
         for (Player player : players) {
             if (player.getName().equals(name)) {
@@ -35,6 +54,13 @@ public class PlayerLobby {
         return null;
     }
 
+    /**
+     * getOtherPlayers: Returns a list of all players except the one of
+     *                  the specified name
+     *
+     * @param ignoreName    Player to be ignored
+     * @return              ArrayList of all other players
+     */
     public List<Player> getOtherPlayers(String ignoreName) {
 
         // Perhaps there is a better way to do this (collection method of some sort?)
@@ -50,6 +76,13 @@ public class PlayerLobby {
         return null;
     }
 
+    /**
+     * assignPlayerToGame: Finds the specified player and assigns them to
+     *                     the game with the given ID
+     *
+     * @param playerName    Player name to add
+     * @param gameID        Game ID of game to add them to
+     */
     public void assignPlayerToGame(String playerName, String gameID) {
         for (Player player : players) {
             if (player.getName().equals(playerName)) {
@@ -59,6 +92,11 @@ public class PlayerLobby {
         }
     }
 
+    /**
+     * markPlayerAsPlaying: Mark the specified player as in a game
+     *
+     * @param playerName    The player to mark as playing
+     */
     public void markPlayerAsPlaying(String playerName) {
         for (Player player : players) {
             if (player.getName().equals(playerName)) {
@@ -68,6 +106,12 @@ public class PlayerLobby {
         }
     }
 
+    /**
+     * markPlayerWithColor: Marks the specified player with a given color
+     *
+     * @param playerName    The name of the player to mark
+     * @param color         The color to mark them as
+     */
     public void markPlayerWithColor(String playerName, Player.COLOR color) {
         for (Player player : players) {
             if (player.getName().equals(playerName)) {
