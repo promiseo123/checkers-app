@@ -91,7 +91,7 @@ public class Player {
      * @return          If this Player's name is the same as name param
      */
     public boolean nameEquals(String name) {
-        return this.name == name;
+        return this.name.equals(name);
     }
 
     /**

@@ -27,17 +27,17 @@ public class Space {
             this.color = COLOR.BLACK;
         } else this.color = COLOR.WHITE;
 
-        if (playerColor.equals("RED")) {
-            this.piece = new Piece("SINGLE", "RED");
-        } else this.piece = new Piece("SINGLE", "WHITE");
+        setPlayer(playerColor);
     }
 
     // --------------------------------- METHODS --------------------------------- //
 
     public void setPlayer(String playerColor) {
-        if (playerColor.equals("RED")) {
-            this.piece = new Piece("SINGLE", "RED");
-        } else this.piece = new Piece("SINGLE", "WHITE");
+        if (this.isValid()) {
+            if (playerColor.equals("RED")) {
+                this.piece = new Piece("SINGLE", "RED");
+            } else this.piece = new Piece("SINGLE", "WHITE");
+        }
     }
 
     public int getCellIdx() {
@@ -45,7 +45,7 @@ public class Space {
     }
 
     public boolean isValid() {
-        return this.color == COLOR.BLACK && this.piece == null;
+        return ((this.color == COLOR.BLACK) && (this.piece == null));
     }
 
     public Piece getPiece() {
