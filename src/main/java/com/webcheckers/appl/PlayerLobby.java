@@ -67,7 +67,9 @@ public class PlayerLobby {
         List<Player> otherPlayers = new ArrayList<>();
         for (Player player : players) {
             if (!player.nameEquals(ignoreName)) {
-                otherPlayers.add(player);
+                if (!player.isPlaying()) {
+                    otherPlayers.add(player);
+                }
             }
         }
         if (otherPlayers.size() >= 1) {

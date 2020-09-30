@@ -50,6 +50,13 @@ public class Player {
     }
 
     /**
+     * isPlaying: Returns if this Player is playing a game or not
+     */
+    public boolean isPlaying() {
+        return this.inGame;
+    }
+
+    /**
      * donePlaying: Sets the playing status of the Player to false, removes their color
      */
     public void donePlaying() {
