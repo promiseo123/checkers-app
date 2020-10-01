@@ -6,13 +6,16 @@ import java.util.Random;
 
 public class Game {
 
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private String gameID;
     private Player redPlayer;
     private Player whitePlayer;
     private TURN turn;
     public enum TURN {RED, WHITE};
-
     private Board board;
+
+    // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     /**
      * Game: Constructor for a game that assigns relevant variables
@@ -29,6 +32,8 @@ public class Game {
         this.board = new Board();
 
     }
+
+    // --------------------------------- METHODS --------------------------------- //
 
     /**
      * getRedPlayer: Returns the red player
@@ -66,6 +71,12 @@ public class Game {
         return this.board;
     }
 
+    /**
+     * getBoardView: Returns the board view for the given color
+     *
+     * @param color     The color of the player whose view is being requested
+     * @return          The view of the specified player
+     */
     public BoardView getBoardView(Player.COLOR color) {
         return this.board.getBoardView(color);
     }

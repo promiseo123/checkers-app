@@ -1,12 +1,17 @@
 package com.webcheckers.model;
 
 public class Player {
+
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private String name;
     private String currentGameID;
     private boolean inGame;
     private COLOR color;
 
     public enum COLOR {RED, WHITE, NONE}
+
+    // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     /**
      * Player: Constructor for Player that assigns the name, current GameID,
@@ -21,6 +26,8 @@ public class Player {
         inGame = false;
         color = COLOR.NONE;
     }
+
+    // --------------------------------- METHODS --------------------------------- //
 
     /**
      * assignToGame: Assigns this player to the game given by the gameID
@@ -110,15 +117,32 @@ public class Player {
         return this.currentGameID;
     }
 
+    /**
+     * toString: Returns the string version of the player's name
+     *
+     * @return      This Player's name
+     */
     @Override
     public String toString() {
         return name;
     }
 
+    /**
+     * debugString: used for degubbing purposes, returns this Player's name
+     *              along with their currentGameID in string form
+     *
+     * @return      String of name and currentGameID
+     */
     public String debugString() {
         return name + " with currentGameID " + currentGameID;
     }
 
+    /**
+     * equals: Judges whether this Player is equal to the other Object based on the Player names
+     *
+     * @param other     Another object to be compared to
+     * @return          If they're equal or not
+     */
     @Override
     public boolean equals(Object other) {
         if (other instanceof Player) {
