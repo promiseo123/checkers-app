@@ -1,5 +1,9 @@
 package com.webcheckers.ui.BoardView;
 
+/**
+ * Space: Represents a single space on the Checkers board. Contains basic info about the state/identity of
+ *        said Space.
+ */
 public class Space {
 
     // --------------------------------- VARIABLES --------------------------------- //

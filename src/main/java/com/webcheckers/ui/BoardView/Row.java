@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Row: Represents a UI-tier implementation of a Row on the game of checkers that can be parsed and red
+ *      by the webapp.
+ */
 public class Row implements Iterable {
 
     // --------------------------------- VARIABLES --------------------------------- //

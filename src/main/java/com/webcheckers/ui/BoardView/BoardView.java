@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * A UI tier implementation of a game board that can be parsed and read by the webapp.
+ */
 public class BoardView implements Iterable{
 
     // --------------------------------- VARIABLES --------------------------------- //

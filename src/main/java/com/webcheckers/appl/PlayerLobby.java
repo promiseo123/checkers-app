@@ -5,6 +5,10 @@ import com.webcheckers.model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PlayerLobby: Class to keep track of all Players in a given session. Contains various
+ *              functionality to set attributes of said Players.
+ */
 public class PlayerLobby {
 
     // --------------------------------- VARIABLES --------------------------------- //

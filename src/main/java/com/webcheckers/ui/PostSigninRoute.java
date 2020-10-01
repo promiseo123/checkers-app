@@ -1,11 +1,5 @@
 package com.webcheckers.ui;
 
-/*
-  The Route to handle POSTing signin information.
-
-  @author Jack Thomas
- */
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -22,6 +16,11 @@ import spark.Session;
 import spark.TemplateEngine;
 import static spark.Spark.halt;
 
+/**
+ * The Route to handle POSTing signin information.
+ *
+ * @author Jack Thomas
+ */
 public class PostSigninRoute implements Route{
 
     // --------------------------------- VARIABLES --------------------------------- //

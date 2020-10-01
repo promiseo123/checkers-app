@@ -4,6 +4,10 @@ import com.webcheckers.ui.BoardView.BoardView;
 
 import java.util.Random;
 
+/**
+ * Game: Represents a single Checkers game. Contains general game information: state of the board,
+ *       participating players, turn order, etc.
+ */
 public class Game {
 
     // --------------------------------- VARIABLES --------------------------------- //

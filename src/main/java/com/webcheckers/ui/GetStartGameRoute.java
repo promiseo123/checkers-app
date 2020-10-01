@@ -13,6 +13,9 @@ import java.util.Objects;
 
 import static spark.Spark.halt;
 
+/**
+ * The UI Controller to GET the StartGame render page.
+ */
 public class GetStartGameRoute implements Route {
 
     // --------------------------------- VARIABLES --------------------------------- //

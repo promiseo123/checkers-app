@@ -1,5 +1,9 @@
 package com.webcheckers.model;
 
+/**
+ * Player: Represents a player in the WebApp that can play Checkers. Contains the name of the
+ *         player as well as info about any games they are contained in.
+ */
 public class Player {
 
     // --------------------------------- VARIABLES --------------------------------- //

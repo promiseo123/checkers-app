@@ -6,6 +6,9 @@ import com.webcheckers.model.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * GameCenter: Class to keep track of all Games in a current session
+ */
 public class GameCenter {
 
     // --------------------------------- VARIABLES --------------------------------- //
