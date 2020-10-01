@@ -8,11 +8,20 @@ public class Row implements Iterable {
 
     // --------------------------------- VARIABLES --------------------------------- //
 
-    int index;
+    private int index;
     private List<Space> spaces = new ArrayList<>();
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
+    /**
+     * Row: Constructor for a row of the board. Assigns the index, and then goes through each spot
+     *      on the row of the same index in the Space[][] board and copies it to it's own spaces
+     *      ArrayList. Uses the reverse param to determine if the ordering should be reversed.
+     *
+     * @param index     The index of this row in the board
+     * @param board     The Space[][] board
+     * @param reverse   If the order of spaces should be reversed or not
+     */
     public Row(int index, Space[][] board, boolean reverse) {
         this.index = index;
 
@@ -32,12 +41,22 @@ public class Row implements Iterable {
 
     // --------------------------------- METHODS --------------------------------- //
 
+    /**
+     * getIndex: Returns the index of this row
+     *
+     * @return      this.index
+     */
+    public int getIndex() {
+        return this.index;
+    }
+
+    /**
+     * Iterator: Returns the iterator of the spaces ArrayList
+     *
+     * @return      spaces iterator
+     */
     @Override
     public Iterator iterator() {
         return spaces.iterator();
-    }
-
-    public int getIndex() {
-        return this.index;
     }
 }
