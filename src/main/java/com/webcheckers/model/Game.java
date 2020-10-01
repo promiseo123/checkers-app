@@ -1,6 +1,6 @@
 package com.webcheckers.model;
 
-import com.webcheckers.ui.Board.BoardView;
+import com.webcheckers.ui.BoardView.BoardView;
 
 import java.util.Random;
 
@@ -10,7 +10,7 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
     private TURN turn;
-    public enum TURN {red, white};
+    public enum TURN {RED, WHITE};
 
     private Board board;
 
@@ -25,7 +25,7 @@ public class Game {
         this.gameID = gameID;
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
-        this.turn = TURN.red;
+        this.turn = TURN.RED;
         this.board = new Board();
 
     }
@@ -74,11 +74,11 @@ public class Game {
      * switchTurns: Switches who's turn it is (red to white, or white to red)
      */
     public void switchTurns() {
-        if (turn == TURN.red) {
-            turn = TURN.white;
+        if (turn == TURN.RED) {
+            turn = TURN.WHITE;
         }
         else {
-           turn = TURN.red;
+           turn = TURN.RED;
         }
     }
 

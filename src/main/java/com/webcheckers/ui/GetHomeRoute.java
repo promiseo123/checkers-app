@@ -77,7 +77,7 @@ public class GetHomeRoute implements Route {
         mv.put("gameID", currentUser.getGameID());
         mv.put("currentUser", currentUser);
         mv.put("viewMode", "PLAY");
-        mv.put("modeOptionsAsJSON", "");
+        mv.put("modeOptionsAsJSON", null);
         if (currentUser.getColor() == Player.COLOR.RED) {
            mv.put("redPlayer", currentUser);
            mv.put("whitePlayer",  game.getWhitePlayer());
@@ -87,7 +87,8 @@ public class GetHomeRoute implements Route {
           mv.put("redPlayer", game.getRedPlayer());
         }
 
-        mv.put("activeColor", game.getTurn());
+        mv.put("activeColor", game.getTurn().toString());
+        System.out.println(game.getTurn().toString());
         mv.put("board", game.getBoardView(currentUser.getColor()));
 
         currentUser.playing();

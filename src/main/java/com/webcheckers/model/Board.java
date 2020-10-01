@@ -1,27 +1,25 @@
 package com.webcheckers.model;
 
-import com.webcheckers.ui.Board.BoardView;
-import com.webcheckers.ui.Board.Space;
-import com.webcheckers.ui.Board.Piece;
+import com.webcheckers.ui.BoardView.BoardView;
+import com.webcheckers.ui.BoardView.Piece;
+import com.webcheckers.ui.BoardView.Space;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Board {
 
-    Space[][] board;
-    BoardView redView;
-    BoardView whiteView;
+    private Space[][] board;
+    private BoardView redView;
+    private BoardView whiteView;
 
     public Board() {
         this.board = new Space[8][8];
         constructBoard(this.board);
 
         this.whiteView = new BoardView(board, false);
-        //Collections.reverse(Arrays.asList(this.board));
+
         this.redView = new BoardView(board, true);
-        //Collections.reverse(Arrays.asList(this.board));
+
     }
 
     private void constructBoard(Space[][] board) {
@@ -40,11 +38,20 @@ public class Board {
                 }
 
                 if (rowNum < 3) {
-                    board[rowNum][colNum] = new Space(colNum, spaceColor, "RED");
+                    Space newSpace = new Space(colNum, spaceColor, "RED");
+                    if (spaceColor.equals("BLACK")) {
+                        newSpace.setPiece(new Piece("SINGLE", "RED"));
+                    }
+                    board[rowNum][colNum] = newSpace;
                 } else if (rowNum > 4) {
-                    board[rowNum][colNum] = new Space(colNum, spaceColor, "WHITE");
+                    Space newSpace = new Space(colNum, spaceColor, "WHITE");
+                    if (spaceColor.equals("BLACK")) {
+                        newSpace.setPiece(new Piece("SINGLE", "WHITE"));
+                    }
+                    board[rowNum][colNum] = newSpace;
                 } else {
-                    board[rowNum][colNum] = (new Space(colNum, spaceColor));
+                    Space newSpace = new Space(colNum, spaceColor);
+                    board[rowNum][colNum] = newSpace;
                 }
             }
         }

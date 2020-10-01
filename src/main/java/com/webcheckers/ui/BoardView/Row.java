@@ -1,4 +1,4 @@
-package com.webcheckers.ui.Board;
+package com.webcheckers.ui.BoardView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +26,7 @@ public class Row implements Iterable {
                 spaces.add(colNum, board[index][colNum]);
             }
         }
+
 
     }
 

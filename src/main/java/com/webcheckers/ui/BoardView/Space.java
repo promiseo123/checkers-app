@@ -1,6 +1,4 @@
-package com.webcheckers.ui.Board;
-
-import com.webcheckers.ui.Board.Piece;
+package com.webcheckers.ui.BoardView;
 
 public class Space {
 
@@ -29,17 +27,12 @@ public class Space {
             this.color = COLOR.BLACK;
         } else this.color = COLOR.WHITE;
 
-        setPlayer(playerColor);
     }
 
     // --------------------------------- METHODS --------------------------------- //
 
-    public void setPlayer(String playerColor) {
-        if (this.isValid()) {
-            if (playerColor.equals("RED")) {
-                this.piece = new Piece("SINGLE", "RED");
-            } else this.piece = new Piece("SINGLE", "WHITE");
-        }
+    public void setPiece(Piece piece) {
+        this.piece = piece;
     }
 
     public int getCellIdx() {

@@ -1,4 +1,4 @@
-package com.webcheckers.ui.Board;
+package com.webcheckers.ui.BoardView;
 
 public class Piece {
 
@@ -13,11 +13,11 @@ public class Piece {
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     public  Piece(String type, String color) {
-        if (type == "SINGLE") {
+        if (type.equals("SINGLE")) {
             this.type = TYPE.SINGLE;
         } else this.type = TYPE.KING;
 
-        if (color == "RED") {
+        if (color.equals("RED")) {
             this.color = COLOR.RED;
         } else this.color = COLOR.WHITE;
     }
