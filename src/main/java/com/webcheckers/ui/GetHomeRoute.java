@@ -28,7 +28,7 @@ public class GetHomeRoute implements Route {
 
   public static final String PLAYER_KEY = "player";
 
-  public final String CURRENT_USER_KEY = "currentUser";
+  public static final String CURRENT_USER_KEY = "currentUser";
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.

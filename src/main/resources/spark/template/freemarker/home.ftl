@@ -22,7 +22,7 @@
     <p>Current Players:</p>
      <#if currentUser??>
        <#if !users??>
-           <p>No one else is playing right now.</p>
+           <p>No one else is available to play against right now.</p>
        <#else>
         <#list users as user>
           <a href="/startgame?desiredOpponent=${user}">${user}</a>
