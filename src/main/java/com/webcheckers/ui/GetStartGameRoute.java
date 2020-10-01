@@ -15,15 +15,35 @@ import static spark.Spark.halt;
 
 public class GetStartGameRoute implements Route {
 
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private PlayerLobby lobby;
     private TemplateEngine templateEngine;
     private final static String ERROR = "That player is already in a game.";
 
+    // --------------------------------- CONSTRUCTORS --------------------------------- //
+
+    /**
+     * Constructor for GetStartGame route, sets up lobby and template engine
+     *
+     * @param lobby     The PlayerLobby of all players
+     * @param engine    The template engine used in view/model interactions
+     */
     public GetStartGameRoute(PlayerLobby lobby, TemplateEngine engine) {
         this.lobby = lobby;
         this.templateEngine = engine;
     }
 
+    // --------------------------------- METHODS --------------------------------- //
+
+    /**
+     * handle: Begins the build process for the game page, determines whether a game can/will actually be started or not
+     *         and then defers to the GetHomeRoute
+     *
+     * @param request       HTTP Request
+     * @param response      HTTP Response
+     * @return              Either null or the template engine render
+     */
     @Override
     public Object handle(Request request, Response response){
         final Session session = request.session();
@@ -60,6 +80,5 @@ public class GetStartGameRoute implements Route {
         }
 
         return null;
-
     }
 }

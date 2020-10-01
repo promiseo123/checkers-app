@@ -19,16 +19,19 @@ import com.webcheckers.util.Message;
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
 public class GetHomeRoute implements Route {
-  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  // --------------------------------- VARIABLES --------------------------------- //
+
+  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   private final TemplateEngine templateEngine;
   private final PlayerLobby playerLobby;
 
   public static final String PLAYER_KEY = "player";
-
   public static final String CURRENT_USER_KEY = "currentUser";
+  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+
+  // --------------------------------- CONSTRUCTORS --------------------------------- //
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -42,6 +45,8 @@ public class GetHomeRoute implements Route {
     //
     LOG.config("GetHomeRoute is initialized.");
   }
+
+  // --------------------------------- METHODS --------------------------------- //
 
   /**
    * Render the WebCheckers Home page.
@@ -70,6 +75,8 @@ public class GetHomeRoute implements Route {
 
       // First, check if the user should be redirected to a game
       if (currentUser.readyToPlay()) {
+        LOG.finer("GetHomeRoute initializing game view.");
+
         Game game = GameCenter.getGameByID(currentUser.getGameID());
 
         Map<String, Object> mv = new HashMap<>();
@@ -88,7 +95,6 @@ public class GetHomeRoute implements Route {
         }
 
         mv.put("activeColor", game.getTurn().toString());
-        System.out.println(game.getTurn().toString());
         mv.put("board", game.getBoardView(currentUser.getColor()));
 
         playerLobby.markPlayerAsPlaying(currentUser.getName());
