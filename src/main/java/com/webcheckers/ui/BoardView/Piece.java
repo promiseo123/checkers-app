@@ -12,14 +12,9 @@ public class Piece {
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
-    public  Piece(String type, String color) {
-        if (type.equals("SINGLE")) {
-            this.type = TYPE.SINGLE;
-        } else this.type = TYPE.KING;
-
-        if (color.equals("RED")) {
-            this.color = COLOR.RED;
-        } else this.color = COLOR.WHITE;
+    public  Piece(Piece.TYPE type, Piece.COLOR color) {
+        this.type = type;
+        this.color = color;
     }
 
     // --------------------------------- METHODS --------------------------------- //

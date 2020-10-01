@@ -12,21 +12,9 @@ public class Space {
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
-    public Space(int cellIdx, String color) {
+    public Space(int cellIdx, Space.COLOR color) {
         this.cellIdx = cellIdx;
-
-        if (color.equals("BLACK")) {
-            this.color = COLOR.BLACK;
-        } else this.color = COLOR.WHITE;
-    }
-
-    public Space(int cellIdx, String color, String playerColor) {
-        this.cellIdx = cellIdx;
-
-        if (color.equals("BLACK")) {
-            this.color = COLOR.BLACK;
-        } else this.color = COLOR.WHITE;
-
+        this.color = color;
     }
 
     // --------------------------------- METHODS --------------------------------- //

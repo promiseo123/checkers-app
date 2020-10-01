@@ -36,30 +36,30 @@ public class Board {
      * @param board
      */
     private void constructBoard(Space[][] board) {
-        String spaceColor;
+        Space.COLOR spaceColor;
 
         for (int rowNum = 0; rowNum < 8; rowNum++) {
             for (int colNum = 0; colNum < 8; colNum++) {
                 if (rowNum % 2 == 0) {
                     if (colNum % 2 == 0) {
-                        spaceColor = "WHITE";
-                    } else spaceColor = "BLACK";
+                        spaceColor = Space.COLOR.WHITE;
+                    } else spaceColor = Space.COLOR.BLACK;
                 } else {
                     if (colNum % 2 == 0) {
-                        spaceColor = "BLACK";
-                    } else spaceColor = "WHITE";
+                        spaceColor = Space.COLOR.BLACK;
+                    } else spaceColor = Space.COLOR.WHITE;
                 }
 
                 if (rowNum < 3) {
-                    Space newSpace = new Space(colNum, spaceColor, "RED");
-                    if (spaceColor.equals("BLACK")) {
-                        newSpace.setPiece(new Piece("SINGLE", "RED"));
+                    Space newSpace = new Space(colNum, spaceColor);
+                    if (spaceColor == Space.COLOR.BLACK) {
+                        newSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
                     }
                     board[rowNum][colNum] = newSpace;
                 } else if (rowNum > 4) {
-                    Space newSpace = new Space(colNum, spaceColor, "WHITE");
-                    if (spaceColor.equals("BLACK")) {
-                        newSpace.setPiece(new Piece("SINGLE", "WHITE"));
+                    Space newSpace = new Space(colNum, spaceColor);
+                    if (spaceColor == Space.COLOR.BLACK) {
+                        newSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
                     }
                     board[rowNum][colNum] = newSpace;
                 } else {
