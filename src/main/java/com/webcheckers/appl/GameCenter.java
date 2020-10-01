@@ -8,7 +8,11 @@ import java.util.Map;
 
 public class GameCenter {
 
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private static Map<String, Game> gamesMap = new HashMap<>();
+
+    // --------------------------------- METHODS --------------------------------- //
 
     /**
      * newGame: Make a new game with a game ID and the two player(red/white)

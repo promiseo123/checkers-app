@@ -7,7 +7,11 @@ import java.util.List;
 
 public class PlayerLobby {
 
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private List<Player> players = new ArrayList<>();
+
+    // --------------------------------- METHODS --------------------------------- //
 
     /**
      * signIn: Evaluates the inputted username and determined when it's valid or not.

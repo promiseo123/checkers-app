@@ -91,7 +91,7 @@ public class GetHomeRoute implements Route {
         System.out.println(game.getTurn().toString());
         mv.put("board", game.getBoardView(currentUser.getColor()));
 
-        currentUser.playing();
+        playerLobby.markPlayerAsPlaying(currentUser.getName());
 
         return templateEngine.render(new ModelAndView(mv, "game.ftl"));
       }

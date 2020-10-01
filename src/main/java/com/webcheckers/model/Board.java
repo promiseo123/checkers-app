@@ -4,14 +4,20 @@ import com.webcheckers.ui.BoardView.BoardView;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
 
-import java.util.Arrays;
-
 public class Board {
+
+    // --------------------------------- VARIABLES --------------------------------- //
 
     private Space[][] board;
     private BoardView redView;
     private BoardView whiteView;
 
+    // --------------------------------- CONSTRUCTORS --------------------------------- //
+
+    /**
+     * Board: Constructor for a board that makes all the spaces, places the initial pieces, and
+     *        makes a view of said board for each color.
+     */
     public Board() {
         this.board = new Space[8][8];
         constructBoard(this.board);
@@ -22,6 +28,13 @@ public class Board {
 
     }
 
+    // --------------------------------- METHODS --------------------------------- //
+
+    /**
+     * constructBoard: Constructs the 2D matrix of Spaces. Based their color off of the row/col index, and
+     *                 places down appropriately-colored pieces in the right spots
+     * @param board
+     */
     private void constructBoard(Space[][] board) {
         String spaceColor;
 
@@ -57,11 +70,17 @@ public class Board {
         }
     }
 
+    /**
+     * getBoardView: Returns the board view for a given player color
+     *
+     * @param playerColor       The color of the player trying to view the board
+     * @return                  The view for that colored player
+     */
     public BoardView getBoardView(Player.COLOR playerColor) {
         if (playerColor == Player.COLOR.WHITE) {
             return this.whiteView;
         } else {
-            return redView;
+            return this.redView;
         }
 
     }
