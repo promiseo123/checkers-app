@@ -80,10 +80,10 @@ public class GetHomeRoute implements Route {
 
       vm.put(CURRENT_USER_KEY, currentUser);
 
-      // We only get here if both players were able to play a game, and said game
-      // Has been created/players assigned to colors
-      // First, check if the user should be redirected to a game
-      if (currentUser.readyToPlay()) {
+
+      // Load the game screen, either for the first time or just for a game refresh
+      // Game has been created and players are about to load the game screen/refresh game screen.
+      if (currentUser.readyToPlay() || currentUser.isPlaying()) {
 
         Game game = GameCenter.getGameByID(currentUser.getGameID());
 
@@ -109,14 +109,17 @@ public class GetHomeRoute implements Route {
         mv.put("activeColor", game.getTurn().toString());
         mv.put("board", game.getBoardView(currentUser.getColor()));
 
-        // Mark the current user as playing in a game
-        // Each player, whether they requested the game or not, will go through this
-        playerLobby.markPlayerAsPlaying(currentUser.getName());
 
-        // We're in a game, so we're no longer waiting! Set this to false.
-        currentUser.waitingStatus(false);
+        if (!currentUser.isPlaying()) {
+          // Mark the current user as playing in a game
+          // Each player, whether they requested the game or not, will go through this
+          playerLobby.markPlayerAsPlaying(currentUser.getName());
 
-        // Render the game. Go on. Do it.
+          // We're in a game, so we're no longer waiting! Set this to false.
+          currentUser.waitingStatus(false);
+        }
+
+        // Render the game
         return templateEngine.render(new ModelAndView(mv, "game.ftl"));
       }
 
