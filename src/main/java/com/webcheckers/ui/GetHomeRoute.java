@@ -73,35 +73,6 @@ public class GetHomeRoute implements Route {
     Player currentUser = session.attribute(PLAYER_KEY);
     if (currentUser != null){
 
-      // First, check if the user should be redirected to a game
-      if (currentUser.readyToPlay()) {
-        LOG.finer("GetHomeRoute initializing game view.");
-
-        Game game = GameCenter.getGameByID(currentUser.getGameID());
-
-        Map<String, Object> mv = new HashMap<>();
-        mv.put("title", "New Game");
-        mv.put("gameID", currentUser.getGameID());
-        mv.put("currentUser", currentUser);
-        mv.put("viewMode", "PLAY");
-        mv.put("modeOptionsAsJSON", null);
-        if (currentUser.getColor() == Player.COLOR.RED) {
-           mv.put("redPlayer", currentUser);
-           mv.put("whitePlayer",  game.getWhitePlayer());
-        }
-        else {
-          mv.put("whitePlayer", currentUser);
-          mv.put("redPlayer", game.getRedPlayer());
-        }
-
-        mv.put("activeColor", game.getTurn().toString());
-        mv.put("board", game.getBoardView(currentUser.getColor()));
-
-        playerLobby.markPlayerAsPlaying(currentUser.getName());
-
-        return templateEngine.render(new ModelAndView(mv, "game.ftl"));
-      }
-
       vm.put(CURRENT_USER_KEY, currentUser);
 
       // Display a list of all other signed in Players

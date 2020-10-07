@@ -53,35 +53,64 @@ public class GetStartGameRoute implements Route {
         final String gameID = Game.generateRandomGameID();
 
         // Get the player who requested to start the game (RED)
-        Player thisPlayer = session.attribute(GetHomeRoute.PLAYER_KEY);
+        Player currentUser = session.attribute(GetHomeRoute.PLAYER_KEY);
 
-        if (thisPlayer != null) {
+        if (currentUser != null) {
             String opponentName = request.queryParams("desiredOpponent");
 
-            if (!lobby.getPlayer(opponentName).isPlaying()) {
-                GameCenter.newGame(gameID, thisPlayer, lobby.getPlayer(opponentName));
+            currentUser.waitingStatus(true);
+            lobby.getPlayer(opponentName).waitingStatus(true);
 
-                lobby.assignPlayerToGame(thisPlayer.getName(), gameID);
-                lobby.markPlayerWithColor(thisPlayer.getName(), Player.COLOR.RED);
+            if (!lobby.getPlayer(opponentName).isPlaying() && !lobby.getPlayer(opponentName).isWaiting()) {
+                GameCenter.newGame(gameID, currentUser, lobby.getPlayer(opponentName));
+
+                lobby.assignPlayerToGame(currentUser.getName(), gameID);
+                lobby.markPlayerWithColor(currentUser.getName(), Player.COLOR.RED);
 
                 lobby.assignPlayerToGame(opponentName, gameID);
                 lobby.markPlayerWithColor(opponentName, Player.COLOR.WHITE);
-            }
-            else {
+            } else {
                 Map<String, Object> mv = new HashMap<>();
                 Message message = Message.error(ERROR);
                 mv.put("message", message);
                 mv.put("title", "Welcome!");
-                mv.put(GetHomeRoute.CURRENT_USER_KEY, thisPlayer);
+                mv.put(GetHomeRoute.CURRENT_USER_KEY, currentUser);
 
                 return templateEngine.render(new ModelAndView(mv, "home.ftl"));
             }
 
-            // Go home. Let that controller worry about redirecting users to games.
-            response.redirect(WebServer.HOME_URL);
+            // First, check if the user should be redirected to a game
+            if (currentUser.readyToPlay()) {
+
+                Game game = GameCenter.getGameByID(currentUser.getGameID());
+
+                Map<String, Object> mv = new HashMap<>();
+                mv.put("title", "New Game");
+                mv.put("gameID", currentUser.getGameID());
+                mv.put("currentUser", currentUser);
+                mv.put("viewMode", "PLAY");
+                mv.put("modeOptionsAsJSON", null);
+                if (currentUser.getColor() == Player.COLOR.RED) {
+                    mv.put("redPlayer", currentUser);
+                    mv.put("whitePlayer",  game.getWhitePlayer());
+                }
+                else {
+                    mv.put("whitePlayer", currentUser);
+                    mv.put("redPlayer", game.getRedPlayer());
+                }
+
+                mv.put("activeColor", game.getTurn().toString());
+                mv.put("board", game.getBoardView(currentUser.getColor()));
+
+                lobby.markPlayerAsPlaying(currentUser.getName());
+
+                currentUser.waitingStatus(false);
+                lobby.getPlayer(opponentName).waitingStatus(false);
+
+                return templateEngine.render(new ModelAndView(mv, "game.ftl"));
+            }
             halt();
         }
-
         return null;
     }
 }

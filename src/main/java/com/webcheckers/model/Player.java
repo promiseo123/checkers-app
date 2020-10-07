@@ -11,6 +11,7 @@ public class Player {
     private String name;
     private String currentGameID;
     private boolean inGame;
+    private boolean waiting;
     private COLOR color;
 
     public enum COLOR {RED, WHITE, NONE}
@@ -27,6 +28,7 @@ public class Player {
     public Player(String name) {
         this.name=name;
         this.currentGameID = "";
+        this.waiting = false;
         inGame = false;
         color = COLOR.NONE;
     }
@@ -65,6 +67,20 @@ public class Player {
      */
     public boolean isPlaying() {
         return this.inGame;
+    }
+
+    /**
+     * isWaiting: Returns if this Player is waiting to play a game or not
+     */
+    public boolean isWaiting() {
+        return this.waiting;
+    }
+
+    /**
+     * waitingStatus: Sets the waiting status of the current player to whatever is passed in
+     */
+    public void waitingStatus(boolean waiting) {
+        this.waiting = waiting;
     }
 
     /**
