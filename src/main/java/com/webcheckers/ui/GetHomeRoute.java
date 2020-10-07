@@ -61,24 +61,69 @@ public class GetHomeRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
+
+    // Yeah, this is a thing
     LOG.finer("GetHomeRoute is invoked.");
     final Session session = request.session();
 
+    // Make the vm to display
     Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
 
-    // display a user message in the Home page
+    // display the title/message in the Home page
+    vm.put("title", "Welcome!");
     vm.put("message", WELCOME_MSG);
 
     Player currentUser = session.attribute(PLAYER_KEY);
+
+    // If the current User is null, something has gone catastrophically wrong
     if (currentUser != null){
 
       vm.put(CURRENT_USER_KEY, currentUser);
 
+      // We only get here if both players were able to play a game, and said game
+      // Has been created/players assigned to colors
+      // First, check if the user should be redirected to a game
+      if (currentUser.readyToPlay()) {
+
+        Game game = GameCenter.getGameByID(currentUser.getGameID());
+
+        // Populate the variables of the game.ftl render with pertinent information
+        Map<String, Object> mv = new HashMap<>();
+        mv.put("title", "New Game");
+        mv.put("gameID", currentUser.getGameID());
+        mv.put("currentUser", currentUser);
+        mv.put("viewMode", "PLAY");
+        mv.put("modeOptionsAsJSON", null);
+
+        // Put in the red/white player as the correct users depending on who requested
+        if (currentUser.getColor() == Player.COLOR.RED) {
+          mv.put("redPlayer", currentUser);
+          mv.put("whitePlayer",  game.getWhitePlayer());
+        }
+        else {
+          mv.put("whitePlayer", currentUser);
+          mv.put("redPlayer", game.getRedPlayer());
+        }
+
+        // "Start" the game by assigning the initial turn and Board setup
+        mv.put("activeColor", game.getTurn().toString());
+        mv.put("board", game.getBoardView(currentUser.getColor()));
+
+        // Mark the current user as playing in a game
+        // Each player, whether they requested the game or not, will go through this
+        playerLobby.markPlayerAsPlaying(currentUser.getName());
+
+        // We're in a game, so we're no longer waiting! Set this to false.
+        currentUser.waitingStatus(false);
+
+        // Render the game. Go on. Do it.
+        return templateEngine.render(new ModelAndView(mv, "game.ftl"));
+      }
+
       // Display a list of all other signed in Players
       vm.put("users", playerLobby.getOtherPlayers(currentUser.getName()));
     } else {
-      //display a message of the number of signed-in players
+      //display a message of the number of signed-in, not-in-a-game players
       vm.put("Num", playerLobby.getPlayers().size() + " players are signed in.");
     }
     // render the View

@@ -26,11 +26,11 @@ public class Player {
      * @param name  Name of the Player
      */
     public Player(String name) {
-        this.name=name;
+        this.name = name;
         this.currentGameID = "";
         this.waiting = false;
-        inGame = false;
-        color = COLOR.NONE;
+        this.inGame = false;
+        this.color = COLOR.NONE;
     }
 
     // --------------------------------- METHODS --------------------------------- //

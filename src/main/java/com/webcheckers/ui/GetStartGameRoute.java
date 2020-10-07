@@ -10,6 +10,7 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import static spark.Spark.halt;
 
@@ -19,6 +20,8 @@ import static spark.Spark.halt;
 public class GetStartGameRoute implements Route {
 
     // --------------------------------- VARIABLES --------------------------------- //
+
+    private static final Logger LOG = Logger.getLogger(GetStartGameRoute.class.getName());
 
     private PlayerLobby lobby;
     private TemplateEngine templateEngine;
@@ -49,66 +52,55 @@ public class GetStartGameRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response){
+
+        // Tf is this who knows
+        LOG.finer("GetStartGameRoute is invoked.");
         final Session session = request.session();
-        final String gameID = Game.generateRandomGameID();
 
         // Get the player who requested to start the game (RED)
         Player currentUser = session.attribute(GetHomeRoute.PLAYER_KEY);
 
+        // Making sure the current user actually exists and something didn't go horribly wrong
         if (currentUser != null) {
             String opponentName = request.queryParams("desiredOpponent");
 
-            currentUser.waitingStatus(true);
-            lobby.getPlayer(opponentName).waitingStatus(true);
+            // Okay, there's a lot of checking going on here
+            // If a player wants to start a game, we need to make sure that the opponent isn't currently
+            // in a game or waiting to be in a game, and the current user also isn't waiting to be
+            // put in a game either (someone requested to play with them, and their home
+            // view has yet to update)
+            if (!currentUser.isWaiting()
+                    && !lobby.getPlayer(opponentName).isPlaying()
+                    && !lobby.getPlayer(opponentName).isWaiting()) {
 
-            if (!lobby.getPlayer(opponentName).isPlaying() && !lobby.getPlayer(opponentName).isWaiting()) {
+                // Denote that these players are waiting to (possibly) be put into a game
+                currentUser.waitingStatus(true);
+                lobby.getPlayer(opponentName).waitingStatus(true);
+
+                // Generate a game ID and create Game with it
+                final String gameID = Game.generateRandomGameID();
                 GameCenter.newGame(gameID, currentUser, lobby.getPlayer(opponentName));
 
+                // Assign both players to game with correct color specification
                 lobby.assignPlayerToGame(currentUser.getName(), gameID);
                 lobby.markPlayerWithColor(currentUser.getName(), Player.COLOR.RED);
 
                 lobby.assignPlayerToGame(opponentName, gameID);
                 lobby.markPlayerWithColor(opponentName, Player.COLOR.WHITE);
             } else {
+
+                // Other player wasn't able to play a game due to whatever?
+                // Render the home page with an error message
                 Map<String, Object> mv = new HashMap<>();
                 Message message = Message.error(ERROR);
                 mv.put("message", message);
                 mv.put("title", "Welcome!");
                 mv.put(GetHomeRoute.CURRENT_USER_KEY, currentUser);
-
                 return templateEngine.render(new ModelAndView(mv, "home.ftl"));
             }
 
-            // First, check if the user should be redirected to a game
-            if (currentUser.readyToPlay()) {
-
-                Game game = GameCenter.getGameByID(currentUser.getGameID());
-
-                Map<String, Object> mv = new HashMap<>();
-                mv.put("title", "New Game");
-                mv.put("gameID", currentUser.getGameID());
-                mv.put("currentUser", currentUser);
-                mv.put("viewMode", "PLAY");
-                mv.put("modeOptionsAsJSON", null);
-                if (currentUser.getColor() == Player.COLOR.RED) {
-                    mv.put("redPlayer", currentUser);
-                    mv.put("whitePlayer",  game.getWhitePlayer());
-                }
-                else {
-                    mv.put("whitePlayer", currentUser);
-                    mv.put("redPlayer", game.getRedPlayer());
-                }
-
-                mv.put("activeColor", game.getTurn().toString());
-                mv.put("board", game.getBoardView(currentUser.getColor()));
-
-                lobby.markPlayerAsPlaying(currentUser.getName());
-
-                currentUser.waitingStatus(false);
-                lobby.getPlayer(opponentName).waitingStatus(false);
-
-                return templateEngine.render(new ModelAndView(mv, "game.ftl"));
-            }
+            // Go home. Let that controller worry about redirecting users to games.
+            response.redirect(WebServer.HOME_URL);
             halt();
         }
         return null;
