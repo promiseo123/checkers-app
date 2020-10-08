@@ -56,6 +56,11 @@ public class WebServer {
   public static final String HOME_URL = "/";
   public static final String SIGNIN_URL = "/signin";
   public static final String STARTGAME_URL = "/startgame";
+  public static final String GAME_URL = "/game";
+  public static final String CHECKTURN_URL = "/checkTurn";
+  public static final String VALMOVE_URL = "/validateMove";
+  public static final String SUBMITTURN_URL = "/submitTurn";
+  public static final String BACKUPMOVE_URL = "/backupMove";
 
   //
   // Attributes
@@ -153,6 +158,21 @@ public class WebServer {
 
     // Triggers a new game with the selected player
     get(STARTGAME_URL, new GetStartGameRoute(playerLobby, templateEngine));
+
+    // Triggers a new game with the selected player
+    get(GAME_URL, new GetGameRoute(playerLobby, templateEngine));
+
+    // Triggers a new game with the selected player
+    post(CHECKTURN_URL, new PostCheckTurnRoute(playerLobby, templateEngine));
+
+    // Triggers a new game with the selected player
+    post(VALMOVE_URL, new PostValidateMoveRoute(playerLobby, templateEngine));
+
+    // Triggers a new game with the selected player
+    post(SUBMITTURN_URL, new PostSubmitTurnRoute(playerLobby, templateEngine));
+
+    // Triggers a new game with the selected player
+    post(BACKUPMOVE_URL, new PostBackupMoveRoute(playerLobby, templateEngine));
 
     LOG.config("WebServer is initialized.");
   }

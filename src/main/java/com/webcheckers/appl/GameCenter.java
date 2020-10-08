@@ -2,15 +2,23 @@ package com.webcheckers.appl;
 
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
+import spark.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * GameCenter: Class to keep track of all Games in a current session
+ */
 public class GameCenter {
 
     // --------------------------------- VARIABLES --------------------------------- //
 
+    // Hash map of gameIDs to the games themselves
     private static Map<String, Game> gamesMap = new HashMap<>();
+
+    // Hash map of gameIDs to the games themselves
+    private static Map<String, HashMap<String, Object>[]> gameMVMap = new HashMap<>();
 
     // --------------------------------- METHODS --------------------------------- //
 

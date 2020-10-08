@@ -1,5 +1,8 @@
 package com.webcheckers.ui.BoardView;
 
+/**
+ * Piece: Represents a single piece on a game board, along with all related functionality and info.
+ */
 public class Piece {
 
     // --------------------------------- VARIABLES --------------------------------- //

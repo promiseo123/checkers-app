@@ -1,11 +1,5 @@
 package com.webcheckers.ui;
 
-/*
-  The Route to handle POSTing signin information.
-
-  @author Jack Thomas
- */
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -22,6 +16,11 @@ import spark.Session;
 import spark.TemplateEngine;
 import static spark.Spark.halt;
 
+/**
+ * The Route to handle POSTing signin information.
+ *
+ * @author Jack Thomas
+ */
 public class PostSigninRoute implements Route{
 
     // --------------------------------- VARIABLES --------------------------------- //
@@ -57,9 +56,9 @@ public class PostSigninRoute implements Route{
     public Object handle(Request request, Response response){
         final Session session = request.session();
         final Map<String, Object> vm = new HashMap<>();
-        vm.put("title","Sign In");
+        vm.put("title", "Sign In");
         Message message = Message.error(ERROR);
-        vm.put("message",message);
+        vm.put("message", message);
         ModelAndView mv = new ModelAndView(vm,"signin.ftl");
         String name = request.queryParams(NAME_PARAM);
         Player player = playerLobby.signIn(name);

@@ -4,6 +4,10 @@ import com.webcheckers.ui.BoardView.BoardView;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
 
+/**
+ * Board: A representation of the Checkers board. Both constructs the working model-level board array
+ *        as well as the UI tier Iterable of Iterables.
+ */
 public class Board {
 
     // --------------------------------- VARIABLES --------------------------------- //
