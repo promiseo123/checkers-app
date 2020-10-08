@@ -100,7 +100,7 @@ public class GetStartGameRoute implements Route {
             }
 
             // Go home. Let that controller worry about redirecting users to games.
-            response.redirect(WebServer.HOME_URL);
+            response.redirect(WebServer.GAME_URL);
             halt();
         }
         return null;

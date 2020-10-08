@@ -56,6 +56,7 @@ public class WebServer {
   public static final String HOME_URL = "/";
   public static final String SIGNIN_URL = "/signin";
   public static final String STARTGAME_URL = "/startgame";
+  public static final String GAME_URL = "/game";
 
   //
   // Attributes
@@ -153,6 +154,9 @@ public class WebServer {
 
     // Triggers a new game with the selected player
     get(STARTGAME_URL, new GetStartGameRoute(playerLobby, templateEngine));
+
+    // Triggers a new game with the selected player
+    get(GAME_URL, new GetGameRoute(playerLobby, templateEngine));
 
     LOG.config("WebServer is initialized.");
   }
