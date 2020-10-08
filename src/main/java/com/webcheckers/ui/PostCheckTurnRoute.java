@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
@@ -55,11 +56,11 @@ public class PostCheckTurnRoute implements Route {
 
         Message message;
         if (turnColor.equals(playerColor)) {
-            message = Message.info("true");
+            message = Message.error("true");
         } else {
-            message = Message.info("true");
+            message = Message.error("true");
         }
 
-        return message.getText();
+        return message;
     }
 }

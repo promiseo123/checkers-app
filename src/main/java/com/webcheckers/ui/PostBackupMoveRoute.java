@@ -40,7 +40,9 @@ public class PostBackupMoveRoute implements Route {
 
         final Session session = request.session();
 
-        return null;
+        Message message = Message.info("Test: Is valid");
+
+        return message;
     }
 
 }

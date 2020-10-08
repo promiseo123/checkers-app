@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.Objects;
@@ -36,8 +37,11 @@ public class PostValidateMoveRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
 
         final Session session = request.session();
+        String move = request.queryParams("actionData");
 
-        return null;
+        Message message = Message.info("Test: Is valid");
+
+        return message;
     }
 
 }

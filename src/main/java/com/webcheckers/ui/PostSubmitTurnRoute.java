@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.Objects;
@@ -37,7 +38,9 @@ public class PostSubmitTurnRoute implements Route {
 
         final Session session = request.session();
 
-        return null;
+        Message message = Message.info("Test: Is valid");
+
+        return message;
     }
 
 }
