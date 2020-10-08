@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI Controller to POST the /checkTurn route.
+ *
+ * @author Anthony DelPrincipe ajd6295
+ */
 public class PostCheckTurnRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
@@ -24,10 +29,10 @@ public class PostCheckTurnRoute implements Route {
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     /**
-     * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
+     * Constructor for PostCheckTurnRoute route, sets up lobby and template engine for this route
      *
-     * @param templateEngine
-     *   the HTML template rendering engine
+     * @param lobby             The PlayerLobby of all players
+     * @param templateEngine    The template engine used in view/model interactions
      */
     public PostCheckTurnRoute(final PlayerLobby lobby, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
@@ -38,6 +43,14 @@ public class PostCheckTurnRoute implements Route {
 
     // --------------------------------- METHODS --------------------------------- //
 
+    /**
+     * handle: Incomplete implementation so far, will handle when a user who is waiting for their turn
+     *         "asks" whether it's their turn or not
+     *
+     * @param request       The HTTP request
+     * @param response      The HTTP response
+     * @return              Nothing yet, *should* return valid JSON version of a info Message
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
@@ -48,7 +61,7 @@ public class PostCheckTurnRoute implements Route {
 
         String playerColor = "";
         String turnColor = GameCenter.getGameByID(gameID).getTurn().toString();
-        if (GameCenter.getGameByID(gameID).getRedPlayer().toString() == currentUser.getName()) {
+        if (GameCenter.getGameByID(gameID).getRedPlayer().toString().equals(currentUser.getName())) {
             playerColor = "RED";
         } else {
             playerColor = "WHITE";

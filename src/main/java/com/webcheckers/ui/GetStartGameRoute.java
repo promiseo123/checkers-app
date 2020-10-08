@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import static spark.Spark.halt;
 
 /**
- * The UI Controller to GET the StartGame render page.
+ * The UI Controller to GET the /startGame route
  */
 public class GetStartGameRoute implements Route {
 
@@ -30,14 +30,14 @@ public class GetStartGameRoute implements Route {
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     /**
-     * Constructor for GetStartGame route, sets up lobby and template engine
+     * Constructor for GetStartGame route, sets up lobby and template engine for this route
      *
-     * @param lobby     The PlayerLobby of all players
-     * @param engine    The template engine used in view/model interactions
+     * @param lobby             The PlayerLobby of all players
+     * @param templateEngine    The template engine used in view/model interactions
      */
-    public GetStartGameRoute(PlayerLobby lobby, TemplateEngine engine) {
+    public GetStartGameRoute(PlayerLobby lobby, TemplateEngine templateEngine) {
         this.lobby = lobby;
-        this.templateEngine = engine;
+        this.templateEngine = templateEngine;
     }
 
     // --------------------------------- METHODS --------------------------------- //
@@ -53,7 +53,6 @@ public class GetStartGameRoute implements Route {
     @Override
     public Object handle(Request request, Response response){
 
-        // Tf is this who knows
         LOG.finer("GetStartGameRoute is invoked.");
         final Session session = request.session();
 
@@ -99,7 +98,7 @@ public class GetStartGameRoute implements Route {
                 return templateEngine.render(new ModelAndView(mv, "home.ftl"));
             }
 
-            // Go home. Let that controller worry about redirecting users to games.
+            // Fantastic, everything's all set to render the game! Redirect to GetGameRoute and do it.
             response.redirect(WebServer.GAME_URL);
             halt();
         }

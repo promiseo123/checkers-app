@@ -12,34 +12,45 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI Controller to GET the /game route.
+ *
+ * @author Anthony DelPrincipe ajd6295
+ */
 public class GetGameRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
 
     private final TemplateEngine templateEngine;
-    private final PlayerLobby playerLobby;
+    private final PlayerLobby lobby;
 
     public static final String PLAYER_KEY = "player";
-    public static final String CURRENT_USER_KEY = "currentUser";
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     /**
-     * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
+     * Constructor for GetGameGame route, sets up lobby and template engine for this route
      *
-     * @param templateEngine
-     *   the HTML template rendering engine
+     * @param lobby             The PlayerLobby of all players
+     * @param templateEngine    The template engine used in view/model interactions
      */
-    public GetGameRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    public GetGameRoute(final PlayerLobby lobby, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
-        this.playerLobby = playerLobby;
+        this.lobby = lobby;
         //
         LOG.config("GetHomeRoute is initialized.");
     }
 
+    /**
+     * Handles any /game requests
+     *
+     * @param request       The HTTP request
+     * @param response      The HTTP response
+     * @return              The render of the game if successful, null otherwise
+     */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
-        // Yeah, this is a thing
+    public Object handle(Request request, Response response) throws Exception{
+
         LOG.finer("GetGameRoute is invoked.");
         final Session session = request.session();
 
@@ -74,11 +85,11 @@ public class GetGameRoute implements Route {
                 mv.put("activeColor", game.getTurn().toString());
                 mv.put("board", game.getBoardView(currentUser.getColor()));
 
-
+                // Rendering the game for the first time? Do this stuff
                 if (!currentUser.isPlaying()) {
                     // Mark the current user as playing in a game
                     // Each player, whether they requested the game or not, will go through this
-                    playerLobby.markPlayerAsPlaying(currentUser.getName());
+                    lobby.markPlayerAsPlaying(currentUser.getName());
 
                     // We're in a game, so we're no longer waiting! Set this to false.
                     currentUser.waitingStatus(false);
