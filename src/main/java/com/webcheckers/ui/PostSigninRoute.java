@@ -56,9 +56,9 @@ public class PostSigninRoute implements Route{
     public Object handle(Request request, Response response){
         final Session session = request.session();
         final Map<String, Object> vm = new HashMap<>();
-        vm.put("title","Sign In");
+        vm.put("title", "Sign In");
         Message message = Message.error(ERROR);
-        vm.put("message",message);
+        vm.put("message", message);
         ModelAndView mv = new ModelAndView(vm,"signin.ftl");
         String name = request.queryParams(NAME_PARAM);
         Player player = playerLobby.signIn(name);
