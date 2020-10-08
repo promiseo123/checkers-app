@@ -6,14 +6,12 @@ import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public class PostCheckTurnRoute implements Route {
+public class PostBackupMoveRoute implements Route {
 
-    private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger(PostBackupMoveRoute.class.getName());
 
     private final TemplateEngine templateEngine;
     private final PlayerLobby lobby;
@@ -28,11 +26,11 @@ public class PostCheckTurnRoute implements Route {
      * @param templateEngine
      *   the HTML template rendering engine
      */
-    public PostCheckTurnRoute(final PlayerLobby lobby, final TemplateEngine templateEngine) {
+    public PostBackupMoveRoute(final PlayerLobby lobby, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         this.lobby = lobby;
 
-        LOG.config("PostCheckTurnRoute is initialized.");
+        LOG.config("PostBackupMoveRoute is initialized.");
     }
 
     // --------------------------------- METHODS --------------------------------- //
@@ -42,24 +40,7 @@ public class PostCheckTurnRoute implements Route {
 
         final Session session = request.session();
 
-        Player currentUser = session.attribute(PLAYER_KEY);
-        String gameID = request.queryParams("gameID");
-
-        String playerColor = "";
-        String turnColor = GameCenter.getGameByID(gameID).getTurn().toString();
-        if (GameCenter.getGameByID(gameID).getRedPlayer().toString() == currentUser.getName()) {
-            playerColor = "RED";
-        } else {
-            playerColor = "WHITE";
-        }
-
-        Message message;
-        if (turnColor.equals(playerColor)) {
-            message = Message.info("true");
-        } else {
-            message = Message.info("true");
-        }
-
-        return message.getText();
+        return null;
     }
+
 }
