@@ -19,6 +19,9 @@ import com.webcheckers.util.Message;
  * @author Jack Thomas
  */
 public class GetSigninRoute implements Route{
+
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
 
     private final TemplateEngine templateEngine;
@@ -27,6 +30,8 @@ public class GetSigninRoute implements Route{
     private final String TTL = "title";
     //Title value
     private final String TITLE = "Sign In";
+
+    // --------------------------------- CONSTRUCTOR --------------------------------- //
 
     /**
      *Constructor for Get signin route
@@ -37,6 +42,8 @@ public class GetSigninRoute implements Route{
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         LOG.config("GetSigninRoute is initialized.");
     }
+
+    // --------------------------------- METHODS --------------------------------- //
 
     /**
      * Builds and displays the signin page when called

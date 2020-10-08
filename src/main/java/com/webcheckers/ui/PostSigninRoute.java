@@ -23,11 +23,16 @@ import spark.TemplateEngine;
 import static spark.Spark.halt;
 
 public class PostSigninRoute implements Route{
+
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private static final String MESSAGE_ATTR = "message";
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
     private final String ERROR = "That username is not valid or already in use. Try again";
     private final String NAME_PARAM = "PlayerName";
+
+    // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     /**
      *Constructor for POST signin
@@ -38,6 +43,8 @@ public class PostSigninRoute implements Route{
         this.templateEngine = templateEngine;
         this.playerLobby = playerLobby;
     }
+
+    // --------------------------------- METHODS --------------------------------- //
 
     /**
      * Operates on the given playerName by delegating the relevant portion of the data to a method in
