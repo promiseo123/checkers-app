@@ -25,6 +25,7 @@ public class PostResignRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostResignRoute.class.getName());
 
     private final TemplateEngine templateEngine;
+    private final PlayerLobby lobby;
     private final Gson gson;
 
     /**
@@ -33,8 +34,9 @@ public class PostResignRoute implements Route {
      * @param gson             the Gson engine for interacting with ajax
      * @param templateEngine    The template engine used in view/model interactions
      */
-    public PostResignRoute(final Gson gson, final TemplateEngine templateEngine) {
+    public PostResignRoute(final Gson gson, final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        this.lobby = playerLobby;
         this.gson = gson;
 
         LOG.config("PostResignRoute is initialized.");
@@ -53,9 +55,10 @@ public class PostResignRoute implements Route {
 
         final Session session = request.session();
         Player currentUser = session.attribute(GetHomeRoute.PLAYER_KEY);
+        String playername = currentUser.getName();
 
         //get resign message
-        Message message = Message.info(currentUser.getName()+" resigned");
+        Message message = Message.info(playername+" resigned.");
         return gson.toJson(message);
     }
 }
