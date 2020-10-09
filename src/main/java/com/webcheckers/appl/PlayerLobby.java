@@ -115,6 +115,20 @@ public class PlayerLobby {
             }
         }
     }
+    /**
+     * markPlayerAsPlaying: Mark the specified player as in a game
+     *
+     * @param playerName    The player to mark as playing
+     */
+    public void markPlayerAsDonePlaying(String playerName) {
+        for (Player player : players) {
+            if (player.nameEquals(playerName)) {
+                player.donePlaying();
+                player.removeFromGame();
+                break;
+            }
+        }
+    }
 
     /**
      * markPlayerWithColor: Marks the specified player with a given color
