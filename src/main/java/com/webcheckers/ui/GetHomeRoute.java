@@ -87,7 +87,7 @@ public class GetHomeRoute implements Route {
         halt();
       }
 
-
+      //if player navigates home then they automatically resign
       else if (currentUser.isPlaying()){
         playerLobby.markPlayerAsDonePlaying(currentUser.getName());
       }
