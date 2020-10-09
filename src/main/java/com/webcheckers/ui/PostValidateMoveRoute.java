@@ -55,28 +55,26 @@ public class PostValidateMoveRoute implements Route {
         // Get the session and make the gson
         final Session session = request.session();
         Gson g = new Gson();
+        Message message = null;
 
         // Get the move made from the request
         Move move = g.fromJson(request.queryParams("actionData"), Move.class);
-        move.setType(Move.TYPE.SINGLE);
+        move.setType(Move.TYPE.SIMPLE);
 
         // Get the board we're dealing with
         Player currentUser = session.attribute(PLAYER_KEY);
         Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard(); // Could do some information expert stuff here
 
-        Message message;
         // Check if the move is valid or not
-        if (board.isValidMove(move)) {
+        int errCode = board.isValidMove(move);
+        if (errCode == 0) {
             board.makeMove(move);
             message = Message.info("");
-        } else {
-            message = Message.error("I'll tell you why later");
+        } else if (errCode == 1) {
+            message = Message.error("Space is too far away!");
+        } else if (errCode == 2) {
+            message = Message.error("You've already made your move! Submit move or undo.");
         }
-
-
-        // If it is valid, record it! They might wanna go back
-
-
 
         return g.toJson(message);
     }

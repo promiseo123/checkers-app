@@ -65,8 +65,7 @@ public class PostBackupMoveRoute implements Route {
 
 
         game.getBoard().makeMove(undoMove);
-        game.getBoard().removeLatestMove();
-        game.getBoard().removeLatestMove();
+        game.getBoard().removeLatestMoves(2);
 
         Message message = Message.info("Test: Is valid");
 
