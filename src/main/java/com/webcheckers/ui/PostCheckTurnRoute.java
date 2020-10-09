@@ -65,6 +65,9 @@ public class PostCheckTurnRoute implements Route {
         Player currentUser = session.attribute(PLAYER_KEY);
         String gameID = request.queryParams("gameID");
 
+        if (!currentUser.isPlaying()) {
+            return null;
+        }
         // Figure out what the player color is and store it
         Player.COLOR playerColor = Player.COLOR.WHITE;
         if (GameCenter.getGameByID(gameID).isRedPlayer(currentUser)) {
