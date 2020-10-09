@@ -16,7 +16,7 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
     private TURN turn;
-    public enum TURN {RED, WHITE};
+    public enum TURN {RED, WHITE}
     private Board board;
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
@@ -55,6 +55,16 @@ public class Game {
      */
     public Player getWhitePlayer() {
         return whitePlayer;
+    }
+
+    /**
+     * Returns the opposite player
+     *
+     * @return      other player
+     */
+    public Player getOpponent(Player current){
+        if (isRedPlayer(current)) return getWhitePlayer();
+        else return getRedPlayer();
     }
 
     /**
