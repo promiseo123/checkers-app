@@ -163,7 +163,7 @@ public class WebServer {
     get(STARTGAME_URL, new GetStartGameRoute(playerLobby, templateEngine));
 
     // Triggers a new game with the selected player
-    get(GAME_URL, new GetGameRoute(playerLobby, templateEngine));
+    get(GAME_URL, new GetGameRoute(gson, playerLobby, templateEngine));
 
     // Triggers a new game with the selected player
     post(CHECKTURN_URL, new PostCheckTurnRoute(playerLobby, templateEngine));
