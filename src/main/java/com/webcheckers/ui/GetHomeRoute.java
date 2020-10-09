@@ -89,6 +89,7 @@ public class GetHomeRoute implements Route {
 
       //if player navigates home then they automatically resign
       else if (currentUser.isPlaying()){
+        //GameCenter.getGameByID(currentUser.getGameID()).removePlayer(currentUser);
         playerLobby.markPlayerAsDonePlaying(currentUser.getName());
       }
 
