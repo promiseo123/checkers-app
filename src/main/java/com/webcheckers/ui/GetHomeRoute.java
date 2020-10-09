@@ -82,9 +82,14 @@ public class GetHomeRoute implements Route {
 
       vm.put(CURRENT_USER_KEY, currentUser);
 
-      if (currentUser.readyToPlay() || currentUser.isPlaying()) {
+      if (currentUser.readyToPlay()) {
         response.redirect(WebServer.GAME_URL);
         halt();
+      }
+
+
+      else if (currentUser.isPlaying()){
+        playerLobby.markPlayerAsDonePlaying(currentUser.getName());
       }
 
       // Display a list of all other signed in Players
