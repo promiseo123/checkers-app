@@ -67,7 +67,7 @@ public class PostCheckTurnRoute implements Route {
 
         // Figure out what the player color is and store it
         Player.COLOR playerColor = Player.COLOR.WHITE;
-        if (GameCenter.getGameByID(gameID).getRedPlayer().equals(currentUser)) {
+        if (GameCenter.getGameByID(gameID).isRedPlayer(currentUser)) {
             playerColor = Player.COLOR.RED;
         }
 

@@ -54,7 +54,8 @@ public class PostValidateMoveRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        // Get the session and make the gson
+
+        // Get the session and make the gson/message
         final Session session = request.session();
         Gson g = new Gson();
         Message message = null;
@@ -65,10 +66,13 @@ public class PostValidateMoveRoute implements Route {
 
         // Get the board we're dealing with
         Player currentUser = session.attribute(PLAYER_KEY);
-        Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard(); // Could do some information expert stuff here
+        Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard();
 
-        // Check if the move is valid or not
+        // Get the error code from the validity checking
         int errCode = board.isValidMove(move);
+
+        // Make the message based off of the error code
+        // For now, 0=success, 1=the space was too far away, 2=they already made a move
         if (errCode == 0) {
             board.makeMove(move);
             message = Message.info("");

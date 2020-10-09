@@ -58,6 +58,16 @@ public class Game {
     }
 
     /**
+     * isRedPlayer: Returns whether the player passed in is the redPlayer in this game
+     *
+     * @param player    The Player who we want to see if they're the red player
+     * @return          If the Player passed in is the red player of the current Game
+     */
+    public boolean isRedPlayer(Player player) {
+        return player.equals(this.redPlayer);
+    }
+
+    /**
      * getTurn: Returns who's turn it is (red's turn or white's turn?)
      *
      * @return      Who's turn it is

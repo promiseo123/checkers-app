@@ -62,10 +62,13 @@ public class PostSubmitTurnRoute implements Route {
         // Get the board we're dealing with
         Player currentUser = session.attribute(PLAYER_KEY);
         Game game = GameCenter.getGameByID(currentUser.getGameID());
+
+        // Switch who's turn it is, clear the moves that have been made this turn
         game.switchTurns();
         game.getBoard().clearMoves();
 
-        Message message = Message.info("Test: Is valid");
+        // Dunno how this would fail, so I just automatically return success case
+        Message message = Message.info("");
 
         return g.toJson(message);
     }
