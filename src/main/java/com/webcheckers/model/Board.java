@@ -4,6 +4,8 @@ import com.webcheckers.ui.BoardView.BoardView;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
 
+import java.util.ArrayList;
+
 /**
  * Board: A representation of the Checkers board. Both constructs the working model-level board array
  *        as well as the UI tier Iterable of Iterables.
@@ -15,6 +17,7 @@ public class Board {
     private Space[][] board;
     private BoardView redView;
     private BoardView whiteView;
+    private ArrayList<Move> movesThisTurn;
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
@@ -25,10 +28,16 @@ public class Board {
     public Board() {
         this.board = new Space[8][8];
         constructBoard(this.board);
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                board[row][col].populateNearbySpaces();
+            }
+        }
 
         this.whiteView = new BoardView(board, false);
-
         this.redView = new BoardView(board, true);
+
+        this.movesThisTurn = new ArrayList<Move>();
 
     }
 
@@ -55,23 +64,74 @@ public class Board {
                 }
 
                 if (rowNum < 3) {
-                    Space newSpace = new Space(colNum, spaceColor);
+                    Space newSpace = new Space(this, rowNum, colNum, spaceColor);
                     if (spaceColor == Space.COLOR.BLACK) {
                         newSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
                     }
                     board[rowNum][colNum] = newSpace;
                 } else if (rowNum > 4) {
-                    Space newSpace = new Space(colNum, spaceColor);
+                    Space newSpace = new Space(this, rowNum, colNum, spaceColor);
                     if (spaceColor == Space.COLOR.BLACK) {
                         newSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
                     }
                     board[rowNum][colNum] = newSpace;
                 } else {
-                    Space newSpace = new Space(colNum, spaceColor);
+                    Space newSpace = new Space(this, rowNum, colNum, spaceColor);
                     board[rowNum][colNum] = newSpace;
                 }
             }
         }
+    }
+
+    public void clearMoves() {
+        this.movesThisTurn.clear();
+    }
+
+    public boolean isValidMove(Move move) {
+        Space startSpace = getSpaceByPosition(move.getStart());
+        Space endSpace = getSpaceByPosition(move.getEnd());
+
+        if (endSpace.isValid() && endSpace.isInRange(startSpace)) {
+            if (!this.movesThisTurn.isEmpty()) {
+                if (getLatestMove().getType() == Move.TYPE.SINGLE) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    public Move getLatestMove() {
+        return this.movesThisTurn.get(this.movesThisTurn.size()-1);
+    }
+
+    public void removeLatestMove() {
+        this.movesThisTurn.remove(getLatestMove());
+    }
+
+    public Space getSpaceByPosition(Position position) {
+        return board[position.getRow()][position.getCell()];
+    }
+
+    public Space getSpaceAt(int rowNum, int cell) {
+        return this.board[rowNum][cell];
+    }
+
+    public void makeMove(Move move) {
+        this.movesThisTurn.add(movesThisTurn.size(), move);
+
+        Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
+        getSpaceByPosition(move.getStart()).setPiece(null);
+        getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
+
+        updateViews();
+    }
+
+    private void updateViews() {
+        this.whiteView = new BoardView(this.board, false);
+        this.redView = new BoardView(this.board, true);
     }
 
     /**

@@ -1,5 +1,9 @@
 package com.webcheckers.ui.BoardView;
 
+import com.webcheckers.model.Board;
+
+import java.util.HashMap;
+
 /**
  * Space: Represents a single space on the Checkers board. Contains basic info about the state/identity of
  *        said Space.
@@ -8,11 +12,15 @@ public class Space {
 
     // --------------------------------- VARIABLES --------------------------------- //
 
+    private int rowNum;
     private int cellIdx;
     private COLOR color;
     private Piece piece;
+    private Board board;
 
     public enum COLOR {BLACK, WHITE}
+
+    private HashMap<String, Space> nearbySpaces;
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
@@ -22,12 +30,36 @@ public class Space {
      * @param cellIdx       The column number of this Space in the board
      * @param color         The color of this space
      */
-    public Space(int cellIdx, Space.COLOR color) {
+    public Space(Board board, int rowNum, int cellIdx, Space.COLOR color) {
+        this.board = board;
+        this.rowNum = rowNum;
         this.cellIdx = cellIdx;
         this.color = color;
+
+        this.nearbySpaces = new HashMap<>();
     }
 
     // --------------------------------- METHODS --------------------------------- //
+
+    public void populateNearbySpaces() {
+        if ((0 < this.rowNum) && (0 < this.cellIdx)) {
+            this.nearbySpaces.put("UpLeft", this.board.getSpaceAt(this.rowNum-1, this.cellIdx-1));
+        }
+
+        if ((0 < this.rowNum) && (this.cellIdx < 7)) {
+            this.nearbySpaces.put("UpRight", this.board.getSpaceAt(this.rowNum-1, this.cellIdx+1));
+        }
+
+        if ((this.rowNum < 7) && (0 < this.cellIdx)) {
+            this.nearbySpaces.put("DownLeft", this.board.getSpaceAt(this.rowNum+1, this.cellIdx-1));
+        }
+
+        if ((this.rowNum < 7) && (this.cellIdx < 7)) {
+            this.nearbySpaces.put("DownRight", this.board.getSpaceAt(this.rowNum+1, this.cellIdx+1));
+        }
+    }
+
+
 
     /**
      * setPiece: Sets what piece is atop this board space
@@ -54,6 +86,10 @@ public class Space {
      */
     public boolean isValid() {
         return ((this.color == COLOR.BLACK) && (this.piece == null));
+    }
+
+    public boolean isInRange(Space space) {
+        return (this.nearbySpaces.containsValue(space));
     }
 
     /**

@@ -1,6 +1,11 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Board;
+import com.webcheckers.model.Move;
+import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
 
@@ -47,13 +52,33 @@ public class PostValidateMoveRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
-
+        // Get the session and make the gson
         final Session session = request.session();
-        String move = request.queryParams("actionData");
+        Gson g = new Gson();
 
-        Message message = Message.info("Test: Is valid");
+        // Get the move made from the request
+        Move move = g.fromJson(request.queryParams("actionData"), Move.class);
+        move.setType(Move.TYPE.SINGLE);
 
-        return message;
+        // Get the board we're dealing with
+        Player currentUser = session.attribute(PLAYER_KEY);
+        Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard(); // Could do some information expert stuff here
+
+        Message message;
+        // Check if the move is valid or not
+        if (board.isValidMove(move)) {
+            board.makeMove(move);
+            message = Message.info("");
+        } else {
+            message = Message.error("I'll tell you why later");
+        }
+
+
+        // If it is valid, record it! They might wanna go back
+
+
+
+        return g.toJson(message);
     }
 
 }

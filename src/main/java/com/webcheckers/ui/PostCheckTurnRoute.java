@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
@@ -69,11 +70,12 @@ public class PostCheckTurnRoute implements Route {
 
         Message message;
         if (turnColor.equals(playerColor)) {
-            message = Message.error("true");
+            message = Message.info("true");
         } else {
-            message = Message.error("true");
+            message = Message.info("true");
         }
 
-        return message;
+        Gson g = new Gson();
+        return g.toJson(message);
     }
 }
