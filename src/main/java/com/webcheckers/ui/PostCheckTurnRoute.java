@@ -20,6 +20,8 @@ import java.util.logging.Logger;
  */
 public class PostCheckTurnRoute implements Route {
 
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
 
     private final TemplateEngine templateEngine;
@@ -42,7 +44,7 @@ public class PostCheckTurnRoute implements Route {
         LOG.config("PostCheckTurnRoute is initialized.");
     }
 
-    // --------------------------------- METHODS --------------------------------- //
+    // --------------------------------- PUBLIC METHODS --------------------------------- //
 
     /**
      * handle: Incomplete implementation so far, will handle when a user who is waiting for their turn
@@ -55,27 +57,29 @@ public class PostCheckTurnRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
+        // Make the session and gson thing
         final Session session = request.session();
+        Gson g = new Gson();
+        Message message;
 
         Player currentUser = session.attribute(PLAYER_KEY);
         String gameID = request.queryParams("gameID");
 
-        String playerColor = "";
-        String turnColor = GameCenter.getGameByID(gameID).getTurn().toString();
-        if (GameCenter.getGameByID(gameID).getRedPlayer().toString().equals(currentUser.getName())) {
-            playerColor = "RED";
-        } else {
-            playerColor = "WHITE";
+        // Figure out what the player color is and store it
+        Player.COLOR playerColor = Player.COLOR.WHITE;
+        if (GameCenter.getGameByID(gameID).getRedPlayer().equals(currentUser)) {
+            playerColor = Player.COLOR.RED;
         }
 
-        Message message;
-        if (turnColor.equals(playerColor)) {
+        // Get the turn color, and then create a Message depending on whether it equals the player color
+        // True = the turn color is the player color and so it's their turn, false otherwise
+        Game.TURN turnColor = GameCenter.getGameByID(gameID).getTurn();
+        if (turnColor.toString().equals(playerColor.toString())) {
             message = Message.info("true");
         } else {
-            message = Message.info("true");
+            message = Message.info("false");
         }
 
-        Gson g = new Gson();
         return g.toJson(message);
     }
 }

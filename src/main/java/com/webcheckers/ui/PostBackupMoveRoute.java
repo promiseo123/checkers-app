@@ -19,6 +19,8 @@ import java.util.logging.Logger;
  */
 public class PostBackupMoveRoute implements Route {
 
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private static final Logger LOG = Logger.getLogger(PostBackupMoveRoute.class.getName());
 
     private final TemplateEngine templateEngine;
@@ -41,7 +43,7 @@ public class PostBackupMoveRoute implements Route {
         LOG.config("PostBackupMoveRoute is initialized.");
     }
 
-    // --------------------------------- METHODS --------------------------------- //
+    // --------------------------------- PUBLIC METHODS --------------------------------- //
 
     /**
      * handle: No implementation yet, will handle undoing a move when the user clicks the undo button
@@ -57,17 +59,23 @@ public class PostBackupMoveRoute implements Route {
         final Session session = request.session();
         Gson g = new Gson();
 
-        // Get the board we're dealing with
+        // Get the current user we're handling the route for
         Player currentUser = session.attribute(PLAYER_KEY);
+
+        // Series of commands so we can get the "reverse" of the latest move made in the game by currentUser
         Game game = GameCenter.getGameByID(currentUser.getGameID());
         Move move = game.getBoard().getLatestMove();
         Move undoMove = new Move(move.getEnd(), move.getStart());
 
-
+        // Actually undo the move
         game.getBoard().makeMove(undoMove);
+
+        // Since our "undo" move counts as a move, we need to take it off the list of latest moves,
+        // as well as the original move we were trying to undo in the first place
         game.getBoard().removeLatestMoves(2);
 
-        Message message = Message.info("Test: Is valid");
+        // I don't know how this would fail, so for now I'm just automatically returning the "success" case
+        Message message = Message.info("");
 
         return g.toJson(message);
     }

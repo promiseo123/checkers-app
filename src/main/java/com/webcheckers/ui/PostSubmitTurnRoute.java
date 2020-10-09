@@ -19,6 +19,8 @@ import java.util.logging.Logger;
  */
 public class PostSubmitTurnRoute implements Route {
 
+    // --------------------------------- VARIABLES --------------------------------- //
+
     private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
     private final TemplateEngine templateEngine;
