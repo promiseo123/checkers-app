@@ -55,10 +55,16 @@ public class PostResignRoute implements Route {
 
         final Session session = request.session();
         Player currentUser = session.attribute(GetHomeRoute.PLAYER_KEY);
+        //likely no longer necessary
         String playername = currentUser.getName();
-
-        //get resign message
-        Message message = Message.info(playername+" resigned.");
-        return gson.toJson(message);
+        //remove player from game
+        try{
+            //get resign message
+            Message message = Message.info(playername+" resigned.");
+            return gson.toJson(message);
+        }
+        catch (Exception E){
+            Message message = Message.error("Error Resigning");
+            return gson.toJson(message);}
     }
 }
