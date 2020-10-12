@@ -170,6 +170,24 @@ public class Board {
         }
     }
 
+    /**
+     * getBoard: Returns the board model fo the Board class (for testing purposes)
+     *
+     * @return      this.board
+     */
+    public Space[][] getBoard() {
+        return this.board;
+    }
+
+    /**
+     * getMoves: Returns the list of moves made so far (for testing purposes)
+     *
+     * @return      this.getMoves
+     */
+    public ArrayList<Move> getMoves() {
+        return this.movesThisTurn;
+    }
+
     // --------------------------------- PRIVATE METHODS --------------------------------- //
 
     /**
