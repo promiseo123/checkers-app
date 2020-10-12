@@ -163,7 +163,7 @@ public class WebServer {
     get(STARTGAME_URL, new GetStartGameRoute(playerLobby, templateEngine));
 
     // Triggers a new game with the selected player
-    get(GAME_URL, new GetGameRoute(playerLobby, templateEngine));
+    get(GAME_URL, new GetGameRoute(gson, playerLobby, templateEngine));
 
     // Triggers a new game with the selected player
     post(CHECKTURN_URL, new PostCheckTurnRoute(playerLobby, templateEngine));
@@ -178,7 +178,7 @@ public class WebServer {
     post(BACKUPMOVE_URL, new PostBackupMoveRoute(playerLobby, templateEngine));
 
     //Resigns player from game
-    post(RESIGN_URL, new PostResignRoute(gson,playerLobby,templateEngine));
+    post(RESIGN_URL, new PostResignRoute(gson,templateEngine));
     LOG.config("WebServer is initialized.");
   }
 

@@ -16,7 +16,7 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
     private TURN turn;
-    public enum TURN {RED, WHITE};
+    public enum TURN {RED, WHITE}
     private Board board;
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
@@ -55,6 +55,16 @@ public class Game {
      */
     public Player getWhitePlayer() {
         return whitePlayer;
+    }
+
+    /**
+     * Returns the opposite player
+     *
+     * @return      other player
+     */
+    public Player getOpponent(Player current){
+        if (isRedPlayer(current)) return getWhitePlayer();
+        else return getRedPlayer();
     }
 
     /**
@@ -105,6 +115,16 @@ public class Game {
         else {
            turn = TURN.RED;
         }
+    }
+
+    /**
+     * removes specified player from this game by color
+     */
+    public void removePlayer (Player player){
+        String color = player.getColor().toString();
+        System.out.println(color);
+        if (color.equals("RED")) this.redPlayer = null;
+        else if (color.equals("WHITE")) this.whitePlayer = null;
     }
 
     /**
