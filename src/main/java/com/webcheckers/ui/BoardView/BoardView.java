@@ -32,7 +32,15 @@ public class BoardView implements Iterable{
                 rows.add(new Row(rowNum, board, reverse));
             }
         }
+    }
 
+    /**
+     * getRows: Returns the lits of rows of thie BoardView (for testing purposes)
+     *
+     * @return      this.rows
+     */
+    public List<Row> getRows() {
+        return this.rows;
     }
 
     // --------------------------------- METHODS --------------------------------- //

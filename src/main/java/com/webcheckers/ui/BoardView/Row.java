@@ -55,6 +55,16 @@ public class Row implements Iterable {
     }
 
     /**
+     * getSpace: Returns the space at the specified cell index (for testing purposes)
+     *
+     * @param cellIdx       The index of the Space we want
+     * @return              The Space at that index
+     */
+    public Space getSpace(int cellIdx) {
+        return this.spaces.get(0);
+    }
+
+    /**
      * Iterator: Returns the iterator of the spaces ArrayList
      *
      * @return      spaces iterator

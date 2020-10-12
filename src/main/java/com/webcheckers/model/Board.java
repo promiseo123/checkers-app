@@ -95,6 +95,13 @@ public class Board {
 
             }
 
+            // We could be dealing with a simple move - we don't want them able to move "backwards"
+            if (move.getType().equals(Move.TYPE.SIMPLE)) {
+                if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
+                    return 3;
+                }
+            }
+
             // If we got here it means we haven't already moved the piece, so of course we can move it now
             return 0;
         }
@@ -168,6 +175,24 @@ public class Board {
         } else {
             return this.redView;
         }
+    }
+
+    /**
+     * getBoard: Returns the board model fo the Board class (for testing purposes)
+     *
+     * @return      this.board
+     */
+    public Space[][] getBoard() {
+        return this.board;
+    }
+
+    /**
+     * getMoves: Returns the list of moves made so far (for testing purposes)
+     *
+     * @return      this.getMoves
+     */
+    public ArrayList<Move> getMoves() {
+        return this.movesThisTurn;
     }
 
     // --------------------------------- PRIVATE METHODS --------------------------------- //
