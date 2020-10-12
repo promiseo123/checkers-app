@@ -1,4 +1,4 @@
----
+ ---
 geometry: margin=1in
 ---
 # PROJECT Design Documentation
@@ -9,20 +9,33 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: Team 05a
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Austin Cepalia
+  * Jack Thomas
+  * Ferdous Zaman
+  * Promise Omiponle
+  * Anthony DelPrincipe
 
 ## Executive Summary
 
-This is a summary of the project.
+Our project models a game of checkers played within one's browser. 
+A user is able to open a tab from their local host on their browser, and the
+sign in page will appear. They are able to see the number of players online,
+or sign in with an appropriate user name, which will take them to the
+HOME screen. From here, they are able to see other players online, and either
+sign out or start a game with one of them. The game will be a GUI of
+a standard checkers game, which will pop up for both players involved.
+The game plays as a regular game of checkers with standard American rules,
+which will end with a win/lose or via resigning.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+The purpose of this project is to not only develop a working model of a checkers
+game to be played in one's browser, but also to hone the project member's 
+knowledge not only of HTTP requests and responses via the Spark framework,
+but more importantly to practice good code design and learn about how to effectively
+design a product.
+
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -54,7 +67,7 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](domain-model-placeholder.png)
+![The WebCheckers Domain Model](CheckersDomain.png)
 
 > _Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
@@ -87,7 +100,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
+![The WebCheckers Web Interface Statechart](web-interface-statechart.png)
 
 > _Provide a summary of the application's user interface.  Describe, from
 > the user's perspective, the flow of the pages in the web application._
