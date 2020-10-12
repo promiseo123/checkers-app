@@ -61,6 +61,9 @@ public class WebServer {
   public static final String VALMOVE_URL = "/validateMove";
   public static final String SUBMITTURN_URL = "/submitTurn";
   public static final String BACKUPMOVE_URL = "/backupMove";
+  public static final String RESIGN_URL = "/resignGame";
+  public static final String GAME_OVER_URL = "/GameOverState";
+
 
   //
   // Attributes
@@ -174,6 +177,8 @@ public class WebServer {
     // Triggers a new game with the selected player
     post(BACKUPMOVE_URL, new PostBackupMoveRoute(playerLobby, templateEngine));
 
+    //Resigns player from game
+    post(RESIGN_URL, new PostResignRoute(gson,playerLobby,templateEngine));
     LOG.config("WebServer is initialized.");
   }
 

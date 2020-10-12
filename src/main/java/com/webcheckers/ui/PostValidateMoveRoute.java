@@ -1,6 +1,11 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Board;
+import com.webcheckers.model.Move;
+import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
 
@@ -13,6 +18,8 @@ import java.util.logging.Logger;
  * @author Anthony DelPrincipe ajd6295
  */
 public class PostValidateMoveRoute implements Route {
+
+    // --------------------------------- VARIABLES --------------------------------- //
 
     private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
@@ -48,12 +55,34 @@ public class PostValidateMoveRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
+        // Get the session and make the gson/message
         final Session session = request.session();
-        String move = request.queryParams("actionData");
+        Gson g = new Gson();
+        Message message = null;
 
-        Message message = Message.info("Test: Is valid");
+        // Get the move made from the request
+        Move move = g.fromJson(request.queryParams("actionData"), Move.class);
+        move.setType(Move.TYPE.SIMPLE);
 
-        return message;
+        // Get the board we're dealing with
+        Player currentUser = session.attribute(PLAYER_KEY);
+        Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard();
+
+        // Get the error code from the validity checking
+        int errCode = board.isValidMove(move);
+
+        // Make the message based off of the error code
+        // For now, 0=success, 1=the space was too far away, 2=they already made a move
+        if (errCode == 0) {
+            board.makeMove(move);
+            message = Message.info("");
+        } else if (errCode == 1) {
+            message = Message.error("Space is too far away!");
+        } else if (errCode == 2) {
+            message = Message.error("You've already made your move! Submit move or undo.");
+        }
+
+        return g.toJson(message);
     }
 
 }

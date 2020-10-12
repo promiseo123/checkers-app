@@ -1,6 +1,11 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Board;
+import com.webcheckers.model.Game;
+import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
 
@@ -13,6 +18,8 @@ import java.util.logging.Logger;
  * @author Anthony DelPrincipe ajd6295
  */
 public class PostSubmitTurnRoute implements Route {
+
+    // --------------------------------- VARIABLES --------------------------------- //
 
     private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
@@ -48,11 +55,22 @@ public class PostSubmitTurnRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
+        // Get session and make Gson
         final Session session = request.session();
+        Gson g = new Gson();
 
-        Message message = Message.info("Test: Is valid");
+        // Get the board we're dealing with
+        Player currentUser = session.attribute(PLAYER_KEY);
+        Game game = GameCenter.getGameByID(currentUser.getGameID());
 
-        return message;
+        // Switch who's turn it is, clear the moves that have been made this turn
+        game.switchTurns();
+        game.getBoard().clearMoves();
+
+        // Dunno how this would fail, so I just automatically return success case
+        Message message = Message.info("");
+
+        return g.toJson(message);
     }
 
 }
