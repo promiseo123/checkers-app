@@ -92,6 +92,12 @@ public class Player {
     }
 
     /**
+     * Removes this player from an active game
+     *
+     */
+    public void removeFromGame() { this.currentGameID = ""; }
+
+    /**
      * setColor: Sets the color of the Player
      *
      * @param color     The color they are to be assigned to
