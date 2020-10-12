@@ -178,7 +178,7 @@ public class WebServer {
     post(BACKUPMOVE_URL, new PostBackupMoveRoute(playerLobby, templateEngine));
 
     //Resigns player from game
-    post(RESIGN_URL, new PostResignRoute(gson,playerLobby,templateEngine));
+    post(RESIGN_URL, new PostResignRoute(gson,templateEngine));
     LOG.config("WebServer is initialized.");
   }
 
