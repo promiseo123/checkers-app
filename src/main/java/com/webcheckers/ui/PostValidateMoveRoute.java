@@ -80,6 +80,8 @@ public class PostValidateMoveRoute implements Route {
             message = Message.error("Space is too far away!");
         } else if (errCode == 2) {
             message = Message.error("You've already made your move! Submit move or undo.");
+        } else if (errCode == 3) {
+            message = Message.error("Can't move backwards!");
         }
 
         return g.toJson(message);
