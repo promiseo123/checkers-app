@@ -60,21 +60,29 @@ public class Space {
         // Checks it's not on top row or left column
         if ((0 < this.rowNum) && (0 < this.cellIdx)) {
             this.nearbySpaces.put("UpLeft", this.board.getSpaceAt(this.rowNum-1, this.cellIdx-1));
+        } else {
+            this.nearbySpaces.put("UpLeft", null);
         }
 
         // Checks it's not on top row or right column
         if ((0 < this.rowNum) && (this.cellIdx < 7)) {
             this.nearbySpaces.put("UpRight", this.board.getSpaceAt(this.rowNum-1, this.cellIdx+1));
+        } else {
+            this.nearbySpaces.put("UpRight", null);
         }
 
         // Checks it's not on bottom row or left column
         if ((this.rowNum < 7) && (0 < this.cellIdx)) {
             this.nearbySpaces.put("DownLeft", this.board.getSpaceAt(this.rowNum+1, this.cellIdx-1));
+        } else {
+            this.nearbySpaces.put("DownLeft", null);
         }
 
         // Checks it's not on bottom row or right column
         if ((this.rowNum < 7) && (this.cellIdx < 7)) {
             this.nearbySpaces.put("DownRight", this.board.getSpaceAt(this.rowNum+1, this.cellIdx+1));
+        } else {
+            this.nearbySpaces.put("DownRight", null);
         }
     }
 
@@ -113,6 +121,23 @@ public class Space {
      */
     public boolean isInRange(Space space) {
         return (this.nearbySpaces.containsValue(space));
+    }
+
+    /**
+     * isInRangeSimple: Checks to see if the Space passed in via "space" parameter is a nearby Space
+     *                  either in the two upwards (for red) or two downwards (for white)
+     *
+     * @param space     The Space to see if we're near
+     * @return          If we're near the space (it's one of our immediate diagonal neighbors)
+     */
+    public boolean isInRangeSimple(Space space, Piece.COLOR color) {
+        if (color == Piece.COLOR.WHITE) {
+            return ((this.nearbySpaces.get("UpRight") == space)
+            || (this.nearbySpaces.get("UpLeft") == space));
+        } else {
+            return ((this.nearbySpaces.get("DownRight") == space)
+                    || (this.nearbySpaces.get("DownLeft") == space));
+        }
     }
 
     /**

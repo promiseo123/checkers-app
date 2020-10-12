@@ -95,6 +95,13 @@ public class Board {
 
             }
 
+            // We could be dealing with a simple move - we don't want them able to move "backwards"
+            if (move.getType().equals(Move.TYPE.SIMPLE)) {
+                if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
+                    return 3;
+                }
+            }
+
             // If we got here it means we haven't already moved the piece, so of course we can move it now
             return 0;
         }
