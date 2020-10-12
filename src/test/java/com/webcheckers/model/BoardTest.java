@@ -46,6 +46,9 @@ public class BoardTest {
     public void test_valid_move() {
         final Board CuT = new Board();
         Move validMove = new Move(new Position(5, 0), new Position(4, 1));
+        validMove.setType(Move.TYPE.SIMPLE);
+
+        CuT.isValidMove(validMove);
 
         assertEquals(CuT.isValidMove(validMove), 0);
     }
