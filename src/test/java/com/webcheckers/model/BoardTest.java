@@ -7,26 +7,39 @@ import com.webcheckers.ui.BoardView.Space;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+/**
+ * BoardTest: Class to test the Board class works correctly
+ *
+ * @author: ajd6295
+ */
 @Tag("Model-tier")
 public class BoardTest {
 
+    // Component under testing
+    private final Board CuT = new Board();
+
+    /**
+     * test_make_board: Tests the creation of a Board class
+     */
     @Test
     public void test_make_board() {
-        final Board CuT = new Board();
 
         // Analyze if the board was made correctly
         assertNotNull(CuT);
         assertNotNull(CuT.getBoard());
 
-        // Make sure that the Board View is correct
+        // Make sure that the BoardViews are correct
         assertNotNull(CuT.getBoardView(Player.COLOR.RED));
         assertNotNull(CuT.getBoardView(Player.COLOR.WHITE));
         assertNotEquals(CuT.getBoardView(Player.COLOR.RED), CuT.getBoardView(Player.COLOR.WHITE));
     }
 
+    /**
+     * test_board_setup: Makes sure that the board is set up by checking Spaces at certain
+     *                   coordinates against the space we know should be there
+     */
     @Test
     public void test_board_setup() {
-        final Board CuT = new Board();
 
         // Make sure that select representative spaces are correct
         // Space 1
@@ -42,9 +55,11 @@ public class BoardTest {
                 new Space(CuT, 4, 7, Space.COLOR.BLACK).getPiece());
     }
 
+    /**
+     * test_valid_move: Tests to make sure that the board lets a valid move through
+     */
     @Test
     public void test_valid_move() {
-        final Board CuT = new Board();
         Move validMove = new Move(new Position(5, 0), new Position(4, 1));
         validMove.setType(Move.TYPE.SIMPLE);
 
@@ -53,18 +68,22 @@ public class BoardTest {
         assertEquals(CuT.isValidMove(validMove), 0);
     }
 
+    /**
+     * test_invalid_move_too_far: Tests that the board doesn't let a move to a space far away go through
+     */
     @Test
     public void test_invalid_move_too_far() {
-        final Board CuT = new Board();
         Move invalidMove = new Move(new Position(5, 0), new Position(4, 3));
 
         assertEquals(CuT.isValidMove(invalidMove), 1);
     }
 
+    /**
+     * test_invalid_move_already_moved: Tests that the board doesn't let a move go through
+     *                                  if one has already been made
+     */
     @Test
     public void test_invalid_move_already_moved() {
-        final Board CuT = new Board();
-
         Move validMove = new Move(new Position(5, 0), new Position(4, 1));
         validMove.setType(Move.TYPE.SIMPLE);
         CuT.isValidMove(validMove);
@@ -75,10 +94,11 @@ public class BoardTest {
         assertEquals(CuT.isValidMove(invalidMove), 2);
     }
 
+    /**
+     * test_get_moves: Makes sure that the list of moves is updated correctly as the turn goes on
+     */
     @Test
     public void test_get_moves() {
-        final Board CuT = new Board();
-
         assertTrue(CuT.getMoves().isEmpty());
 
         CuT.makeMove(new Move(new Position(5, 0), new Position(4, 1)));

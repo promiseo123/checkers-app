@@ -1,4 +1,4 @@
----
+ ---
 geometry: margin=1in
 ---
 # PROJECT Design Documentation
@@ -9,20 +9,33 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: Team 05a
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Austin Cepalia
+  * Jack Thomas
+  * Ferdous Zaman
+  * Promise Omiponle
+  * Anthony DelPrincipe
 
 ## Executive Summary
 
-This is a summary of the project.
+Our project models a game of checkers played within one's browser. 
+A user is able to open a tab from their local host on their browser, and the
+sign in page will appear. They are able to see the number of players online,
+or sign in with an appropriate user name, which will take them to the
+HOME screen. From here, they are able to see other players online, and either
+sign out or start a game with one of them. The game will be a GUI of
+a standard checkers game, which will pop up for both players involved.
+The game plays as a regular game of checkers with standard American rules,
+which will end with a win/lose or via resigning.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+The purpose of this project is to not only develop a working model of a checkers
+game to be played in one's browser, but also to hone the project member's 
+knowledge not only of HTTP requests and responses via the Spark framework,
+but more importantly to practice good code design and learn about how to effectively
+design a product.
+
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -54,11 +67,15 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](domain-model-placeholder.png)
+![The WebCheckers Domain Model](CheckersDomain.png)
 
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
+This domain model shows the high-level interactions among the various aspects of
+our project. The player signs in to the website with a given account (username)
+and is able to play a game of Checkers via said account. The checkers game is
+played on a board, composed of squares that have pieces on them. The player is able
+to make a move, which moves the checker pieces from square to square on the board in
+alternating turns. This move can be a jump or multijump, where multiple pieces are
+taken.
 
 
 ## Architecture and Design
@@ -87,11 +104,17 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
+![The WebCheckers Web Interface Statechart](web-interface-statechart.png)
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
-
+When the user logs onto our webapp, the home page is gotten and rendered. At first,
+this will only have a sign in link, which when clicked renders the sign in page.
+The user is allowed to input a name to play with, but will be redirected back
+to the sign in page if it is invalid. if it is valid, they will be redirected
+back to the home page, this time able to see a list of online players. Clicking on
+a users name won't do anything if the other user is already in a game, but if they
+are available to play with, the game view will be rendered. In this game, they are
+allowed to move their piece which will be validated, and if it is valid, allowed to
+submit ti and wait for it to be their turn again.
 
 ### UI Tier
 > _Provide a summary of the Server-side UI tier of your architecture.
