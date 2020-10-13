@@ -62,8 +62,12 @@ public class PostValidateMoveRoute implements Route {
 
         // Get the move made from the request
         Move move = g.fromJson(request.queryParams("actionData"), Move.class);
-        move.setType(Move.TYPE.SIMPLE);
-
+        if ((move.getEnd().getRow()==move.getStart().getRow()-2) && ((move.getEnd().getCell()==move.getStart().getCell()+2)
+                    ||(move.getEnd().getCell()==move.getStart().getCell()-2))) {
+            move.setType(Move.TYPE.MULTI);
+        } else {
+            move.setType(Move.TYPE.SIMPLE);
+        }
         // Get the board we're dealing with
         Player currentUser = session.attribute(PLAYER_KEY);
         Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard();

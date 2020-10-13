@@ -60,29 +60,45 @@ public class Space {
         // Checks it's not on top row or left column
         if ((0 < this.rowNum) && (0 < this.cellIdx)) {
             this.nearbySpaces.put("UpLeft", this.board.getSpaceAt(this.rowNum-1, this.cellIdx-1));
+            if ((0 < this.rowNum-1) && (0 < this.cellIdx-1)) {
+            this.nearbySpaces.put("UpLeftTwice", this.board.getSpaceAt(this.rowNum-2, this.cellIdx-2));
+            }
         } else {
             this.nearbySpaces.put("UpLeft", null);
+            this.nearbySpaces.put("UpLeftTwice", null);
         }
 
         // Checks it's not on top row or right column
         if ((0 < this.rowNum) && (this.cellIdx < 7)) {
             this.nearbySpaces.put("UpRight", this.board.getSpaceAt(this.rowNum-1, this.cellIdx+1));
+            if ((0 < this.rowNum-1) && (this.cellIdx+1 < 7)) {
+            this.nearbySpaces.put("UpRightTwice", this.board.getSpaceAt(this.rowNum-2, this.cellIdx+2));
+            }
         } else {
             this.nearbySpaces.put("UpRight", null);
+            this.nearbySpaces.put("UpRightTwice", null);
         }
 
         // Checks it's not on bottom row or left column
         if ((this.rowNum < 7) && (0 < this.cellIdx)) {
             this.nearbySpaces.put("DownLeft", this.board.getSpaceAt(this.rowNum+1, this.cellIdx-1));
+            if ((this.rowNum+1 < 7) && (0 < this.cellIdx-1)) {
+                this.nearbySpaces.put("DownLeftTwice", this.board.getSpaceAt(this.rowNum+2, this.cellIdx-2));
+            }
         } else {
             this.nearbySpaces.put("DownLeft", null);
+            this.nearbySpaces.put("DownLeftTwice", null);
         }
 
         // Checks it's not on bottom row or right column
         if ((this.rowNum < 7) && (this.cellIdx < 7)) {
             this.nearbySpaces.put("DownRight", this.board.getSpaceAt(this.rowNum+1, this.cellIdx+1));
+            if ((this.rowNum+1 < 7) && (this.cellIdx+1 < 7)) {
+                this.nearbySpaces.put("DownRightTwice", this.board.getSpaceAt(this.rowNum+2, this.cellIdx+2));
+            }
         } else {
             this.nearbySpaces.put("DownRight", null);
+            this.nearbySpaces.put("DownRightTwice", null);
         }
     }
 
@@ -117,7 +133,7 @@ public class Space {
      * isInRange: Checks to see if the Space passed in via "space" parameter is a nearby Space
      *
      * @param space     The Space to see if we're near
-     * @return          If we're near the space (it's one of our immediate diagonal neighbors)
+     * @return          If we're near the space (it's one of our immediate single or double diagonal neighbors)
      */
     public boolean isInRange(Space space) {
         return (this.nearbySpaces.containsValue(space));
@@ -125,7 +141,7 @@ public class Space {
 
     /**
      * isInRangeSimple: Checks to see if the Space passed in via "space" parameter is a nearby Space
-     *                  either in the two upwards (for red) or two downwards (for white)
+     *                  either in the four upwards (for red) or four downwards (for white)
      *
      * @param space     The Space to see if we're near
      * @return          If we're near the space (it's one of our immediate diagonal neighbors)

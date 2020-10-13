@@ -92,6 +92,7 @@ public class Board {
                 if (getLatestMove().getType() == Move.TYPE.SIMPLE) {
                     return 2;
                 }
+//                else return 0;
 
             }
 
@@ -119,11 +120,26 @@ public class Board {
 
         // Make sure we record the move being made in case we need to undo it or something
         this.movesThisTurn.add(movesThisTurn.size(), move);
+        if (move.getType()== Move.TYPE.SIMPLE) {
+            // "Take" the piece from the start space and move it to the end space
+            Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
+            getSpaceByPosition(move.getStart()).setPiece(null);
+            getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
+        } else if (move.getType()== Move.TYPE.MULTI) {
+            Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
+//            if (getSpaceAt(move.getStart().getRow()-1, move.getStart().getCell()-1).getPiece().getColor()==)
+//            if (move.getEnd().getRow()==move.getStart().getRow()-2) {
+                getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
+                        move.getEnd().getCell())/2).setPiece(null);
+            getSpaceByPosition(move.getStart()).setPiece(null);
+            getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
+//            }
+//            else if (move.getEnd().getRow()==move.getStart().getRow()+2) {
+//                getSpaceAt(move.getStart().getRow()+1,(move.getStart().getCell()+
+//                        move.getStart().getCell())/2).setPiece(null);
+//            }
+        }
 
-        // "Take" the piece from the start space and move it to the end space
-        Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
-        getSpaceByPosition(move.getStart()).setPiece(null);
-        getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
 
         // Make sure the views are updated so the players can see what happened
         updateViews();
