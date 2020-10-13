@@ -1,7 +1,6 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +9,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for PlayerLobby functionality
+ *
+ * @author Promise Omipone, poo9724
+ */
 @Tag("Application-tier")
 public class PlayerLobbyTest {
 
-    private PlayerLobby lobby;
-
+    private PlayerLobby lobby=new PlayerLobby();
 
     @Test
     public void testSignIn_Invalid_Name() {
@@ -45,7 +48,12 @@ public class PlayerLobbyTest {
 
     @Test
     public void testGetOthers() {
+        lobby.getPlayers().add(new Player("gamer"));
+        lobby.getPlayers().add(new Player("poggers"));
+        lobby.getPlayers().add(new Player("codslayer"));
         List<Player> testOtherPlayers = new ArrayList<>();
+        testOtherPlayers.add(new Player("poggers"));
+        testOtherPlayers.add(new Player("codslayer"));
         lobby.getPlayer("gamer").playing();
         assertEquals(testOtherPlayers, lobby.getOtherPlayers("gamer"));
     }
@@ -61,6 +69,7 @@ public class PlayerLobbyTest {
 
     @Test
     public void testAssignPlayerToGame() {
+        lobby.getPlayers().add(new Player("gamer"));
         lobby.assignPlayerToGame("gamer", "game1");
         assertEquals("game1", lobby.getPlayer("gamer").getGameID());
     }
@@ -75,6 +84,7 @@ public class PlayerLobbyTest {
 
     @Test
     public void testMarkAsPlaying() {
+        lobby.getPlayers().add(new Player("gamer"));
         lobby.markPlayerAsPlaying("gamer");
         assertTrue(lobby.getPlayer("gamer").isPlaying());
     }
@@ -89,6 +99,7 @@ public class PlayerLobbyTest {
 
     @Test
     public void testMarkAsDone() {
+        lobby.getPlayers().add(new Player("gamer"));
         lobby.markPlayerAsDonePlaying("gamer");
         assertFalse(lobby.getPlayer("gamer").isPlaying());
         assertEquals("", lobby.getPlayer("gamer").getGameID());
@@ -96,6 +107,7 @@ public class PlayerLobbyTest {
 
     @Test
     public void testMarkWithColor() {
+        lobby.getPlayers().add(new Player("gamer"));
         lobby.markPlayerWithColor("gamer", Player.COLOR.RED);
         assertEquals(Player.COLOR.RED, lobby.getPlayer("gamer").getColor());
     }
