@@ -18,6 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests the submitting turn feature, universally adapted per move type.
+ *
+ * @author: Ferdous Z.
+ */
+
 @Tag("UI-tier")
 public class PostSubmitTurnRouteTester {
     private PostSubmitTurnRoute CuT;

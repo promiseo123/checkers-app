@@ -15,6 +15,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests the home page.
+ *
+ * @author: Ferdous Z.
+ */
+
 @Tag("UI-Tier")
 public class GetHomeRouteTester {
 
