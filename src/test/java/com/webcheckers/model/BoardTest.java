@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.webcheckers.model.Board;
 import com.webcheckers.ui.BoardView.Space;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,12 @@ import org.junit.jupiter.api.Test;
 public class BoardTest {
 
     // Component under testing
-    private final Board CuT = new Board();
+    private Board CuT;
+
+    @BeforeEach
+    public void setup() {
+        CuT = new Board();
+    }
 
     /**
      * test_make_board: Tests the creation of a Board class
