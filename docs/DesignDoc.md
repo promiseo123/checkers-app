@@ -69,9 +69,13 @@ This section describes the application domain.
 
 ![The WebCheckers Domain Model](CheckersDomain.png)
 
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
+This domain model shows the high-level interactions among the various aspects of
+our project. The player signs in to the website with a given account (username)
+and is able to play a game of Checkers via said account. The checkers game is
+played on a board, composed of squares that have pieces on them. The player is able
+to make a move, which moves the checker pieces from square to square on the board in
+alternating turns. This move can be a jump or multijump, where multiple pieces are
+taken.
 
 
 ## Architecture and Design
@@ -102,9 +106,15 @@ with the WebCheckers application.
 
 ![The WebCheckers Web Interface Statechart](web-interface-statechart.png)
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
-
+When the user logs onto our webapp, the home page is gotten and rendered. At first,
+this will only have a sign in link, which when clicked renders the sign in page.
+The user is allowed to input a name to play with, but will be redirected back
+to the sign in page if it is invalid. if it is valid, they will be redirected
+back to the home page, this time able to see a list of online players. Clicking on
+a users name won't do anything if the other user is already in a game, but if they
+are available to play with, the game view will be rendered. In this game, they are
+allowed to move their piece which will be validated, and if it is valid, allowed to
+submit ti and wait for it to be their turn again.
 
 ### UI Tier
 > _Provide a summary of the Server-side UI tier of your architecture.
