@@ -18,6 +18,11 @@ import spark.Session;
 import spark.TemplateEngine;
 
 @Tag("UI-Tier")
+/*
+  Unit test for GetSigninRoute.class
+
+  @author Jack Thomas
+ */
 public class GetSignInRouteTester {
 
     //Unit under Test
