@@ -41,7 +41,35 @@ public class GameCenter {
      * @return          The game
      */
     public static Game getGameByID(String gameID) {
-        return gamesMap.get(gameID);
+        if (gamesMap.containsKey(gameID)) {
+            return gamesMap.get(gameID);
+        }
+        return null;
     }
+
+
+    /**
+     * wipeAllGames: Clears all games from memory
+     *
+     */
+    public static void wipeAllGames() {
+        gamesMap.clear();
+    }
+
+    /**
+     * wipeGame: Clears a specified game from memory
+     * @param gameID  The gameID of the game to wipe
+     * @return        true if game was wiped, false if game was not found.
+     *
+     */
+    public static boolean wipeGame(String gameID) {
+        if (gamesMap.containsKey(gameID)) {
+            gamesMap.remove(gameID);
+            return true;
+        }
+        return false;
+
+    }
+
 
 }

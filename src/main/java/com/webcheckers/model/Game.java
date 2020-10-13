@@ -118,11 +118,10 @@ public class Game {
     }
 
     /**
-     * removes specified player from this game by color
+     * Removes specified player from this game by color
      */
     public void removePlayer (Player player){
         String color = player.getColor().toString();
-        System.out.println(color);
         if (color.equals("RED")) this.redPlayer = null;
         else if (color.equals("WHITE")) this.whitePlayer = null;
     }
