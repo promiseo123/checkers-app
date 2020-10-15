@@ -157,6 +157,23 @@ public class Space {
     }
 
     /**
+     * isInRangeSimple: Checks to see if the Space passed in via "space" parameter is a nearby Space
+     *                  either in the four upwards (for red) or four downwards (for white)
+     *
+     * @param space     The Space to see if we're near
+     * @return          If we're near the space (it's one of our immediate diagonal neighbors)
+     */
+    public boolean isInRangeMulti(Space space, Piece.COLOR color) {
+        if (color == Piece.COLOR.WHITE) {
+            return ((this.nearbySpaces.get("UpRightTwice") == space)
+                    || (this.nearbySpaces.get("UpLeftTwice") == space));
+        } else {
+            return ((this.nearbySpaces.get("DownRightTwice") == space)
+                    || (this.nearbySpaces.get("DownLeftTwice") == space));
+        }
+    }
+
+    /**
      * getPiece: Returns the piece atop this space
      *
      * @return      this.piece

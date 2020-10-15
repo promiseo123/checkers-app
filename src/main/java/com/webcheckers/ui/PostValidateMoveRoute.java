@@ -69,11 +69,18 @@ public class PostValidateMoveRoute implements Route {
         Player currentUser = session.attribute(PLAYER_KEY);
         Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard();
 
+        // Get these to make it easier to work with them
         int endRow=move.getEndRow();
         int startRow=move.getStartRow();
         int endCell=move.getEndCell();
         int startCell=move.getStartCell();
 
+        // This could be iffy - it sets the move type to MULTI even if you're
+        // trying to move across the entire board (obv not allowed), make sure
+        // that you account for that in the isValidMove() function so that, if
+        // the player IS trying to move across the entire board, we catch it
+        // and return that it's out of bounds. I think you've already done that
+        // but just in case.
         if ((-1 <= endRow-startRow && endRow-startRow <= 1)
                 && (-1 <= endCell-startCell && endCell-startCell <= 1)) {
             move.setType(Move.TYPE.SIMPLE);
@@ -83,6 +90,7 @@ public class PostValidateMoveRoute implements Route {
 
         // Get the error code from the validity checking
         int errCode = board.isValidMove(move);
+
 
         // Make the message based off of the error code
         // For now, 0=success, 1=the space was too far away, 2=they already made a move, 3=tried to move backwards

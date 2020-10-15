@@ -97,8 +97,11 @@ public class Board {
                     return 3;
                 }
             } else {
-                if (!endSpace.isInRange(startSpace)) {
 
+                // I added the isInRangeMulti() function, which is
+                // (obviously) the MULTI move equivalent of isInRangeSimple() (above)
+                if (!endSpace.isInRangeMulti(startSpace, startSpace.getPiece().getColor())) {
+                    return 3;
                 }
             }
 
@@ -120,6 +123,13 @@ public class Board {
 
         // Make sure we record the move being made in case we need to undo it or something
         this.movesThisTurn.add(movesThisTurn.size(), move);
+
+        // Do the right code for if this is a SIMPLE or MULTI move.
+        // NOTE: The code currently in the SIMPLE if clause should really be run
+        // No matter what the move type is (always have to move piece)
+        // This might be better formatted with that code out of any if statement,
+        // and then the MULTI logic inside of a single "if MULTI" statement, rather
+        // than having an "if SIMPLE else if MULTI" clause
         if (move.getType()== Move.TYPE.SIMPLE) {
 
             // "Take" the piece from the start space and move it to the end space
@@ -128,6 +138,15 @@ public class Board {
             getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
 
         } else if (move.getType()== Move.TYPE.MULTI) {
+
+            // Your code that you're working on.
+            // If you do my suggestion above, (about taking the prev.
+            // three lines in the first if clause out of said clause)
+            // this if clause would ONLY contain code for removing the piece
+            // jumped over. Careful with recording that info so that, if they
+            // decide to undo the move, the taken piece will appear again!
+            // See my "movesThisTurn" list if you dunno what I'm
+            // talking about
 
             Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
 //            if (getSpaceAt(move.getStart().getRow()-1, move.getStart().getCell()-1).getPiece().getColor()==)
