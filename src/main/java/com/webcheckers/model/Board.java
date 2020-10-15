@@ -102,11 +102,11 @@ public class Board {
                     return 3;
                 }
             }
-            if (move.getType().equals(Move.TYPE.MULTI)) {
-                if (!endSpace.isInRange(startSpace)) {
-
-                }
-            }
+//            if (move.getType().equals(Move.TYPE.MULTI)) {
+//                if (!endSpace.isInRange(startSpace)) {
+//
+//                }
+//            }
 
             // If we got here it means we haven't already moved the piece, so of course we can move it now
             return 0;
@@ -281,14 +281,10 @@ public class Board {
      * updateViews: Updates the BoardViews of the red and white player to match the current Board layout
      */
     private void updateViews() {
-        if (this.whiteView.equals(new BoardView(this.board, false)) &&
-                this.redView.equals(new BoardView(this.board, true))) {
-            this.whiteView = new BoardView(this.board, true);
-            this.redView = new BoardView(this.board, false);
-        } else {
+
             this.whiteView = new BoardView(this.board, false);
             this.redView = new BoardView(this.board, true);
-        }
+
 
     }
 
