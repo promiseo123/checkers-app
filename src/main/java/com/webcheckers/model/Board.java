@@ -84,31 +84,26 @@ public class Board {
             // "yeah that's a valid move," and them making another move from said
             // space on the same turn. i.e. if we made a single move, then tried to immediately
             // take that piece and move it without submitting our turn
-            if (!this.movesThisTurn.isEmpty()) {
+            if (!this.movesThisTurn.isEmpty() && getLatestMove().getType() == Move.TYPE.SIMPLE) {
 
-                // This check is in place to make double jumps easier - you can do multiple
-                // piece-taking jumps in a row, so this check lets you do another move if the last
-                // one was a piece-taking MULTI move
-                if (getLatestMove().getType() == Move.TYPE.SIMPLE) {
-                    return 2;
-                }
-//                else return 0;
+                return 2;
 
             }
 
-            // We could be dealing with a simple move - we don't want them able to move "backwards"
+            // Great, they're not trying to sneak a move after already having made one
+            // Figure out if we're dealing with a SIMPLE or MULTI move
             if (move.getType().equals(Move.TYPE.SIMPLE)) {
                 if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
                     return 3;
                 }
-            }
-            if (move.getType().equals(Move.TYPE.MULTI)) {
+            } else {
                 if (!endSpace.isInRange(startSpace)) {
 
                 }
             }
 
-            // If we got here it means we haven't already moved the piece, so of course we can move it now
+            // If we got here it means we haven't already moved the piece, and the move is a valid one,
+            // so of course we can move it now
             return 0;
         }
 
@@ -126,11 +121,14 @@ public class Board {
         // Make sure we record the move being made in case we need to undo it or something
         this.movesThisTurn.add(movesThisTurn.size(), move);
         if (move.getType()== Move.TYPE.SIMPLE) {
+
             // "Take" the piece from the start space and move it to the end space
             Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
             getSpaceByPosition(move.getStart()).setPiece(null);
             getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
+
         } else if (move.getType()== Move.TYPE.MULTI) {
+
             Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
 //            if (getSpaceAt(move.getStart().getRow()-1, move.getStart().getCell()-1).getPiece().getColor()==)
 //            if (move.getEnd().getRow()==move.getStart().getRow()-2) {
@@ -281,14 +279,9 @@ public class Board {
      * updateViews: Updates the BoardViews of the red and white player to match the current Board layout
      */
     private void updateViews() {
-        if (this.whiteView.equals(new BoardView(this.board, false)) &&
-                this.redView.equals(new BoardView(this.board, true))) {
-            this.whiteView = new BoardView(this.board, true);
-            this.redView = new BoardView(this.board, false);
-        } else {
-            this.whiteView = new BoardView(this.board, false);
-            this.redView = new BoardView(this.board, true);
-        }
+
+        this.whiteView = new BoardView(this.board, true);
+        this.redView = new BoardView(this.board, false);
 
     }
 

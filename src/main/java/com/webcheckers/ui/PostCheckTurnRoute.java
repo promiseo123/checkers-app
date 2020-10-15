@@ -65,9 +65,6 @@ public class PostCheckTurnRoute implements Route {
         Player currentUser = session.attribute(PLAYER_KEY);
         String gameID = request.queryParams("gameID");
 
-        if (!currentUser.isPlaying()) {
-            return null;
-        }
         // Figure out what the player color is and store it
         Player.COLOR playerColor = Player.COLOR.WHITE;
         if (GameCenter.getGameByID(gameID).isRedPlayer(currentUser)) {
@@ -76,7 +73,8 @@ public class PostCheckTurnRoute implements Route {
 
         // Get the turn color, and then create a Message depending on whether it equals the player color
         // True = the turn color is the player color and so it's their turn, false otherwise
-        Game.TURN turnColor = GameCenter.getGameByID(gameID).getTurn();
+        Game game = GameCenter.getGameByID(gameID);
+        Game.TURN turnColor = game.getTurn();
         if (turnColor.toString().equals(playerColor.toString())) {
             message = Message.info("true");
         } else {

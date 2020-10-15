@@ -52,12 +52,48 @@ public class Move {
     }
 
     /**
+     * getStart: Returns the row of the start position of this Position
+     *
+     * @return      The row of the start Position of this move
+     */
+    public int getStartRow() {
+        return this.start.getRow();
+    }
+
+    /**
+     * getStart: Returns the cell of the start position of this Position
+     *
+     * @return      The cell of the start Position of this move
+     */
+    public int getStartCell() {
+        return this.start.getCell();
+    }
+
+    /**
      * getEnd: Returns the end position of this Position
      *
      * @return      The end Position of this move
      */
     public Position getEnd() {
         return this.end;
+    }
+
+    /**
+     * getEnd: Returns the row of the end position of this Position
+     *
+     * @return      The row of the end Position of this move
+     */
+    public int getEndRow() {
+        return this.end.getRow();
+    }
+
+    /**
+     * getEnd: Returns the cell of the end position of this Position
+     *
+     * @return      The cell of the end Position of this move
+     */
+    public int getEndCell() {
+        return this.end.getCell();
     }
 
     /**

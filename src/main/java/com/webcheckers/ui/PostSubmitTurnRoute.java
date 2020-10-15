@@ -67,7 +67,6 @@ public class PostSubmitTurnRoute implements Route {
         assert game != null;
         game.switchTurns();
         game.getBoard().clearMoves();
-//        game.getBoard().
 
         // Dunno how this would fail, so I just automatically return success case
         Message message = Message.info("");

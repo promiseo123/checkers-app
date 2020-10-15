@@ -66,6 +66,7 @@ public class PostBackupMoveRoute implements Route {
         Game game = GameCenter.getGameByID(currentUser.getGameID());
         Move move = game.getBoard().getLatestMove();
         Move undoMove = new Move(move.getEnd(), move.getStart());
+        undoMove.setType(Move.TYPE.SIMPLE);
 
         // Actually undo the move
         game.getBoard().makeMove(undoMove);
