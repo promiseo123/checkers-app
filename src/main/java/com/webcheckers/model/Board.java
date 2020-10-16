@@ -144,6 +144,7 @@ public class Board {
         } else {
 
             // Move didn't have a type! Must mean that they tried to move really far away
+            // (See code in PostValidateMoveRoute)
             // Return error code for moving too far
             return 1;
 
