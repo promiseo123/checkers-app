@@ -105,4 +105,14 @@ public class Move {
         return this.type;
     }
 
+    /**
+     * typeIs: Returns true or false for if this move's TYPE is equal to the inputted TYPE
+     *
+     * @param type      The TYPE being compared against
+     * @return          If they match or not
+     */
+    public boolean typeIs(Move.TYPE type) {
+        return (this.type == type);
+    }
+
 }

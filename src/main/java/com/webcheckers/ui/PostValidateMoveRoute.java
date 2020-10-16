@@ -75,16 +75,15 @@ public class PostValidateMoveRoute implements Route {
         int endCell=move.getEndCell();
         int startCell=move.getStartCell();
 
-        // This could be iffy - it sets the move type to MULTI even if you're
-        // trying to move across the entire board (obv not allowed), make sure
-        // that you account for that in the isValidMove() function so that, if
-        // the player IS trying to move across the entire board, we catch it
-        // and return that it's out of bounds. I think you've already done that
-        // but just in case.
+        // Figure out if it's a SIMPLE or a MULTI move.
+        // If it's neither (tried to move across the board or something)
+        // The correct error code should still be returned from isValidMove()
+        // cuz it'll see that the move doesn't have a type
         if ((-1 <= endRow-startRow && endRow-startRow <= 1)
                 && (-1 <= endCell-startCell && endCell-startCell <= 1)) {
             move.setType(Move.TYPE.SIMPLE);
-        } else {
+        } else if ((-2 <= endRow-startRow && endRow-startRow <= 2)
+                && (-2 <= endCell-startCell && endCell-startCell <= 2)){
             move.setType(Move.TYPE.MULTI);
         }
 
@@ -103,6 +102,8 @@ public class PostValidateMoveRoute implements Route {
             message = Message.error("You've already made your move! Submit move or undo.");
         } else if (errCode == 3) {
             message = Message.error("Can't move backwards!");
+        }else if (errCode == 99) {
+            message = Message.error("Something went really wrong");
         }
 
         return g.toJson(message);
