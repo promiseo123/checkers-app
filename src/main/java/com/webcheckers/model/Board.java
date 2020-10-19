@@ -127,15 +127,6 @@ public class Board {
 
             } else {
 
-                // --------------------------------------------------------------------
-                // In here, you probably have to check to make sure that the space they're jumping over
-                // actually has a piece on it! Otherwise they're just randomly jumping two
-                // spaces for no reason and that shouldn't be allowed.
-                // Probably add an error code 4 for if they try to make a MULTI move
-                // when there is no piece in the space they're jumping over
-                // (errCode messages found in PostValidateMoveRoute)
-                // For now, I'm just saying it's valid no matter what
-                // --------------------------------------------------------------------
                 if ((getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
                         (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece()==null) ||
                         (getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
@@ -181,38 +172,21 @@ public class Board {
         // Logic handling for actually taking a piece if it was a multi move goes in here
         if (move.getType()== Move.TYPE.MULTI) {
 
-            // Your code that you're working on.
-            // If you do my suggestion above, (about taking the prev.
-            // three lines in the first if clause out of said clause)
-            // this if clause would ONLY contain code for removing the piece
-            // jumped over. Careful with recording that info so that, if they
-            // decide to undo the move, the taken piece will appear again!
-            // See my "movesThisTurn" list if you dunno what I'm
-            // talking about
             // check if it is an undoMove
-            if (getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-                    move.getEnd().getCell())/2).getPiece()==null) {
-                // check if RED player is backing up
-                if (movedPiece.getColor()== Piece.COLOR.RED) {
-                    // return the opponent WHITE piece originally taken back to its position
-                    getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-                            move.getEnd().getCell())/2).setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
+            int jumpedSpaceRow = ((move.getEndRow() + move.getStartRow())/2);
+            int jumpedSpaceCell = ((move.getEndCell() + move.getStartCell())/2);
+            Space jumpedSpace = board[jumpedSpaceRow][jumpedSpaceCell];
+            Piece jumpedPiece = jumpedSpace.getPiece();
+
+            if (jumpedPiece == null) {
+                if (movedPiece.getColor() == Piece.COLOR.RED) {
+                    jumpedSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
                 } else {
-                    // WHITE player is backing up so return RED piece back
-                    getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-                            move.getEnd().getCell())/2).setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
+                    jumpedSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
                 }
-
             } else {
-                // it is a forward MULTI move so take the piece
-                getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-                        move.getEnd().getCell())/2).setPiece(null);
+                jumpedSpace.setPiece(null);
             }
-
-
-
-//            getSpaceByPosition(move.getStart()).setPiece(null);
-//            getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
 
         }
 

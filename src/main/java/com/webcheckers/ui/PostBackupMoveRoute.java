@@ -68,11 +68,7 @@ public class PostBackupMoveRoute implements Route {
         Move undoMove = new Move(move.getEnd(), move.getStart());
 
         // set the undoMove TYPE to that of the latest move
-        if (move.getType()== Move.TYPE.SIMPLE) {
-            undoMove.setType(Move.TYPE.SIMPLE);
-        } else {
-            undoMove.setType(Move.TYPE.MULTI);
-        }
+        undoMove.setType(move.getType());
 
         // Actually undo the move
         game.getBoard().makeMove(undoMove);
