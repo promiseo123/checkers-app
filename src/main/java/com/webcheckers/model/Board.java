@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.ui.BoardView.BoardView;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
+import com.webcheckers.ui.PostValidateMoveRoute;
 
 import java.util.ArrayList;
 
@@ -68,52 +69,86 @@ public class Board {
         Space startSpace = getSpaceByPosition(move.getStart());
         Space endSpace = getSpaceByPosition(move.getEnd());
 
-        // If the space is valid and the end space is reachable
-        // -----
-        // NOTE: If you are making a multi-jump thing, the "isInRange" check is
-        // what you'll wanna change - it currently returns true ONLY if the
-        // end space is one of the four squares directly around it (see nearbySpaces
-        // variable and populateNearbySpaces() method in the Space class).
-        // Delete this huge comment after you implement except that top line :)
-        if (endSpace.isValid() && endSpace.isInRange(startSpace)) {
+        // Check this before anything else
+        // Regardless of what move they're making now, check to make sure
+        // they're actually allowed to make a move right now
+        // (No MULTIs after SIMPLE, no SIMPLEs after MULTI)
+        if (!this.movesThisTurn.isEmpty()) {
 
-            // We're able to move to the space - fantastic!
-            // Check to make sure we can still make a move
-            // -----
-            // This guards against someone moving a piece one square, us saying
-            // "yeah that's a valid move," and them making another move from said
-            // space on the same turn. i.e. if we made a single move, then tried to immediately
-            // take that piece and move it without submitting our turn
-            if (!this.movesThisTurn.isEmpty()) {
+            // If we've gotten here, we know *a move* has already been made
+            // For MULTI, this is allowed if the previous move was also a MULTI, but not
+            // if prev. move was SIMPLE.
+            // For SIMPLE moves, this is never allowed - only one SIMPLE move per turn!
+            if ((move.typeIs(Move.TYPE.MULTI) && getLatestMove().getType() == Move.TYPE.SIMPLE)
+            || move.typeIs(Move.TYPE.SIMPLE))
 
-                // This check is in place to make double jumps easier - you can do multiple
-                // piece-taking jumps in a row, so this check lets you do another move if the last
-                // one was a piece-taking MULTI move
-                if (getLatestMove().getType() == Move.TYPE.SIMPLE) {
-                    return 2;
-                }
-//                else return 0;
+            // Error code for trying to move again after already making SIMPLE move
+            return 2;
 
-            }
-
-            // We could be dealing with a simple move - we don't want them able to move "backwards"
-            if (move.getType().equals(Move.TYPE.SIMPLE)) {
-                if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
-                    return 3;
-                }
-            }
-//            if (move.getType().equals(Move.TYPE.MULTI)) {
-//                if (!endSpace.isInRange(startSpace)) {
-//
-//                }
-//            }
-
-            // If we got here it means we haven't already moved the piece, so of course we can move it now
-            return 0;
         }
 
-        // Space wasn't valid or end space wasn't reachable
-        return 1;
+        // Check to make sure the destination square is even in the range to begin with
+        if (!endSpace.isInRange(startSpace)) {
+
+            // Return error code for moving too far away
+            return 1;
+
+        }
+
+        // Fantastic - they're allowed to make a move and the end space is in a logical range.
+        // Do Move.TYPE specific logic handling
+        if (move.typeIs(Move.TYPE.SIMPLE)) {
+
+            // Check to make sure the end piece is in range
+            // Red pieces: End space is UpRight or UpLeft
+            // White pieces: End space is DownRight or DownLeft
+            if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
+
+                // Error code for if it wasn't in range (tried to move backwards)
+                return 3;
+
+            } else {
+
+                // Code for a successful move
+                // Made a simple move and it was in range
+                return 0;
+
+            }
+
+        } else if (move.typeIs(Move.TYPE.MULTI)) {
+
+            // Check to make sure the end piece is in range
+            // Red pieces: End space is UpRightTwice or UpLeftTwice
+            // White pieces: End space is DownRightTwice or DownLeftTwice
+            if (!endSpace.isInRangeMulti(startSpace, startSpace.getPiece().getColor())) {
+
+                // Error code for if it wasn't in range (tried to move backwards)
+                return 3;
+
+            } else {
+
+                if ((getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
+                        (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece()==null) ||
+                        (getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
+                        (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece().getColor()
+                                ==startSpace.getPiece().getColor())) {
+                    // There is no opponent piece to take!
+                    return 4;
+                }
+                // It was a valid MULTI move! Fantastic.
+                return 0;
+
+            }
+
+        } else {
+
+            // Move didn't have a type! Must mean that they tried to move really far away
+            // (See code in PostValidateMoveRoute)
+            // Return error code for moving too far
+            return 1;
+
+        }
+
     }
 
     /**
@@ -125,28 +160,35 @@ public class Board {
 
         // Make sure we record the move being made in case we need to undo it or something
         this.movesThisTurn.add(movesThisTurn.size(), move);
-        if (move.getType()== Move.TYPE.SIMPLE) {
-            // "Take" the piece from the start space and move it to the end space
-            Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
-            getSpaceByPosition(move.getStart()).setPiece(null);
-            getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
-        } else if (move.getType()== Move.TYPE.MULTI) {
-            Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
-//            if (getSpaceAt(move.getStart().getRow()-1, move.getStart().getCell()-1).getPiece().getColor()==)
-//            if (move.getEnd().getRow()==move.getStart().getRow()-2) {
-                getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-                        move.getEnd().getCell())/2).setPiece(null);
-            System.out.println(getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-                    move.getEnd().getCell())/2));
-            getSpaceByPosition(move.getStart()).setPiece(null);
-            getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
-//            }
-//            else if (move.getEnd().getRow()==move.getStart().getRow()+2) {
-//                getSpaceAt(move.getStart().getRow()+1,(move.getStart().getCell()+
-//                        move.getStart().getCell())/2).setPiece(null);
-//            }
-        }
 
+        // This code needs to be executed whether it was a SIMPLE or MULTI move;
+        // it simply moves the actual piece. The only extra logic handling
+        // if for a MULTI move, since you have to worry about the opponent's
+        // piece being taken
+        Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
+        getSpaceByPosition(move.getStart()).setPiece(null);
+        getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
+
+        // Logic handling for actually taking a piece if it was a multi move goes in here
+        if (move.getType()== Move.TYPE.MULTI) {
+
+            // check if it is an undoMove
+            int jumpedSpaceRow = ((move.getEndRow() + move.getStartRow())/2);
+            int jumpedSpaceCell = ((move.getEndCell() + move.getStartCell())/2);
+            Space jumpedSpace = board[jumpedSpaceRow][jumpedSpaceCell];
+            Piece jumpedPiece = jumpedSpace.getPiece();
+
+            if (jumpedPiece == null) {
+                if (movedPiece.getColor() == Piece.COLOR.RED) {
+                    jumpedSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
+                } else {
+                    jumpedSpace.setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
+                }
+            } else {
+                jumpedSpace.setPiece(null);
+            }
+
+        }
 
         // Make sure the views are updated so the players can see what happened
         updateViews();
@@ -282,9 +324,8 @@ public class Board {
      */
     private void updateViews() {
 
-            this.whiteView = new BoardView(this.board, false);
-            this.redView = new BoardView(this.board, true);
-
+        this.whiteView = new BoardView(this.board, true);
+        this.redView = new BoardView(this.board, false);
 
     }
 

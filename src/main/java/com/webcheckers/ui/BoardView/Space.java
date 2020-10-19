@@ -121,6 +121,15 @@ public class Space {
     }
 
     /**
+     * getRowNum: Returns this Space's row number in the board
+     *
+     * @return      this.rowNum
+     */
+    public int getRowNum() {
+        return this.rowNum;
+    }
+
+    /**
      * isValid: Returns whether this is a valid space to put a piece on
      *
      * @return      If it's a valid space
@@ -153,6 +162,23 @@ public class Space {
         } else {
             return ((this.nearbySpaces.get("DownRight") == space)
                     || (this.nearbySpaces.get("DownLeft") == space));
+        }
+    }
+
+    /**
+     * isInRangeSimple: Checks to see if the Space passed in via "space" parameter is a nearby Space
+     *                  either in the four upwards (for red) or four downwards (for white)
+     *
+     * @param space     The Space to see if we're near
+     * @return          If we're near the space (it's one of our immediate diagonal neighbors)
+     */
+    public boolean isInRangeMulti(Space space, Piece.COLOR color) {
+        if (color == Piece.COLOR.WHITE) {
+            return ((this.nearbySpaces.get("UpRightTwice") == space)
+                    || (this.nearbySpaces.get("UpLeftTwice") == space));
+        } else {
+            return ((this.nearbySpaces.get("DownRightTwice") == space)
+                    || (this.nearbySpaces.get("DownLeftTwice") == space));
         }
     }
 

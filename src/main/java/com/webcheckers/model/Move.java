@@ -52,6 +52,24 @@ public class Move {
     }
 
     /**
+     * getStart: Returns the row of the start position of this Position
+     *
+     * @return      The row of the start Position of this move
+     */
+    public int getStartRow() {
+        return this.start.getRow();
+    }
+
+    /**
+     * getStart: Returns the cell of the start position of this Position
+     *
+     * @return      The cell of the start Position of this move
+     */
+    public int getStartCell() {
+        return this.start.getCell();
+    }
+
+    /**
      * getEnd: Returns the end position of this Position
      *
      * @return      The end Position of this move
@@ -61,12 +79,40 @@ public class Move {
     }
 
     /**
+     * getEnd: Returns the row of the end position of this Position
+     *
+     * @return      The row of the end Position of this move
+     */
+    public int getEndRow() {
+        return this.end.getRow();
+    }
+
+    /**
+     * getEnd: Returns the cell of the end position of this Position
+     *
+     * @return      The cell of the end Position of this move
+     */
+    public int getEndCell() {
+        return this.end.getCell();
+    }
+
+    /**
      * getType: Returns the type of Move this is
      *
      * @return      this.type
      */
     public TYPE getType() {
         return this.type;
+    }
+
+    /**
+     * typeIs: Returns true or false for if this move's TYPE is equal to the inputted TYPE
+     *
+     * @param type      The TYPE being compared against
+     * @return          If they match or not
+     */
+    public boolean typeIs(Move.TYPE type) {
+        return (this.type == type);
     }
 
 }

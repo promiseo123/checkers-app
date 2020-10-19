@@ -54,7 +54,7 @@ public class PostValidateMoveRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        System.out.println("valid");
+
         // Get the session and make the gson/message
         final Session session = request.session();
         Gson g = new Gson();
@@ -62,39 +62,35 @@ public class PostValidateMoveRoute implements Route {
 
         // Get the move made from the request
         Move move = g.fromJson(request.queryParams("actionData"), Move.class);
-//        int endRow=move.getEnd().getRow();
-//        int startRow=move.getStart().getRow();
-//        int endCell=move.getEnd().getCell();
-//        int startCell=move.getStart().getCell();
-        if (((move.getEnd().getRow()==move.getStart().getRow()-2) && ((move.getEnd().getCell() ==move.getStart().getCell()+2)
-                    ||(move.getEnd().getCell()==move.getStart().getCell()-2)))) {
-            move.setType(Move.TYPE.MULTI);
 
-        } else if (((move.getEnd().getRow()==move.getStart().getRow()+2) &&
-                ((move.getEnd().getCell()==move.getStart().getCell()-2)
-                        ||(move.getEnd().getCell()==move.getStart().getCell()+2)))){
-            move.setType(Move.TYPE.MULTI);
-        } else if(((move.getEnd().getRow()==move.getStart().getRow()-1) && ((move.getEnd().getCell()
-                ==move.getStart().getCell()-1)||move.getEnd().getCell()==move.getStart().getCell()+1))){
-            move.setType(Move.TYPE.SIMPLE);
-            System.out.println("valid");
-        } else if (((move.getEnd().getRow()==move.getStart().getRow()+1) && ((move.getEnd().getCell()
-                ==move.getStart().getCell()+1)||(move.getEnd().getCell()==move.getStart().getCell()-1)))) {
-            move.setType(Move.TYPE.SIMPLE);
-            System.out.println("valid");
-        }
         // Get the board we're dealing with
         Player currentUser = session.attribute(PLAYER_KEY);
-        Board board = Objects.requireNonNull(GameCenter.getGameByID(currentUser.getGameID())).getBoard();
-//        if (move.getType()== Move.TYPE.MULTI && !(board.getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-//                move.getEnd().getCell())/2)==null)) {
-//
-//        }
+        Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard();
+
+        // Get these to make it easier to work with them
+        int endRow=move.getEndRow();
+        int startRow=move.getStartRow();
+        int endCell=move.getEndCell();
+        int startCell=move.getStartCell();
+
+        // Figure out if it's a SIMPLE or a MULTI move.
+        // If it's neither (tried to move across the board or something)
+        // The correct error code should still be returned from isValidMove()
+        // cuz it'll see that the move doesn't have a type
+        if ((-1 <= endRow-startRow && endRow-startRow <= 1)
+                && (-1 <= endCell-startCell && endCell-startCell <= 1)) {
+            move.setType(Move.TYPE.SIMPLE);
+        } else if ((-2 <= endRow-startRow && endRow-startRow <= 2)
+                && (-2 <= endCell-startCell && endCell-startCell <= 2)){
+            move.setType(Move.TYPE.MULTI);
+        }
+
         // Get the error code from the validity checking
         int errCode = board.isValidMove(move);
 
+
         // Make the message based off of the error code
-        // For now, 0=success, 1=the space was too far away, 2=they already made a move
+        // For now, 0=success, 1=the space was too far away, 2=they already made a move, 3=tried to move backwards
         if (errCode == 0) {
             board.makeMove(move);
             message = Message.info("");
@@ -104,6 +100,10 @@ public class PostValidateMoveRoute implements Route {
             message = Message.error("You've already made your move! Submit move or undo.");
         } else if (errCode == 3) {
             message = Message.error("Can't move backwards!");
+        } else if (errCode == 4) {
+            message = Message.error("There is no piece to take!");
+        }else if (errCode == 99) {
+            message = Message.error("Something went really wrong");
         }
 
         return g.toJson(message);
