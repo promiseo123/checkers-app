@@ -12,10 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import spark.ModelAndView;
-import spark.Request;
-import spark.Session;
-import spark.TemplateEngine;
+import spark.*;
 
 @Tag("UI-Tier")
 /*
@@ -29,6 +26,7 @@ public class GetSignInRouteTester {
     private GetSigninRoute CuT;
     //parameters to be mocked
     private Request request;
+    private Response response;
     private Session session;
     private TemplateEngine engine;
 
@@ -36,6 +34,7 @@ public class GetSignInRouteTester {
     public void setup() {
         //mock dependencies
         request = mock(Request.class);
+        response = mock(Response.class);
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
         engine = mock(TemplateEngine.class);
@@ -46,7 +45,7 @@ public class GetSignInRouteTester {
     @Test
     void ctestInvalidParams(){
         //test for invalid initialization
-        assertThrows(IllegalArgumentException.class,()->{new GetSigninRoute(null);});
+        assertThrows(NullPointerException.class,()->{new GetSigninRoute(null);});
     }
 
     @Test
@@ -54,11 +53,12 @@ public class GetSignInRouteTester {
         TemplateEngineTester testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
+        CuT.handle(request,response);
         //verify view model
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
 
-        testHelper.assertViewModelAttribute("Title", "Sign In");
+        testHelper.assertViewModelAttribute("title", "Sign In");
         testHelper.assertViewName("signin.ftl");
     }
 }

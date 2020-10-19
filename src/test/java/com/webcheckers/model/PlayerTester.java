@@ -60,11 +60,7 @@ public class PlayerTester {
     @Test
     void testToString() {
         final Player Cut = new Player("Test");
-        String expected = "Test with currentGameID ";
-        assertEquals(Cut.toString(),expected);
-        String testid = "12345abcd";
-        Cut.assignToGame(testid);
-        expected = "Test with currentGameID 12345abcd";
+        String expected = "Test";
         assertEquals(Cut.toString(),expected);
     }
 
