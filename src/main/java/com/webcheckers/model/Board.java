@@ -189,20 +189,31 @@ public class Board {
             // decide to undo the move, the taken piece will appear again!
             // See my "movesThisTurn" list if you dunno what I'm
             // talking about
+            // check if it is an undoMove
+            if (getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
+                    move.getEnd().getCell())/2).getPiece()==null) {
+                // check if RED player is backing up
+                if (movedPiece.getColor()== Piece.COLOR.RED) {
+                    // return the opponent WHITE piece originally taken back to its position
+                    getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
+                            move.getEnd().getCell())/2).setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
+                } else {
+                    // WHITE player is backing up so return RED piece back
+                    getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
+                            move.getEnd().getCell())/2).setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
+                }
 
-//            if (getSpaceAt(move.getStart().getRow()-1, move.getStart().getCell()-1).getPiece().getColor()==)
-//            if (move.getEnd().getRow()==move.getStart().getRow()-2) {
+            } else {
+                // it is a forward MULTI move so take the piece
                 getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
                         move.getEnd().getCell())/2).setPiece(null);
-            System.out.println(getSpaceAt(move.getStart().getRow()-1,(move.getStart().getCell()+
-                    move.getEnd().getCell())/2));
-            getSpaceByPosition(move.getStart()).setPiece(null);
-            getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
-//            }
-//            else if (move.getEnd().getRow()==move.getStart().getRow()+2) {
-//                getSpaceAt(move.getStart().getRow()+1,(move.getStart().getCell()+
-//                        move.getStart().getCell())/2).setPiece(null);
-//            }
+            }
+
+
+
+//            getSpaceByPosition(move.getStart()).setPiece(null);
+//            getSpaceByPosition(move.getEnd()).setPiece(movedPiece);
+
         }
 
         // Make sure the views are updated so the players can see what happened
