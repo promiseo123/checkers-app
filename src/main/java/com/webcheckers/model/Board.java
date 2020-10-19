@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.ui.BoardView.BoardView;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
+import com.webcheckers.ui.PostValidateMoveRoute;
 
 import java.util.ArrayList;
 
@@ -135,7 +136,14 @@ public class Board {
                 // (errCode messages found in PostValidateMoveRoute)
                 // For now, I'm just saying it's valid no matter what
                 // --------------------------------------------------------------------
-
+                if ((getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
+                        (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece()==null) ||
+                        (getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
+                        (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece().getColor()
+                                ==startSpace.getPiece().getColor())) {
+                    // There is no opponent piece to take!
+                    return 4;
+                }
                 // It was a valid MULTI move! Fantastic.
                 return 0;
 

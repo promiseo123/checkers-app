@@ -121,6 +121,15 @@ public class Space {
     }
 
     /**
+     * getRowNum: Returns this Space's row number in the board
+     *
+     * @return      this.rowNum
+     */
+    public int getRowNum() {
+        return this.rowNum;
+    }
+
+    /**
      * isValid: Returns whether this is a valid space to put a piece on
      *
      * @return      If it's a valid space

@@ -102,6 +102,8 @@ public class PostValidateMoveRoute implements Route {
             message = Message.error("You've already made your move! Submit move or undo.");
         } else if (errCode == 3) {
             message = Message.error("Can't move backwards!");
+        } else if (errCode == 4) {
+            message = Message.error("There is no piece to take!");
         }else if (errCode == 99) {
             message = Message.error("Something went really wrong");
         }
