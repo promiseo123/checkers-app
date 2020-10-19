@@ -55,8 +55,6 @@ public class PostValidateMoveRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
-        System.out.println("valid");
-
         // Get the session and make the gson/message
         final Session session = request.session();
         Gson g = new Gson();
