@@ -116,7 +116,7 @@ public class PlayerLobby {
         }
     }
     /**
-     * markPlayerAsPlaying: Mark the specified player as in a game
+     * markPlayerAsDonePlaying: Mark the specified player as not in game
      *
      * @param playerName    The player to mark as playing
      */
