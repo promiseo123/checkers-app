@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Test class for Game functionality
@@ -82,12 +83,14 @@ public class GameTester {
 
     @Test
     public void testRemovePlayer_red() {
+        when(red_player.getColor()).thenReturn(Player.COLOR.RED);
         game.removePlayer(red_player);
         assertNull(game.getRedPlayer());
     }
 
     @Test
     public void testRemovePlayer_white() {
+        when(white_player.getColor()).thenReturn(Player.COLOR.WHITE);
         game.removePlayer(white_player);
         assertNull(game.getWhitePlayer());
     }

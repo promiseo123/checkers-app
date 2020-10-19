@@ -96,7 +96,7 @@ public class BoardTest {
         CuT.makeMove(validMove);
 
         Move invalidMove = new Move(new Position(4, 1), new Position(3, 2));
-        validMove.setType(Move.TYPE.SIMPLE);
+        invalidMove.setType(Move.TYPE.SIMPLE);
         assertEquals(CuT.isValidMove(invalidMove), 2);
     }
 
