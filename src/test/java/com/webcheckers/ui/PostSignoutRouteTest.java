@@ -44,6 +44,7 @@ class PostSignoutRouteTest {
         response=mock(Response.class);
         //create signoutRoute
         lobby.getPlayers().add(new Player("Player1"));
+        gson = new Gson();
         CuT = new PostSignoutRoute(lobby);
     }
 
