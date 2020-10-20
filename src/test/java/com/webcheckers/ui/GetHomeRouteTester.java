@@ -9,8 +9,7 @@ import spark.*;
 
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -52,6 +51,14 @@ public class GetHomeRouteTester {
 
         // So far, requests, sessions, responses, the T.E., the lobby, and the players
         // are now "psuedo-initiated per test"
+    }
+
+    @Test
+    void ctestInvalidParams() {
+        //test for invalid initialization, function credited to Jake Thomas for this one
+        assertThrows(NullPointerException.class, () -> {
+            new GetHomeRoute(null, null);
+        });
     }
 
     /**

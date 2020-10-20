@@ -3,15 +3,15 @@ package com.webcheckers.model;
 import com.webcheckers.ui.BoardView.BoardView;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
-import com.webcheckers.ui.PostValidateMoveRoute;
 
 import java.util.ArrayList;
 
 /**
  * Board: A representation of the Checkers board. Both constructs the working model-level board array
- *        as well as the UI tier Iterable of Iterables.
+ * as well as the UI tier Iterable of Iterables.
  *
  * @author: Anthony DelPrincipe ajd6295
+ * @author: Ferdous Zaman fz4124
  */
 public class Board {
 
@@ -95,6 +95,7 @@ public class Board {
 
         }
 
+
         // Fantastic - they're allowed to make a move and the end space is in a logical range.
         // Do Move.TYPE specific logic handling
         if (move.typeIs(Move.TYPE.SIMPLE)) {
@@ -105,7 +106,14 @@ public class Board {
             if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
 
                 // Error code for if it wasn't in range (tried to move backwards)
-                return 3;
+
+                Piece tPiece = startSpace.getPiece();
+                if (tPiece.getType() == Piece.TYPE.KING) {
+                    // A king can move backwards. Since this is simple, its only 1 space, so it's fine.
+                    return 0;
+                }
+
+                return 3;  // this also fits else case.
 
             } else {
 
@@ -123,7 +131,28 @@ public class Board {
             if (!endSpace.isInRangeMulti(startSpace, startSpace.getPiece().getColor())) {
 
                 // Error code for if it wasn't in range (tried to move backwards)
-                return 3;
+
+                //return 3;
+                Piece tPiece = startSpace.getPiece();
+                if (tPiece.getType() == Piece.TYPE.SINGLE) {
+                    return 3;
+                } else {
+                    // the exception is if its a King piece.
+                    // Since it can go backwards, the forward rules apply, just with a tad little misdirection because
+                    // it's going backwards....
+
+                    if ((getSpaceAt((endSpace.getRowNum() + startSpace.getRowNum()) / 2,
+                            (endSpace.getCellIdx() + startSpace.getCellIdx()) / 2).getPiece() == null) ||
+                            (getSpaceAt((endSpace.getRowNum() + startSpace.getRowNum()) / 2,
+                                    (endSpace.getCellIdx() + startSpace.getCellIdx()) / 2).getPiece().getColor()
+                                    == startSpace.getPiece().getColor())) {
+                        // There is no opponent piece to take!
+                        return 4;
+                    }
+                    // It was a valid MULTI move! Fantastic.
+                    return 0;
+                }
+
 
             } else {
 
@@ -189,6 +218,20 @@ public class Board {
             }
 
         }
+
+        // then check if the move set is King, by using the # of columns as an indicator
+        // to achieve Kingship, the piece HAS to be at the end row (0, or 7), making it 8 by 8 still.
+
+        Piece cPiece = getSpaceByPosition(move.getEnd()).getPiece();   // this is end case because its already moved from earlier
+        int row = getSpaceByPosition(move.getEnd()).getRowNum();
+        if (row == 0 || row == 7) {
+            // no matter the colour, as long as its not a King this will be matched to King.
+
+            // Since normal pieces go forward only, fact-checking which piece goes where doesn't matter
+            Piece kPiece = new Piece(Piece.TYPE.KING, cPiece.getColor());
+            getSpaceByPosition(move.getEnd()).setPiece(kPiece);
+        }
+
 
         // Make sure the views are updated so the players can see what happened
         updateViews();
