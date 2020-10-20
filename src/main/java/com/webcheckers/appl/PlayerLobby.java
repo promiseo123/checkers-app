@@ -145,4 +145,8 @@ public class PlayerLobby {
         }
     }
 
+    public void removePlayer(Player player) {
+        players.remove(player);
+    }
+
 }

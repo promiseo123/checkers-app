@@ -55,6 +55,7 @@ public class WebServer {
    */
   public static final String HOME_URL = "/";
   public static final String SIGNIN_URL = "/signin";
+  public static final String SIGNOUT_URL = "/signout";
   public static final String STARTGAME_URL = "/startgame";
   public static final String GAME_URL = "/game";
   public static final String CHECKTURN_URL = "/checkTurn";
@@ -176,6 +177,9 @@ public class WebServer {
 
     // Triggers a new game with the selected player
     post(BACKUPMOVE_URL, new PostBackupMoveRoute(playerLobby, templateEngine));
+
+    // Signs the player out and redirects them home
+    post(SIGNOUT_URL, new PostSignoutRoute(playerLobby));
 
     //Resigns player from game
     post(RESIGN_URL, new PostResignRoute(gson,templateEngine));

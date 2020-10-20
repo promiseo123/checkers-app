@@ -50,7 +50,7 @@ public class PostSubmitTurnRouteTester {
         CuT = new PostSubmitTurnRoute(mockLobby, mockTemplate);
         testPlayer = new Player(playerName);
 
-        board = new Board();  // the board will be used to check the model in CuT vs ours sedimentarily.
+        board = new Board();  // the board will be used to check the model in CuT vs ours.
 
         when(mockLobby.getPlayer(playerName)).thenReturn(testPlayer);
         when(mockRequest.session()).thenReturn(mockSession);
