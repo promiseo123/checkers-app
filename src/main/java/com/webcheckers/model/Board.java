@@ -68,6 +68,7 @@ public class Board {
     public int isValidMove(Move move) {
         Space startSpace = getSpaceByPosition(move.getStart());
         Space endSpace = getSpaceByPosition(move.getEnd());
+        Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
 
         // Check this before anything else
         // Regardless of what move they're making now, check to make sure
@@ -80,10 +81,10 @@ public class Board {
             // if prev. move was SIMPLE.
             // For SIMPLE moves, this is never allowed - only one SIMPLE move per turn!
             if ((move.typeIs(Move.TYPE.MULTI) && getLatestMove().getType() == Move.TYPE.SIMPLE)
-            || move.typeIs(Move.TYPE.SIMPLE))
+                    || move.typeIs(Move.TYPE.SIMPLE))
 
-            // Error code for trying to move again after already making SIMPLE move
-            return 2;
+                // Error code for trying to move again after already making SIMPLE move
+                return 2;
 
         }
 
@@ -106,13 +107,12 @@ public class Board {
             if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
 
                 // Error code for if it wasn't in range (tried to move backwards)
-
-                Piece tPiece = startSpace.getPiece();
-                if (tPiece.getType() == Piece.TYPE.KING) {
+                if (movedPiece.getType() == Piece.TYPE.KING) {
                     // A king can move backwards. Since this is simple, its only 1 space, so it's fine.
                     return 0;
                 }
 
+                // Error code for if it wasn't in range (tried to move backwards)
                 return 3;  // this also fits else case.
 
             } else {
@@ -131,39 +131,31 @@ public class Board {
             if (!endSpace.isInRangeMulti(startSpace, startSpace.getPiece().getColor())) {
 
                 // Error code for if it wasn't in range (tried to move backwards)
-
-                //return 3;
-                Piece tPiece = startSpace.getPiece();
-                if (tPiece.getType() == Piece.TYPE.SINGLE) {
+                if (movedPiece.getType() == Piece.TYPE.SINGLE) {
                     return 3;
                 } else {
-                    // the exception is if its a King piece.
-                    // Since it can go backwards, the forward rules apply, just with a tad little misdirection because
-                    // it's going backwards....
-
                     if ((getSpaceAt((endSpace.getRowNum() + startSpace.getRowNum()) / 2,
                             (endSpace.getCellIdx() + startSpace.getCellIdx()) / 2).getPiece() == null) ||
                             (getSpaceAt((endSpace.getRowNum() + startSpace.getRowNum()) / 2,
                                     (endSpace.getCellIdx() + startSpace.getCellIdx()) / 2).getPiece().getColor()
                                     == startSpace.getPiece().getColor())) {
-                        // There is no opponent piece to take!  ( this represents King going backwards on MULTI )
                         return 4;
                     }
-                    // It was a valid MULTI move! Fantastic.
+
                     return 0;
                 }
-
 
             } else {
 
                 if ((getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
                         (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece()==null) ||
                         (getSpaceAt((endSpace.getRowNum()+startSpace.getRowNum())/2,
-                        (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece().getColor()
+                                (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece().getColor()
                                 ==startSpace.getPiece().getColor())) {
                     // There is no opponent piece to take!
                     return 4;
                 }
+
                 // It was a valid MULTI move! Fantastic.
                 return 0;
 
@@ -222,14 +214,9 @@ public class Board {
         // then check if the move set is King, by using the # of columns as an indicator
         // to achieve Kingship, the piece HAS to be at the end row (0, or 7), making it 8 by 8 still.
 
-        Piece cPiece = getSpaceByPosition(move.getEnd()).getPiece();   // this is end case because its already moved from earlier
-        int row = getSpaceByPosition(move.getEnd()).getRowNum();
-        if (row == 0 || row == 7) {
-            // no matter the colour, as long as its not a King this will be matched to King.
-
-            // Since normal pieces go forward only, fact-checking which piece goes where doesn't matter
-            Piece kPiece = new Piece(Piece.TYPE.KING, cPiece.getColor());
-            getSpaceByPosition(move.getEnd()).setPiece(kPiece);
+        if ((movedPiece.getColor()==Piece.COLOR.RED && move.getEndRow() == 0) ||
+                (movedPiece.getColor()==Piece.COLOR.WHITE && move.getEndRow() == 7)){
+            getSpaceByPosition(move.getEnd()).setPiece(new Piece(Piece.TYPE.KING, movedPiece.getColor()));
         }
 
 
