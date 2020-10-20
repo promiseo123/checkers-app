@@ -54,7 +54,6 @@ public class PostSignoutRoute implements Route {
 
         // Redirect to Home
         response.redirect(WebServer.HOME_URL);
-        halt();
         return null;
     }
 

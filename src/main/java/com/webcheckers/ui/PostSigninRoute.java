@@ -65,7 +65,7 @@ public class PostSigninRoute implements Route{
         if (player != null){
             session.attribute(GetHomeRoute.PLAYER_KEY,player);
             response.redirect(WebServer.HOME_URL);
-            halt();
+            //halt();
         }
         vm.put(MESSAGE_ATTR, message);
         return templateEngine.render(mv);

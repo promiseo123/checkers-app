@@ -57,12 +57,13 @@ class PostSigninRouteTest {
     void handleTest() {
         TemplateEngineTester testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-//        CuT.handle(request, response);
+        when(request.queryParams("PlayerName")).thenReturn("Gamer1");
+        CuT.handle(request, response);
         //verify view model
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
 
-        testHelper.assertViewModelAttribute("Title", "Welcome");
+        testHelper.assertViewModelAttribute("title", "Sign In");
         testHelper.assertViewName("signin.ftl");
     }
 }

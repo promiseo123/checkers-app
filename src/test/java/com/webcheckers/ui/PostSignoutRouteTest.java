@@ -5,6 +5,7 @@ import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -27,35 +28,43 @@ class PostSignoutRouteTest {
     private PostSignoutRoute CuT;
 
     //friendly objects
-    private PlayerLobby lobby=new PlayerLobby();
-    private Gson gson;
+    private PlayerLobby lobby;
 
     //parameters to be mocked
     private Request request;
     private Response response;
     private Session session;
+    private Player player;
 
     @BeforeEach
     public void setup() {
+
+        lobby = new PlayerLobby();
+        player = new Player("Player1");
+
         //mock dependencies
         request = mock(Request.class);
         session = mock(Session.class);
+        session.attribute(GetHomeRoute.PLAYER_KEY, player);
         when(request.session()).thenReturn(session);
         response=mock(Response.class);
+
         //create signoutRoute
-        lobby.getPlayers().add(new Player("Player1"));
-        gson = new Gson();
+        lobby.getPlayers().add(player);
         CuT = new PostSignoutRoute(lobby);
     }
 
     @Test
     void handleTest() {
-        String jsonTest = gson.toJson(Message.info("true"));
-        assertEquals(CuT.handle(request,response),jsonTest);
+        when(session.attribute(GetHomeRoute.PLAYER_KEY)).thenReturn(player);
+        assertEquals(CuT.handle(request,response), null);
     }
+
 
     @Test
     void updateModelTest() {
+        when(session.attribute(GetHomeRoute.PLAYER_KEY)).thenReturn(player);
+        CuT.handle(request, response);
         assertTrue(lobby.getPlayers().size() == 0);
     }
 }
