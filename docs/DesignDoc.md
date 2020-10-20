@@ -144,7 +144,10 @@ the established rules. The details of which can be seen below.
 PostResignRoute is called when either player resigns. It sends a message object
 to the JavaScript client, which then redirects the player to the home page. The precise sequence diagram
 for this action is displayed below.
-![Model Tier Class Diagram](PostResignSequence.png)
+
+
+![Resignation Sequence Diagram](PostResignSequence.png)
+
 Lastly, PostSubmitTurnRoute signals to the JavaScript client and to the model tier
 components that the current turn is over and that the other player can now take theirs.
 
