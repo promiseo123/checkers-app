@@ -49,18 +49,24 @@ design a product.
 
 This section describes the features of the application.
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
+The application should provide an online multiplayer checkers game.
+Every player must sign in before playing, and must be able to sign out afterwards.
+Checkers games must take place between two people and follow American Standard Rules.
+Either Player must be able to resign any time to end the game.
 
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+A complete implementation of the American Standard Rules of checkers
+in a web application that allows users to sign-in, select opponents, and play
+checkers.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+The MVP will include sign-in/sign-out capability, piece movement, 
+piece jumping, kinging, and options for resignation.
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+The first enhancement to be added will be a replay mode, allowing users to 
+rewatch their games to review strategies. The second feature will be a spectator mode, 
+allowing users to watch other games in progress.
 
 
 ## Application Domain
@@ -117,39 +123,57 @@ allowed to move their piece which will be validated, and if it is valid, allowed
 submit ti and wait for it to be their turn again.
 
 ### UI Tier
-> _Provide a summary of the Server-side UI tier of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
+The UI tier is the largest tier by number of classes, holding
+GetHomeRoute, GetGameRoute, GetSigninRoute, GetStartGameRoute,
+PostBackupMoveRoute, PostCheckTurnRoute, PostResignRoute, PostSigninRoute,
+PostSubmitTurnRoute, and PostValidateMoveRoute.
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class structure or object diagrams) with some
-> details such as critical attributes and methods._
+GetHomeRoute is responsible for building the home page, as well as handling 
+GameOver state modifications. From the home page, the Sign-In page can be
+accessed. The GetSigninRoute fetches the sign-in form while PostSigninRoute
+sends it to the PlayerLobby to be evaluated. 
 
-> _You must also provide any dynamic models, such as statechart and
-> sequence diagrams, as is relevant to a particular aspect of the design
-> that you are describing.  For example, in WebCheckers you might create
-> a sequence diagram of the `POST /validateMove` HTTP request processing
-> or you might show a statechart diagram if the Game component uses a
-> state machine to manage the game._
+Once a player is logged in, they can start a game from the home route.
+This calls GetStartGameRoute, which builds the initial game
+state before passing the users to GetGameRoute to manage playing the game itself.
 
-> _If a dynamic model, such as a statechart describes a feature that is
-> not mostly in this tier and cuts across multiple tiers, you can
-> consider placing the narrative description of that feature in a
-> separate section for describing significant features. Place this after
-> you describe the design of the three tiers._
+![Model Tier Class Diagram](StartGameRoute.png)
+The above Sequence diagram shows the start game process in greater detail.
+During gameplay, the various buttons on the control panel also make use of HTTP routes,
+and are thus featured in this tier. PostBackupMoveRoute sends a request in the form of a message object
+to undo a move. PostCheckTurnRoute verifies the current turn to minimize confusion.
+Like most of the in-game HTTP requests, it uses Json Message objects to do this.
+PostValidateMoveRoute is called whenever a piece is moved to check whether the move follows
+the established rules. The details of which can be seen below.
+![Model Tier Class Diagram](PostValidateMoveRoute.png)
+PostResignRoute is called when either player resigns. It sends a message object
+to the JavaScript client, which then redirects the player to the home page. The precise sequence diagram
+for this action is displayed below.
+![Model Tier Class Diagram](PostResignSequence.png)
+Lastly, PostSubmitTurnRoute signals to the JavaScript client and to the model tier
+components that the current turn is over and that the other player can now take theirs.
 
 
 ### Application Tier
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+The application tier is the simplest tier, as much of the implementation 
+is handled either on the client-side or in other tiers. There are two classes in the application tier, 
+PlayerLobby and GameCenter. GameCenter holds all active games and provides 
+functionality to start and access those games. PlayerLobby performs a similar task with active
+Players by holding a list of all signed in players and managing game placement.
+
 
 
 ### Model Tier
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+The model tier holds the server-side implementation of the game.
+This tier dictates the behavior of the UI controllers relatijng to
+playing the game itself. The tier is made up of the Board,
+Game, Move, Player, and Position classes.
+![Model Tier Class Diagram](ModelTierClassDiagram.png)
+The game stores a Board object and two Player objects and is responsible
+for player-board interaction. The board itself holds some UI information relating 
+to views for different players. Board also evaluates and controls Moves.
+Move class objects hold starting and ending Position class objects, which refer to
+spaces on the Board.
 
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
