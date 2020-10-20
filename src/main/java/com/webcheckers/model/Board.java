@@ -146,7 +146,7 @@ public class Board {
                             (getSpaceAt((endSpace.getRowNum() + startSpace.getRowNum()) / 2,
                                     (endSpace.getCellIdx() + startSpace.getCellIdx()) / 2).getPiece().getColor()
                                     == startSpace.getPiece().getColor())) {
-                        // There is no opponent piece to take!
+                        // There is no opponent piece to take!  ( this represents King going backwards on MULTI )
                         return 4;
                     }
                     // It was a valid MULTI move! Fantastic.
