@@ -105,7 +105,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](web-interface-statechart.png)
+![The WebCheckers Web Interface Statechart](StateDiagramS2.png)
 
 When the user logs onto our webapp, the home page is gotten and rendered. At first,
 this will only have a sign in link, which when clicked renders the sign in page.
