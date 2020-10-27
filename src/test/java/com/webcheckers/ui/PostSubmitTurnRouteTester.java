@@ -1,10 +1,9 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Move;
-import com.webcheckers.model.Player;
-import com.webcheckers.model.Position;
+import com.webcheckers.model.*;
+import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -15,6 +14,7 @@ import spark.Session;
 import spark.TemplateEngine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,6 +36,7 @@ public class PostSubmitTurnRouteTester {
     private PlayerLobby mockLobby;
     private String playerName;
     private Player testPlayer;
+    private Player testPlayer2;
     private Board board;
 
     @BeforeEach
@@ -47,21 +48,27 @@ public class PostSubmitTurnRouteTester {
         mockTemplate = mock(TemplateEngine.class);
         mockLobby = mock(PlayerLobby.class);
 
-        CuT = new PostSubmitTurnRoute(mockLobby, mockTemplate);
-        testPlayer = new Player(playerName);
-
-        board = new Board();  // the board will be used to check the model in CuT vs ours.
-
         when(mockLobby.getPlayer(playerName)).thenReturn(testPlayer);
         when(mockRequest.session()).thenReturn(mockSession);
-        when(mockRequest.attribute("PLAYER_KEY")).thenReturn(testPlayer);
+
+        CuT = new PostSubmitTurnRoute(mockLobby, mockTemplate);
+        testPlayer = new Player(playerName);
+        testPlayer2 = new Player(playerName);
+
+        when(mockSession.attribute("player")).thenReturn(testPlayer);
+
+        String gameID = Game.generateRandomGameID();
+        GameCenter.newGame(gameID, testPlayer, testPlayer2);
+        testPlayer.assignToGame(gameID);
+
+        board = new Board();  // the board will be used to check the model in CuT vs ours.
     }
 
     @Test
     void SubmitSuccess() throws Exception {
         board.makeMove(new Move(new Position(2, 3), new Position(3, 4)));
         CuT.handle(mockRequest, mockResponse);
-        assertEquals(new Space(board, 3, 4, Space.COLOR.BLACK), board.getSpaceAt(3, 4));
+        assertNotNull(board.getSpaceAt(3, 4).getPiece());
     }
 
     @Test
@@ -75,7 +82,7 @@ public class PostSubmitTurnRouteTester {
         {  // the difference here between submission is conquering under different circumstances.
             board.makeMove(new Move(new Position(2, 3), new Position(3, 4)));
             CuT.handle(mockRequest, mockResponse);
-            assertEquals(new Space(board, 3, 4, Space.COLOR.BLACK), board.getSpaceAt(3, 4));
+            assertNotNull(board.getSpaceAt(3, 4).getPiece());
         }
     }
 
