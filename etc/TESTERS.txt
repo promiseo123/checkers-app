@@ -1,0 +1,3 @@
+1. Run 'mvn compile exec:java'
+2. Open a web browser to localhost:4567
+3. To test two-player functionality, open a second (different) browser to localhost:4567
