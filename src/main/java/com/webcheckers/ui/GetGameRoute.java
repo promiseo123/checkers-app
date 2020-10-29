@@ -88,7 +88,7 @@ public class GetGameRoute implements Route {
                 mv.put("activeColor", game.getTurn().toString());
                 mv.put("board", game.getBoardView(currentUser.getColor()));
 
-                // ---------------------------------------------------------------------------------
+                // If the game has ended, put appropriate info into mv and mark player as not playing
                 if (game.hasEnded()) {
                     final Map<String, Object> modeOptions = new HashMap<>(2);
                     modeOptions.put("isGameOver", true);
@@ -100,8 +100,6 @@ public class GetGameRoute implements Route {
                     mv.put("modeOptionsAsJSON", gson.toJson(modeOptions));
                     lobby.markPlayerAsDonePlaying(currentUser.getName());
                 }
-
-                // ---------------------------------------------------------------------------------
 
                 // Rendering the game for the first time? Do this stuff
                 if (!currentUser.isPlaying()) {

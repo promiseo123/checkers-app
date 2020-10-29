@@ -68,6 +68,8 @@ public class PostSubmitTurnRoute implements Route {
         assert game != null;
         game.switchTurns();
         game.getBoard().clearMoves();
+
+        // If this turn ended the game, it must be because the currentUser made a winning move
         if (game.hasEnded()) {
             currentUser.playerWon(true);
             game.getOpponent(currentUser).playerWon(false);

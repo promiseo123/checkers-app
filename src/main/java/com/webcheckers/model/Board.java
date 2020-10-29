@@ -223,6 +223,7 @@ public class Board {
         // Make sure the views are updated so the players can see what happened
         updateViews();
 
+        // Depending on if this move was a game-ending move or not, return true or false
         if (isEndingMove(movedPiece.getColor())) {
             move.isWinning(true);
             return true;

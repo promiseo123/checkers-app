@@ -94,6 +94,7 @@ public class PostValidateMoveRoute implements Route {
         // Make the message based off of the error code
         // For now, 0=success, 1=the space was too far away, 2=they already made a move, 3=tried to move backwards
         if (errCode == 0) {
+            // makeMove returns true if it's a winning move, false if not
             gameOver = board.makeMove(move);
             message = Message.info("");
         } else if (errCode == 1) {
@@ -108,6 +109,7 @@ public class PostValidateMoveRoute implements Route {
             message = Message.error("Something went really wrong");
         }
 
+        // Set whether the game is over or not
         game.isOver(gameOver);
 
         return g.toJson(message);
