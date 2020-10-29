@@ -18,6 +18,7 @@ public class Game {
     private TURN turn;
     public enum TURN {RED, WHITE}
     private Board board;
+    private boolean isOver;
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
@@ -34,7 +35,7 @@ public class Game {
         this.whitePlayer = whitePlayer;
         this.turn = TURN.RED;
         this.board = new Board();
-
+        this.isOver = false;
     }
 
     // --------------------------------- METHODS --------------------------------- //
@@ -115,6 +116,22 @@ public class Game {
         else {
            turn = TURN.RED;
         }
+    }
+
+    /**
+     * isOver: Delegates whether this game is over or not
+     *
+     * @param isOver        If this game is over or not
+     */
+    public void isOver(boolean isOver) {
+        this.isOver = isOver;
+    }
+
+    /**
+     * hasEnded: Returns if this game is over or not
+     */
+    public boolean hasEnded() {
+        return this.isOver;
     }
 
     /**

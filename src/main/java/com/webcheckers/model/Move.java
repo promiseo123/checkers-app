@@ -13,6 +13,7 @@ public class Move {
 
     private Position start;
     private Position end;
+    private boolean winningMove;
 
     public enum TYPE {SIMPLE, MULTI}
 
@@ -29,6 +30,7 @@ public class Move {
     public Move(Position start, Position end) {
         this.start = start;
         this.end = end;
+        this.winningMove = false;
     }
 
     // --------------------------------- PUBLIC METHODS --------------------------------- //
@@ -40,6 +42,15 @@ public class Move {
      */
     public void setType(Move.TYPE type) {
         this.type = type;
+    }
+
+    /**
+     * isWinning: Delegates this move as a winning move or not a winning move (since we don't know until after
+     *            the move has been created!
+     * @param isWinning:        If the move is a winning move or not
+     */
+    public void isWinning(boolean isWinning) {
+        this.winningMove = isWinning;
     }
 
     /**

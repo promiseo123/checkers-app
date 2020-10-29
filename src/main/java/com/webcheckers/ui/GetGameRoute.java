@@ -88,6 +88,21 @@ public class GetGameRoute implements Route {
                 mv.put("activeColor", game.getTurn().toString());
                 mv.put("board", game.getBoardView(currentUser.getColor()));
 
+                // ---------------------------------------------------------------------------------
+                if (game.hasEnded()) {
+                    final Map<String, Object> modeOptions = new HashMap<>(2);
+                    modeOptions.put("isGameOver", true);
+                    if (currentUser.stateEquals(Player.STATE.WON)) {
+                        modeOptions.put("gameOverMessage", "You won! You have captured all of the opponent's pieces.");
+                    } else {
+                        modeOptions.put("gameOverMessage", "You lost. Your opponent has captured all of your pieces.");
+                    }
+                    mv.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+                    lobby.markPlayerAsDonePlaying(currentUser.getName());
+                }
+
+                // ---------------------------------------------------------------------------------
+
                 // Rendering the game for the first time? Do this stuff
                 if (!currentUser.isPlaying()) {
                     // Mark the current user as playing in a game
@@ -96,8 +111,7 @@ public class GetGameRoute implements Route {
 
                     // We're in a game, so we're no longer waiting! Set this to false.
                     currentUser.waitingStatus(false);
-                }
-                else {
+                } else {
                     //check that opponent is still playing
                     Player opponent = game.getOpponent(currentUser);
 

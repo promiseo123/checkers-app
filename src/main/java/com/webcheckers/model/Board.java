@@ -34,7 +34,8 @@ public class Board {
 
         // Make board and create initial states
         this.board = new Space[8][8];
-        constructBoard(this.board);
+        //constructBoard(this.board);
+        constructDebugBoard(this.board);
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col].populateNearbySpaces();
@@ -177,7 +178,7 @@ public class Board {
      *
      * @param move      The move being made
      */
-    public void makeMove(Move move) {
+    public boolean makeMove(Move move) {
 
         // Make sure we record the move being made in case we need to undo it or something
         this.movesThisTurn.add(movesThisTurn.size(), move);
@@ -219,9 +220,16 @@ public class Board {
             getSpaceByPosition(move.getEnd()).setPiece(new Piece(Piece.TYPE.KING, movedPiece.getColor()));
         }
 
-
         // Make sure the views are updated so the players can see what happened
         updateViews();
+
+        if (isEndingMove(movedPiece.getColor())) {
+            move.isWinning(true);
+            return true;
+        } else {
+            move.isWinning(false);
+            return false;
+        }
     }
 
     /**
@@ -347,6 +355,52 @@ public class Board {
                 }
             }
         }
+    }
+
+    /**
+     * constructDebugBoard: Constructs the 2D matrix of Spaces, with only 1 red and 1 white piece
+     *
+     * @param board     The debug board to constuct
+     */
+    private void constructDebugBoard(Space[][] board) {
+        Space.COLOR spaceColor;
+
+        // So, for each row...
+        for (int rowNum = 0; rowNum < 8; rowNum++) {
+
+            // For each cell in that row...
+            for (int colNum = 0; colNum < 8; colNum++) {
+
+                // Make the space white or black depending on the even/oddness of the coordinates
+                if (rowNum % 2 == 0) {
+                    if (colNum % 2 == 0) {
+                        spaceColor = Space.COLOR.WHITE;
+                    } else spaceColor = Space.COLOR.BLACK;
+                } else {
+                    if (colNum % 2 == 0) {
+                        spaceColor = Space.COLOR.BLACK;
+                    } else spaceColor = Space.COLOR.WHITE;
+                }
+
+                Space newSpace = new Space(this, rowNum, colNum, spaceColor);
+                board[rowNum][colNum] = newSpace;
+            }
+        }
+
+        board[2][3].setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
+        board[3][4].setPiece(new Piece(Piece.TYPE.KING, Piece.COLOR.RED));
+    }
+
+    private boolean isEndingMove(Piece.COLOR thisColor) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (board[row][col].getPiece() != null &&
+                        board[row][col].getPiece().getColor() != thisColor) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**

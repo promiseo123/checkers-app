@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Board;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
@@ -65,7 +66,8 @@ public class PostValidateMoveRoute implements Route {
 
         // Get the board we're dealing with
         Player currentUser = session.attribute(PLAYER_KEY);
-        Board board = GameCenter.getGameByID(currentUser.getGameID()).getBoard();
+        Game game = GameCenter.getGameByID(currentUser.getGameID());
+        Board board = game.getBoard();
 
         // Get these to make it easier to work with them
         int endRow=move.getEndRow();
@@ -88,11 +90,11 @@ public class PostValidateMoveRoute implements Route {
         // Get the error code from the validity checking
         int errCode = board.isValidMove(move);
 
-
+        boolean gameOver = false;
         // Make the message based off of the error code
         // For now, 0=success, 1=the space was too far away, 2=they already made a move, 3=tried to move backwards
         if (errCode == 0) {
-            board.makeMove(move);
+            gameOver = board.makeMove(move);
             message = Message.info("");
         } else if (errCode == 1) {
             message = Message.error("Space is too far away!");
@@ -105,6 +107,8 @@ public class PostValidateMoveRoute implements Route {
         }else if (errCode == 99) {
             message = Message.error("Something went really wrong");
         }
+
+        game.isOver(gameOver);
 
         return g.toJson(message);
     }
