@@ -34,13 +34,11 @@ public class Board {
 
         // Make board and create initial states
         this.board = new Space[8][8];
-        constructBoard(this.board);
-        //constructDebugBoard(this.board);
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                board[row][col].populateNearbySpaces();
-            }
-        }
+
+        // ---------- DEBUG ----------
+        // constructBoard(this.board);
+        constructDebugBoard(this.board);
+        // ---------- DEBUG ----------
 
         // Make the views for each player
         this.whiteView = new BoardView(board, true);
@@ -356,6 +354,12 @@ public class Board {
                 }
             }
         }
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                board[row][col].populateNearbySpaces();
+            }
+        }
     }
 
     /**
@@ -390,6 +394,12 @@ public class Board {
 
         board[2][3].setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.WHITE));
         board[3][4].setPiece(new Piece(Piece.TYPE.KING, Piece.COLOR.RED));
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                board[row][col].populateNearbySpaces();
+            }
+        }
     }
 
     private boolean isEndingMove(Piece.COLOR thisColor) {
