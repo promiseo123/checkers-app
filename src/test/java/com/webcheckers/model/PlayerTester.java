@@ -58,6 +58,19 @@ public class PlayerTester {
     }
 
     @Test
+    void stateEquals() {
+        final Player Cut = new Player("Test");
+        assertTrue(Cut.stateEquals(Player.STATE.NOTPLAYING));
+        Cut.playing();
+        assertTrue(Cut.stateEquals(Player.STATE.PLAYING));
+        Cut.playerWon(false);
+        assertTrue(Cut.stateEquals(Player.STATE.LOST));
+        Cut.playerWon(true);
+        assertTrue(Cut.stateEquals(Player.STATE.WON));
+
+    }
+
+    @Test
     void testToString() {
         final Player Cut = new Player("Test");
         String expected = "Test";

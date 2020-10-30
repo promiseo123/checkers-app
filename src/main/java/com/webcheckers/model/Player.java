@@ -33,6 +33,7 @@ public class Player {
         this.waiting = false;
         this.inGame = false;
         this.color = COLOR.NONE;
+        this.state = STATE.NOTPLAYING;
     }
 
     // --------------------------------- METHODS --------------------------------- //
