@@ -101,4 +101,12 @@ public class GameTester {
         assertEquals(10, id.length());
     }
 
+    @Test
+    public void testEnding() {
+        game.isOver(false);
+        assertFalse(game.hasEnded());
+        game.isOver(true);
+        assertTrue(game.hasEnded());
+    }
+
 }
