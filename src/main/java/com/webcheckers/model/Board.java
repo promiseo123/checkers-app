@@ -34,8 +34,8 @@ public class Board {
 
         // Make board and create initial states
         this.board = new Space[8][8];
-        //constructBoard(this.board);
-        constructDebugBoard(this.board);
+        constructBoard(this.board);
+        //constructDebugBoard(this.board);
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col].populateNearbySpaces();
