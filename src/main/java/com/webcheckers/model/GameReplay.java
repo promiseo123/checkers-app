@@ -60,4 +60,16 @@ public class GameReplay {
     public int getBoardViewCount() {
         return boardStates.size();
     }
+
+    /**
+     * For debugging: Print a list of all the BoardViews in this GameReplay
+     */
+    public void printAllBoardStates() {
+        int i = 0;
+        for (BoardView view : boardStates.values()) {
+            System.out.println("BoardState " + i + ":");
+            System.out.println(view);
+            i++;
+        }
+    }
 }

@@ -190,4 +190,16 @@ public class Space {
     public Piece getPiece() {
         return this.piece;
     }
+
+    /**
+     * getNewSpace: Deep copies this space (and its piece) for the Replay system.
+     * @return deep copy of this space
+     */
+    public Space getNewSpace() {
+        Space s = new Space(board, rowNum, cellIdx, color);
+        if (this.piece != null) {
+            s.piece = new Piece(piece.getType(), piece.getColor());
+        }
+        return s;
+    }
 }

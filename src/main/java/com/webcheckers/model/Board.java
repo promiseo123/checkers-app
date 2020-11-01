@@ -5,6 +5,7 @@ import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Board: A representation of the Checkers board. Both constructs the working model-level board array
@@ -426,10 +427,17 @@ public class Board {
 
     /**
      * Deep copy the entire BoardView to be saved in the Replay collection.
-     * @return
+     * This includes all Spaces and their associated Pieces if applicable.
+     * @return Deep copy of BoardView.
      */
     public BoardView getRedBoardView() {
-        return new BoardView(board.clone(), false);
+        Space[][] copiedBoard = new Space[8][8];
+        for (int i = 0; i < copiedBoard.length; i++) {
+            for (int j = 0; j < copiedBoard[i].length; j++) {
+                copiedBoard[i][j] = board[i][j].getNewSpace();
+            }
+        }
+        return new BoardView(copiedBoard, false);
     }
 
 
