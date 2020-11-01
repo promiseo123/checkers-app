@@ -148,7 +148,7 @@ public class Game {
     public void addBoardStateToReplay() {
         /*The Project Info page shows the White pieces on top, meaning that we need to store the BoardView from the
         state of the Red player regardless of whose turn it is.*/
-        replay.addBoardState(this.getBoardView(Player.COLOR.RED));
+        replay.addBoardState(this.board.getRedBoardView());
     }
 
     /**

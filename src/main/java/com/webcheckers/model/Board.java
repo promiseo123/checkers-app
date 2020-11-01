@@ -424,5 +424,9 @@ public class Board {
 
     }
 
+    public BoardView getRedBoardView() {
+        return new BoardView(board, false);
+    }
+
 
 }

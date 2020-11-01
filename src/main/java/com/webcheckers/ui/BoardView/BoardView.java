@@ -35,7 +35,7 @@ public class BoardView implements Iterable{
     }
 
     /**
-     * getRows: Returns the lits of rows of thie BoardView (for testing purposes)
+     * getRows: Returns the lists of rows of this BoardView (for testing purposes)
      *
      * @return      this.rows
      */

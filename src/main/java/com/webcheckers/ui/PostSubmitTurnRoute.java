@@ -46,11 +46,11 @@ public class PostSubmitTurnRoute implements Route {
     // --------------------------------- METHODS --------------------------------- //
 
     /**
-     * handle: No implementation yet, will handle when the user finalizes their move by pressing "submit"
+     * handle: Handles when the user finalizes their move by pressing "submit"
      *
      * @param request       The HTTP request
      * @param response      The HTTP response
-     * @return              Nothing yet, *should* return valid JSON version of a info Message
+     * @return              Returns a valid JSON version of an info Message
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
