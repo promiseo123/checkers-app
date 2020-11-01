@@ -160,6 +160,15 @@ public class Game {
     }
 
     /**
+     * Get the BoardView after this turn number. Use 0 for initial BoardView.
+     * @param turn the turn number
+     * @return the BoardView after the turn number
+     */
+    public BoardView getBoardViewAfterTurn(int turn) {
+        return replay.getBoardViewAtState(turn);
+    }
+
+    /**
      * Generates a random sequence of characters to make a unique ID for a game
      *
      * @return      Unique ID
