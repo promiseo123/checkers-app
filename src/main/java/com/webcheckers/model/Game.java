@@ -6,8 +6,8 @@ import java.awt.*;
 import java.util.Random;
 
 /**
- * Game: Represents a single Checkers game. Contains general game information: state of the board,
- *       participating players, turn order, etc.
+ * Game: Represents a single Checkers game. Contains general game information: current state of the board,
+ *       participating players, turn order, replay data, etc.
  */
 public class Game {
 
@@ -40,7 +40,7 @@ public class Game {
         this.isOver = false;
         this.replay = new GameReplay();
 
-        // add the initial BoardView to the replay collection
+        // add the initial BoardView to the replay collection (state=0)
         // (assume everything has been properly instantiated and assigned by this point)
         this.addBoardStateToReplay();
     }
@@ -150,8 +150,11 @@ public class Game {
         else if (color.equals("WHITE")) this.whitePlayer = null;
     }
 
+    /**
+     * Adds the current BoardView (from red's perspective) to the replay.
+     */
     public void addBoardStateToReplay() {
-        /*The Project Info page shows the White pieces on top, meaning that we need to store the BoardView from the
+        /*The Project Info page shows the White pieces on top in replay mode, meaning that we need to store the BoardView from the
         state of the Red player regardless of whose turn it is.*/
         replay.addBoardState(this.board.getRedBoardView());
     }
