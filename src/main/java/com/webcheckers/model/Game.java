@@ -39,6 +39,10 @@ public class Game {
         this.board = new Board();
         this.isOver = false;
         this.replay = new GameReplay();
+
+        // add the initial BoardView to the replay collection
+        // (assume everything has been properly instantiated and assigned by this point)
+        this.addBoardStateToReplay();
     }
 
     // --------------------------------- METHODS --------------------------------- //

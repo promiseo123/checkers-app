@@ -18,6 +18,8 @@ public class GameReplay {
     public void addBoardState(BoardView view) {
         boardStates.put(currentStateNumber, view);
         System.out.println("Board state " + currentStateNumber + " added.");
+        System.out.println("Current board:");
+        System.out.println(getBoardViewAtState(currentStateNumber));
         currentStateNumber++;
     }
 

@@ -55,4 +55,41 @@ public class BoardView implements Iterable{
         return rows.iterator();
     }
 
+    /**
+    For debugging only.
+    Return a console-friendly representation of the board in its current state.
+    LEGEND:
+    -: no piece at this space
+    r: single red piece
+    R: red king piece
+    w: single white piece
+    W: white king piece
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (Row row : rows) {
+            for (int i = 0; i < 8; i++) {
+                Piece thisPiece = row.getSpace(i).getPiece();
+                if (thisPiece == null) {
+                    builder.append("-");
+                }
+                else if (thisPiece.getColor().equals(Piece.COLOR.RED) && thisPiece.getType().equals(Piece.TYPE.SINGLE)) {
+                    builder.append("r");
+                }
+                else if (thisPiece.getColor().equals(Piece.COLOR.RED) && thisPiece.getType().equals(Piece.TYPE.KING)) {
+                    builder.append("R");
+                }
+                else if (thisPiece.getColor().equals(Piece.COLOR.WHITE) && thisPiece.getType().equals(Piece.TYPE.SINGLE)) {
+                    builder.append("w");
+                }
+                else {
+                    builder.append("W");
+                }
+                builder.append(" ");
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
 }
