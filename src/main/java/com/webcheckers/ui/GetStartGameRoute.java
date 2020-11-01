@@ -87,7 +87,6 @@ public class GetStartGameRoute implements Route {
                 lobby.assignPlayerToGame(opponentName, gameID);
                 lobby.markPlayerWithColor(opponentName, Player.COLOR.WHITE);
             } else {
-
                 // Other player wasn't able to play a game due to whatever?
                 // Render the home page with an error message
                 Map<String, Object> mv = new HashMap<>();

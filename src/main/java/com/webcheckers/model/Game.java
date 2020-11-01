@@ -38,6 +38,7 @@ public class Game {
         this.turn = TURN.RED;
         this.board = new Board();
         this.isOver = false;
+        this.replay = new GameReplay();
     }
 
     // --------------------------------- METHODS --------------------------------- //
