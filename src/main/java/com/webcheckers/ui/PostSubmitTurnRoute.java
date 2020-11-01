@@ -63,9 +63,13 @@ public class PostSubmitTurnRoute implements Route {
         Player currentUser = session.attribute(PLAYER_KEY);
         Game game = GameCenter.getGameByID(currentUser.getGameID());
 
+        assert game != null;
+
+        // Store the state of the game board in the game's GameReplay object
+        game.addBoardStateToReplay();
+
 
         // Switch who's turn it is, clear the moves that have been made this turn
-        assert game != null;
         game.switchTurns();
         game.getBoard().clearMoves();
 
@@ -74,6 +78,7 @@ public class PostSubmitTurnRoute implements Route {
             currentUser.playerWon(true);
             game.getOpponent(currentUser).playerWon(false);
         }
+
 
         // Dunno how this would fail, so I just automatically return success case
         Message message = Message.info("");

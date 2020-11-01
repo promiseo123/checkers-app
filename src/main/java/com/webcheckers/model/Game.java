@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 import com.webcheckers.ui.BoardView.BoardView;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -19,6 +20,7 @@ public class Game {
     public enum TURN {RED, WHITE}
     private Board board;
     private boolean isOver;
+    private GameReplay replay;
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
@@ -141,6 +143,12 @@ public class Game {
         String color = player.getColor().toString();
         if (color.equals("RED")) this.redPlayer = null;
         else if (color.equals("WHITE")) this.whitePlayer = null;
+    }
+
+    public void addBoardStateToReplay() {
+        /*The Project Info page shows the White pieces on top, meaning that we need to store the BoardView from the
+        state of the Red player regardless of whose turn it is.*/
+        replay.addBoardState(this.getBoardView(Player.COLOR.RED));
     }
 
     /**
