@@ -13,8 +13,10 @@ public class Player {
     private boolean inGame;
     private boolean waiting;
     private COLOR color;
+    private STATE state;
 
     public enum COLOR {RED, WHITE, NONE}
+    public enum STATE {NOTPLAYING, PLAYING, WON, LOST}
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
@@ -31,6 +33,7 @@ public class Player {
         this.waiting = false;
         this.inGame = false;
         this.color = COLOR.NONE;
+        this.state = STATE.NOTPLAYING;
     }
 
     // --------------------------------- METHODS --------------------------------- //
@@ -60,6 +63,7 @@ public class Player {
      */
     public void playing() {
         inGame = true;
+        this.state = STATE.PLAYING;
     }
 
     /**
@@ -88,7 +92,20 @@ public class Player {
      */
     public void donePlaying() {
         inGame = false;
+        this.state = STATE.NOTPLAYING;
         color = COLOR.NONE;
+    }
+
+    /**
+     * playerWon: Updates the Player's state to WON or LOST depending on the boolean passed in
+     *
+     * @param hasWon        Boolean for if they have won or not
+     */
+    public void playerWon(boolean hasWon) {
+        this.state = STATE.LOST;
+        if (hasWon) {
+            this.state = STATE.WON;
+        }
     }
 
     /**
@@ -132,6 +149,16 @@ public class Player {
      */
     public boolean nameEquals(String name) {
         return this.name.equals(name);
+    }
+
+    /**
+     * stateEquals: Returns whether this PLayer's state is equal to the state param
+     *
+     * @param state     State to compare against
+     * @return          Whether they are equal or not
+     */
+    public boolean stateEquals(Player.STATE state) {
+        return state == this.state;
     }
 
     /**

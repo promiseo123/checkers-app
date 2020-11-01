@@ -57,64 +57,73 @@ public class GetGameRoute implements Route {
 
         LOG.finer("GetGameRoute is invoked.");
         final Session session = request.session();
-
         Player currentUser = session.attribute(PLAYER_KEY);
 
-        if (currentUser != null) {
+        // If there's no current user, or they shouldn't be loading the game page, return null
+        if (currentUser == null ||
+                !(currentUser.readyToPlay() || currentUser.isPlaying())) {
+            return null;
+        }
 
-            // Load the game screen, either for the first time or just for a game refresh
-            // Game has been created and players are about to load the game screen/refresh game screen.
-            if (currentUser.readyToPlay() || currentUser.isPlaying()) {
+        Game game = GameCenter.getGameByID(currentUser.getGameID());
+        assert game != null;
+        Player opponent = game.getOpponent(currentUser);
 
-                Game game = GameCenter.getGameByID(currentUser.getGameID());
+        // Populate the variables of the game.ftl render with pertinent information
+        Map<String, Object> mv = new HashMap<>();
+        mv.put("title", "New Game");
+        mv.put("gameID", currentUser.getGameID());
+        mv.put("currentUser", currentUser);
+        mv.put("viewMode", "PLAY");
 
-                // Populate the variables of the game.ftl render with pertinent information
-                Map<String, Object> mv = new HashMap<>();
-                mv.put("title", "New Game");
-                mv.put("gameID", currentUser.getGameID());
-                mv.put("currentUser", currentUser);
-                mv.put("viewMode", "PLAY");
+        // Put in the red/white player as the correct users depending on who requested
+        if (currentUser.getColor() == Player.COLOR.RED) {
+            mv.put("redPlayer", currentUser);
+            mv.put("whitePlayer", opponent);
+        } else {
+            mv.put("whitePlayer", currentUser);
+            mv.put("redPlayer", opponent);
+        }
 
-                // Put in the red/white player as the correct users depending on who requested
-                if (currentUser.getColor() == Player.COLOR.RED) {
-                    mv.put("redPlayer", currentUser);
-                    mv.put("whitePlayer", game.getWhitePlayer());
-                } else {
-                    mv.put("whitePlayer", currentUser);
-                    mv.put("redPlayer", game.getRedPlayer());
-                }
+        // "Start" the game by assigning the initial turn and Board setup
+        mv.put("activeColor", game.getTurn().toString());
+        mv.put("board", game.getBoardView(currentUser.getColor()));
 
-                // "Start" the game by assigning the initial turn and Board setup
-                mv.put("activeColor", game.getTurn().toString());
-                mv.put("board", game.getBoardView(currentUser.getColor()));
-
-                // Rendering the game for the first time? Do this stuff
-                if (!currentUser.isPlaying()) {
-                    // Mark the current user as playing in a game
-                    // Each player, whether they requested the game or not, will go through this
-                    lobby.markPlayerAsPlaying(currentUser.getName());
-
-                    // We're in a game, so we're no longer waiting! Set this to false.
-                    currentUser.waitingStatus(false);
-                }
-                else {
-                    //check that opponent is still playing
-                    Player opponent = game.getOpponent(currentUser);
-
-                    if (opponent.isPlaying()) mv.put("modeOptionsAsJSON", null);
-                        //send resign message if not
-                    else {
-                        final Map<String, Object> modeOptions = new HashMap<>(2);
-                        modeOptions.put("isGameOver", true);
-                        modeOptions.put("gameOverMessage", opponent.getName() + " has resigned.");
-                        mv.put("modeOptionsAsJSON", gson.toJson(modeOptions));
-                    }
-                }
-
-                // Render the game
-                return templateEngine.render(new ModelAndView(mv, "game.ftl"));
+        // Rendering the game for the first time? Do this stuff
+        if (!currentUser.isPlaying()) {
+            // Mark the current user as playing in a game
+            lobby.markPlayerAsPlaying(currentUser.getName());
+            // We're in a game, so we're no longer waiting! Set this to false.
+            currentUser.waitingStatus(false);
+        } else {
+            //check that opponent is still playing
+            if (opponent.isPlaying()) {
+                mv.put("modeOptionsAsJSON", null);
+            //send resign message if not
+            } else {
+                final Map<String, Object> modeOptions = new HashMap<>(2);
+                modeOptions.put("isGameOver", true);
+                modeOptions.put("gameOverMessage", opponent.getName() + " has resigned.");
+                mv.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             }
         }
-        return null;
+
+        // If the game has ended, put appropriate info into mv and mark player as not playing
+        if (game.hasEnded()) {
+            final Map<String, Object> modeOptions = new HashMap<>(2);
+            modeOptions.put("isGameOver", true);
+
+            if (currentUser.stateEquals(Player.STATE.WON)) {
+                modeOptions.put("gameOverMessage", "You won! You have captured all of the opponent's pieces.");
+            } else {
+                modeOptions.put("gameOverMessage", "You lost. Your opponent has captured all of your pieces.");
+            }
+
+            mv.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+            lobby.markPlayerAsDonePlaying(currentUser.getName());
+        }
+
+        // Render the game
+        return templateEngine.render(new ModelAndView(mv, "game.ftl"));
     }
 }

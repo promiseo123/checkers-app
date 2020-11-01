@@ -13,8 +13,7 @@ import spark.Response;
 import spark.Session;
 import spark.TemplateEngine;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,10 +33,10 @@ public class PostSubmitTurnRouteTester {
     private Session mockSession;
     private TemplateEngine mockTemplate;
     private PlayerLobby mockLobby;
-    private String playerName;
     private Player testPlayer;
     private Player testPlayer2;
     private Board board;
+    private Game game;
 
     @BeforeEach
     void setup() {
@@ -48,18 +47,22 @@ public class PostSubmitTurnRouteTester {
         mockTemplate = mock(TemplateEngine.class);
         mockLobby = mock(PlayerLobby.class);
 
-        when(mockLobby.getPlayer(playerName)).thenReturn(testPlayer);
+        when(mockLobby.getPlayer("thisPlayer")).thenReturn(testPlayer);
+        when(mockLobby.getPlayer("otherPlayer")).thenReturn(testPlayer);
         when(mockRequest.session()).thenReturn(mockSession);
 
         CuT = new PostSubmitTurnRoute(mockLobby, mockTemplate);
-        testPlayer = new Player(playerName);
-        testPlayer2 = new Player(playerName);
+        testPlayer = new Player("thisPlayer");
+        testPlayer2 = new Player("otherPlayer");
 
         when(mockSession.attribute("player")).thenReturn(testPlayer);
 
         String gameID = Game.generateRandomGameID();
+
         GameCenter.newGame(gameID, testPlayer, testPlayer2);
         testPlayer.assignToGame(gameID);
+        testPlayer2.assignToGame(gameID);
+        game = GameCenter.getGameByID(gameID);
 
         board = new Board();  // the board will be used to check the model in CuT vs ours.
     }
@@ -84,6 +87,13 @@ public class PostSubmitTurnRouteTester {
             CuT.handle(mockRequest, mockResponse);
             assertNotNull(board.getSpaceAt(3, 4).getPiece());
         }
+    }
+
+    @Test
+    void GameOver() throws Exception {
+        game.isOver(true);
+        CuT.handle(mockRequest, mockResponse);
+        assertTrue(testPlayer.stateEquals(Player.STATE.WON));
     }
 
 

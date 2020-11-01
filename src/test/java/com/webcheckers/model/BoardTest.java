@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.webcheckers.model.Board;
+import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -67,6 +68,7 @@ public class BoardTest {
     @Test
     public void test_valid_move() {
         Move validMove = new Move(new Position(5, 0), new Position(4, 1));
+        CuT.getBoard()[5][0].setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
         validMove.setType(Move.TYPE.SIMPLE);
 
         CuT.isValidMove(validMove);
@@ -92,6 +94,7 @@ public class BoardTest {
     public void test_invalid_move_already_moved() {
         Move validMove = new Move(new Position(5, 0), new Position(4, 1));
         validMove.setType(Move.TYPE.SIMPLE);
+        CuT.getBoard()[5][0].setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
         CuT.isValidMove(validMove);
         CuT.makeMove(validMove);
 
@@ -107,9 +110,13 @@ public class BoardTest {
     public void test_get_moves() {
         assertTrue(CuT.getMoves().isEmpty());
 
-        CuT.makeMove(new Move(new Position(5, 0), new Position(4, 1)));
+        Move move1 = new Move(new Position(5, 0), new Position(4, 1));
+        CuT.getBoard()[5][0].setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
+        CuT.makeMove(move1);
         assertFalse(CuT.getMoves().isEmpty());
 
+        Move move2 = new Move(new Position(4, 1), new Position(3, 2));
+        CuT.getBoard()[5][1].setPiece(new Piece(Piece.TYPE.SINGLE, Piece.COLOR.RED));
         CuT.makeMove(new Move(new Position(4, 1), new Position(3, 2)));
         assertNotNull(CuT.getLatestMove());
 
