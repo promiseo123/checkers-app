@@ -61,7 +61,7 @@ public class Row implements Iterable {
      * @return              The Space at that index
      */
     public Space getSpace(int cellIdx) {
-        return this.spaces.get(0);
+        return this.spaces.get(cellIdx);
     }
 
     /**

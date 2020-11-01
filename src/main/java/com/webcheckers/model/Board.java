@@ -424,5 +424,13 @@ public class Board {
 
     }
 
+    /**
+     * Deep copy the entire BoardView to be saved in the Replay collection.
+     * @return
+     */
+    public BoardView getRedBoardView() {
+        return new BoardView(board.clone(), false);
+    }
+
 
 }

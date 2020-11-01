@@ -2,11 +2,12 @@ package com.webcheckers.model;
 
 import com.webcheckers.ui.BoardView.BoardView;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
- * Game: Represents a single Checkers game. Contains general game information: state of the board,
- *       participating players, turn order, etc.
+ * Game: Represents a single Checkers game. Contains general game information: current state of the board,
+ *       participating players, turn order, replay data, etc.
  */
 public class Game {
 
@@ -19,6 +20,7 @@ public class Game {
     public enum TURN {RED, WHITE}
     private Board board;
     private boolean isOver;
+    private GameReplay replay;
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
@@ -36,6 +38,11 @@ public class Game {
         this.turn = TURN.RED;
         this.board = new Board();
         this.isOver = false;
+        this.replay = new GameReplay();
+
+        // add the initial BoardView to the replay collection (state=0)
+        // (assume everything has been properly instantiated and assigned by this point)
+        this.addBoardStateToReplay();
     }
 
     // --------------------------------- METHODS --------------------------------- //
@@ -141,6 +148,24 @@ public class Game {
         String color = player.getColor().toString();
         if (color.equals("RED")) this.redPlayer = null;
         else if (color.equals("WHITE")) this.whitePlayer = null;
+    }
+
+    /**
+     * Adds the current BoardView (from red's perspective) to the replay.
+     */
+    public void addBoardStateToReplay() {
+        /*The Project Info page shows the White pieces on top in replay mode, meaning that we need to store the BoardView from the
+        state of the Red player regardless of whose turn it is.*/
+        replay.addBoardState(this.board.getRedBoardView());
+    }
+
+    /**
+     * Get the BoardView after this turn number. Use 0 for initial BoardView.
+     * @param turn the turn number
+     * @return the BoardView after the turn number
+     */
+    public BoardView getBoardViewAfterTurn(int turn) {
+        return replay.getBoardViewAtState(turn);
     }
 
     /**

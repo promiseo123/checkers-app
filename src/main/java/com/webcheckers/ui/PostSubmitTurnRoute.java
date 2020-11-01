@@ -46,11 +46,11 @@ public class PostSubmitTurnRoute implements Route {
     // --------------------------------- METHODS --------------------------------- //
 
     /**
-     * handle: No implementation yet, will handle when the user finalizes their move by pressing "submit"
+     * handle: Handles when the user finalizes their move by pressing "submit"
      *
      * @param request       The HTTP request
      * @param response      The HTTP response
-     * @return              Nothing yet, *should* return valid JSON version of a info Message
+     * @return              Returns a valid JSON version of an info Message
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
@@ -63,9 +63,13 @@ public class PostSubmitTurnRoute implements Route {
         Player currentUser = session.attribute(PLAYER_KEY);
         Game game = GameCenter.getGameByID(currentUser.getGameID());
 
+        assert game != null;
+
+        // Store the state of the game board in the game's GameReplay object
+        game.addBoardStateToReplay();
+
 
         // Switch who's turn it is, clear the moves that have been made this turn
-        assert game != null;
         game.switchTurns();
         game.getBoard().clearMoves();
 
@@ -74,6 +78,7 @@ public class PostSubmitTurnRoute implements Route {
             currentUser.playerWon(true);
             game.getOpponent(currentUser).playerWon(false);
         }
+
 
         // Dunno how this would fail, so I just automatically return success case
         Message message = Message.info("");
