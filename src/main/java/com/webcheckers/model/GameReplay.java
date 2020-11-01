@@ -52,4 +52,12 @@ public class GameReplay {
     public BoardView getBoardViewAtState(int stateNumber) {
         return boardStates.get(stateNumber);
     }
+
+    /**
+     * How many BoardViews are stored in the collection?
+     * @return number of BoardViews in the collection
+     */
+    public int getBoardViewCount() {
+        return boardStates.size();
+    }
 }
