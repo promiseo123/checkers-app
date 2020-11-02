@@ -7,6 +7,8 @@ import com.webcheckers.model.Board;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.Exceptions.InvalidMoveException;
+import com.webcheckers.util.Exceptions.SpaceOutOfRangeException;
 import com.webcheckers.util.Message;
 import spark.*;
 
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
  * The UI Controller to POST the /validateMove route
  *
  * @author Anthony DelPrincipe ajd6295
+ * @author Austin Cepalia acc5989
  */
 public class PostValidateMoveRoute implements Route {
 
@@ -24,23 +27,14 @@ public class PostValidateMoveRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
-    private final TemplateEngine templateEngine;
-    private final PlayerLobby lobby;
-
     public static final String PLAYER_KEY = "player";
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
     /**
-     * Constructor for PostValidateMoveRoute route, sets up lobby and template engine for this route
-     *
-     * @param lobby             The PlayerLobby of all players
-     * @param templateEngine    The template engine used in view/model interactions
+     * Constructor for PostValidateMoveRoute route, does nothing special at all.
      */
-    public PostValidateMoveRoute(final PlayerLobby lobby, final TemplateEngine templateEngine) {
-        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
-        this.lobby = lobby;
-
+    public PostValidateMoveRoute() {
         LOG.config("PostValidateMoveRoute is initialized.");
     }
 
@@ -54,12 +48,11 @@ public class PostValidateMoveRoute implements Route {
      * @return              Nothing yet, *should* return valid JSON version of a info Message
      */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public Object handle(Request request, Response response) {
 
         // Get the session and make the gson/message
         final Session session = request.session();
         Gson g = new Gson();
-        Message message = null;
 
         // Get the move made from the request
         Move move = g.fromJson(request.queryParams("actionData"), Move.class);
@@ -87,32 +80,21 @@ public class PostValidateMoveRoute implements Route {
             move.setType(Move.TYPE.MULTI);
         }
 
-        // Get the error code from the validity checking
-        int errCode = board.isValidMove(move);
+        // Validate movement and catch any exceptions that may occur
+        try {
+            if (board.isValidMove(move)) {
+                //TODO: This probably SHOULD NOT be in Validate
+                boolean gameOver = board.makeMove(move);
+                game.isOver(gameOver);
 
-        boolean gameOver = false;
-        // Make the message based off of the error code
-        // For now, 0=success, 1=the space was too far away, 2=they already made a move, 3=tried to move backwards
-        if (errCode == 0) {
-            // makeMove returns true if it's a winning move, false if not
-            gameOver = board.makeMove(move);
-            message = Message.info("");
-        } else if (errCode == 1) {
-            message = Message.error("Space is too far away!");
-        } else if (errCode == 2) {
-            message = Message.error("You've already made your move! Submit move or undo.");
-        } else if (errCode == 3) {
-            message = Message.error("Can't move backwards!");
-        } else if (errCode == 4) {
-            message = Message.error("There is no piece to take!");
-        }else if (errCode == 99) {
-            message = Message.error("Something went really wrong");
+                //TODO: Maybe a blank message should just be null? Check on front end?
+                return g.toJson("");
+            }
+        } catch (InvalidMoveException ex) {
+            game.isOver(false);
+            return g.toJson(Message.error(ex.getMessage()));
         }
-
-        // Set whether the game is over or not
-        game.isOver(gameOver);
-
-        return g.toJson(message);
+        return null;
     }
 
 }

@@ -3,6 +3,10 @@ package com.webcheckers.model;
 import com.webcheckers.ui.BoardView.BoardView;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
+import com.webcheckers.util.Exceptions.MoveAlreadyMadeException;
+import com.webcheckers.util.Exceptions.MoveBackwardsException;
+import com.webcheckers.util.Exceptions.NoPieceToTakeException;
+import com.webcheckers.util.Exceptions.SpaceOutOfRangeException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +69,7 @@ public class Board {
      * @param move      The move that is trying to be made
      * @return          integer "error code" depending on what happened
      */
-    public int isValidMove(Move move) {
+    public boolean isValidMove(Move move) {
         Space startSpace = getSpaceByPosition(move.getStart());
         Space endSpace = getSpaceByPosition(move.getEnd());
         Piece movedPiece = getSpaceByPosition(move.getStart()).getPiece();
@@ -83,16 +87,16 @@ public class Board {
             if ((move.typeIs(Move.TYPE.MULTI) && getLatestMove().getType() == Move.TYPE.SIMPLE)
                     || move.typeIs(Move.TYPE.SIMPLE))
 
-                // Error code for trying to move again after already making SIMPLE move
-                return 2;
+                // Exception for trying to move again after already making SIMPLE move
+                throw new MoveAlreadyMadeException("You've already made your move! Submit move or undo.");
 
         }
 
         // Check to make sure the destination square is even in the range to begin with
         if (!endSpace.isInRange(startSpace)) {
 
-            // Return error code for moving too far away
-            return 1;
+            // Exception for moving too far away
+            throw new SpaceOutOfRangeException("Space is too far away!");
 
         }
 
@@ -106,20 +110,19 @@ public class Board {
             // White pieces: End space is DownRight or DownLeft
             if (!endSpace.isInRangeSimple(startSpace, startSpace.getPiece().getColor())) {
 
-                // Error code for if it wasn't in range (tried to move backwards)
                 if (movedPiece.getType() == Piece.TYPE.KING) {
                     // A king can move backwards. Since this is simple, its only 1 space, so it's fine.
-                    return 0;
+                    return true;
                 }
 
-                // Error code for if it wasn't in range (tried to move backwards)
-                return 3;  // this also fits else case.
+                // Exception for if it wasn't in range (tried to move backwards)
+                throw new MoveBackwardsException("Can't move backwards!");  // this also fits else case.
 
             } else {
 
                 // Code for a successful move
                 // Made a simple move and it was in range
-                return 0;
+                return true;
 
             }
 
@@ -130,19 +133,19 @@ public class Board {
             // White pieces: End space is DownRightTwice or DownLeftTwice
             if (!endSpace.isInRangeMulti(startSpace, startSpace.getPiece().getColor())) {
 
-                // Error code for if it wasn't in range (tried to move backwards)
+                // Exception for if it wasn't in range (tried to move backwards)
                 if (movedPiece.getType() == Piece.TYPE.SINGLE) {
-                    return 3;
+                    throw new MoveBackwardsException("Can't move backwards!");
                 } else {
                     if ((getSpaceAt((endSpace.getRowNum() + startSpace.getRowNum()) / 2,
                             (endSpace.getCellIdx() + startSpace.getCellIdx()) / 2).getPiece() == null) ||
                             (getSpaceAt((endSpace.getRowNum() + startSpace.getRowNum()) / 2,
                                     (endSpace.getCellIdx() + startSpace.getCellIdx()) / 2).getPiece().getColor()
                                     == startSpace.getPiece().getColor())) {
-                        return 4;
+                        throw new NoPieceToTakeException("There is no piece to take!");
                     }
 
-                    return 0;
+                    return true;
                 }
 
             } else {
@@ -153,11 +156,11 @@ public class Board {
                                 (endSpace.getCellIdx()+startSpace.getCellIdx())/2).getPiece().getColor()
                                 ==startSpace.getPiece().getColor())) {
                     // There is no opponent piece to take!
-                    return 4;
+                    throw new NoPieceToTakeException("There is no piece to take!");
                 }
 
                 // It was a valid MULTI move! Fantastic.
-                return 0;
+                return true;
 
             }
 
@@ -166,7 +169,7 @@ public class Board {
             // Move didn't have a type! Must mean that they tried to move really far away
             // (See code in PostValidateMoveRoute)
             // Return error code for moving too far
-            return 1;
+            throw new SpaceOutOfRangeException("Space is too far away!");
 
         }
 

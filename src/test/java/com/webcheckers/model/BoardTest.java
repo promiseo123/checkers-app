@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.webcheckers.model.Board;
 import com.webcheckers.ui.BoardView.Piece;
 import com.webcheckers.ui.BoardView.Space;
+import com.webcheckers.util.Exceptions.MoveAlreadyMadeException;
+import com.webcheckers.util.Exceptions.SpaceOutOfRangeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -73,7 +75,7 @@ public class BoardTest {
 
         CuT.isValidMove(validMove);
 
-        assertEquals(CuT.isValidMove(validMove), 0);
+        assertTrue(CuT.isValidMove(validMove));
     }
 
     /**
@@ -83,7 +85,8 @@ public class BoardTest {
     public void test_invalid_move_too_far() {
         Move invalidMove = new Move(new Position(5, 0), new Position(4, 3));
 
-        assertEquals(CuT.isValidMove(invalidMove), 1);
+        // expected to throw an exception.
+        assertThrows(SpaceOutOfRangeException.class, () -> CuT.isValidMove(invalidMove));
     }
 
     /**
@@ -100,7 +103,9 @@ public class BoardTest {
 
         Move invalidMove = new Move(new Position(4, 1), new Position(3, 2));
         invalidMove.setType(Move.TYPE.SIMPLE);
-        assertEquals(CuT.isValidMove(invalidMove), 2);
+
+        // expected to throw an exception
+        assertThrows(MoveAlreadyMadeException.class, () -> CuT.isValidMove(invalidMove));
     }
 
     /**

@@ -170,7 +170,7 @@ public class WebServer {
     post(CHECKTURN_URL, new PostCheckTurnRoute(playerLobby, templateEngine));
 
     // Triggers a new game with the selected player
-    post(VALMOVE_URL, new PostValidateMoveRoute(playerLobby, templateEngine));
+    post(VALMOVE_URL, new PostValidateMoveRoute());
 
     // Triggers a new game with the selected player
     post(SUBMITTURN_URL, new PostSubmitTurnRoute(playerLobby, templateEngine));

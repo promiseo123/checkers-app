@@ -68,7 +68,6 @@ public class PostSubmitTurnRoute implements Route {
         // Store the state of the game board in the game's GameReplay object
         game.addBoardStateToReplay();
 
-
         // Switch who's turn it is, clear the moves that have been made this turn
         game.switchTurns();
         game.getBoard().clearMoves();

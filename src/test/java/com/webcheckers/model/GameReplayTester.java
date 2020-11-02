@@ -5,8 +5,10 @@ import com.webcheckers.ui.BoardView.Space;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import spark.Request;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * GameReplayTester: Class to test the GameReplay class
@@ -48,7 +50,7 @@ public class GameReplayTester {
      * testGetBoardAtState: Tests the retrieval of a BoardView from the collection
      */
     @Test
-    public void testGetBordAtState() {
+    public void testGetBoardAtState() {
         BoardView bv = new BoardView(new Space[8][8], false);
         CuT.addBoardState(bv);
         BoardView retrieved_bv = CuT.getBoardViewAtState(0);
