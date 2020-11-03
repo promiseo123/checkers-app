@@ -1,10 +1,13 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameLabel;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,6 +72,15 @@ public class GameCenter {
         }
         return false;
 
+    }
+
+    public static List<GameLabel> getAvailableGames() {
+        List<GameLabel> gameLabels =new ArrayList<>();
+        for (String gameID : gamesMap.keySet()) {
+            GameLabel gameLabel=new GameLabel(gameID);
+            gameLabels.add(gameLabel);
+        }
+        return gameLabels;
     }
 
 

@@ -38,7 +38,21 @@
             to start games,
             spectating active games,
             or replay archived games
+         Provide a message to the user, if supplied.
     -->
+
+    <p>Current Games in progress:</p>
+     <#if currentUser??>
+            <#if !games??>
+                <p>No game is currently in progress</p>
+            <#else>
+             <#list gameLabels as gameLabel>
+               <a href="/spectator/game?gameID=${gameLabel.getGameID()}">${gameLabel.getPlayersInGame()}</a>
+             </#list>
+               </#if>
+             <#else>
+             <p>${Num}</p>
+           </#if>
 
   </div>
 

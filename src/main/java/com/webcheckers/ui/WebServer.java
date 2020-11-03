@@ -64,7 +64,7 @@ public class WebServer {
   public static final String BACKUPMOVE_URL = "/backupMove";
   public static final String RESIGN_URL = "/resignGame";
   public static final String GAME_OVER_URL = "/GameOverState";
-
+  public static final String SPECTATE_GAME_URL = "/specatator/game";
 
   //
   // Attributes
@@ -165,6 +165,9 @@ public class WebServer {
 
     // Triggers a new game with the selected player
     get(GAME_URL, new GetGameRoute(gson, playerLobby, templateEngine));
+
+    // Triggers a view of a selected game
+    get(SPECTATE_GAME_URL, new GetSpectatorGameRoute(gson, playerLobby, templateEngine));
 
     // Triggers a new game with the selected player
     post(CHECKTURN_URL, new PostCheckTurnRoute(playerLobby, templateEngine));

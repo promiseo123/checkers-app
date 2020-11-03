@@ -16,7 +16,7 @@ public class Player {
     private STATE state;
 
     public enum COLOR {RED, WHITE, NONE}
-    public enum STATE {NOTPLAYING, PLAYING, WON, LOST}
+    public enum STATE {NOTPLAYING, SPECTATING, PLAYING, WON, LOST}
 
     // --------------------------------- CONSTRUCTORS --------------------------------- //
 
@@ -64,6 +64,13 @@ public class Player {
     public void playing() {
         inGame = true;
         this.state = STATE.PLAYING;
+    }
+
+    /**
+     * spectating: Sets the state of the Player to spectating
+     */
+    public void spectating() {
+        this.state = STATE.SPECTATING;
     }
 
     /**

@@ -115,6 +115,21 @@ public class PlayerLobby {
             }
         }
     }
+
+    /**
+     * markPlayerAsSpectating: Mark the specified player as spectating
+     *
+     * @param playerName    The player to mark as playing
+     */
+    public void markPlayerAsSpectating(String playerName) {
+        for (Player player : players) {
+            if (player.nameEquals(playerName)) {
+                player.spectating();
+                break;
+            }
+        }
+    }
+
     /**
      * markPlayerAsDonePlaying: Mark the specified player as not in game
      *

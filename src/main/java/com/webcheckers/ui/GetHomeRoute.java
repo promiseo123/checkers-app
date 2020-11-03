@@ -95,10 +95,14 @@ public class GetHomeRoute implements Route {
 
       // Display a list of all other signed in Players
       vm.put("users", playerLobby.getOtherPlayers(currentUser.getName()));
+
+
     } else {
       //display a message of the number of signed-in, not-in-a-game players
       vm.put("Num", playerLobby.getPlayers().size() + " players are signed in.");
     }
+    // Display a list of games in progress
+    vm.put("gameLabels", GameCenter.getAvailableGames());
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }
