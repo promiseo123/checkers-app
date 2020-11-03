@@ -27,6 +27,13 @@ public class GetSpectatorGameRoute implements Route {
     public static final String PLAYER_KEY = "player";
     private final String GAME_ID_PARAM = "GameID";
 
+    /**
+     * Constructor for GetStartGame route, sets up lobby and template engine for this route
+     *
+     * @param gson           Json conversion engine
+     * @param lobby             The PlayerLobby of all players
+     * @param templateEngine    The template engine used in view/model interactions
+     */
     public GetSpectatorGameRoute(final Gson gson, final PlayerLobby lobby, final TemplateEngine templateEngine) {
         this.gson = gson;
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
@@ -34,17 +41,19 @@ public class GetSpectatorGameRoute implements Route {
         LOG.config("GetHomeRoute is initialized.");
     }
 
+    /**
+     * Handles any /spectator/game requests
+     *
+     * @param request  The HTTP request
+     * @param response The HTTP response
+     * @return The render of the game if successful, null otherwise
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         LOG.finer("GetSpectatorGameRoute is invoked.");
         final Session session = request.session();
         Player currentUser = session.attribute(PLAYER_KEY);
         lobby.markPlayerAsSpectating(currentUser.getName());
-        // If there's no current user, or they shouldn't be loading the game page, return null
-//        if (currentUser == null ||
-//                !(currentUser.readyToPlay() || currentUser.isPlaying())) {
-//            return null;
-//        }
         String gameID=request.queryParams(GAME_ID_PARAM);
         Game game = GameCenter.getGameByID(gameID);
         assert game != null;
