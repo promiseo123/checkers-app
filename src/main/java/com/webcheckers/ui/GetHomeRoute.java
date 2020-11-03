@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -8,6 +9,7 @@ import java.util.logging.Logger;
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameLabel;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -102,7 +104,13 @@ public class GetHomeRoute implements Route {
       vm.put("Num", playerLobby.getPlayers().size() + " players are signed in.");
     }
     // Display a list of games in progress
-    vm.put("gameLabels", GameCenter.getAvailableGames());
+
+    List<GameLabel> availableGames = GameCenter.getAvailableGames();
+    if (availableGames.size() == 0) {
+      vm.put("Num_spectatable", "No games are currently in progress.");
+    }
+    vm.put("gameLabels", availableGames);
+
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }

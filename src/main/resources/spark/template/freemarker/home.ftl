@@ -41,18 +41,16 @@
          Provide a message to the user, if supplied.
     -->
 
-    <p>Current Games in progress:</p>
-     <#if currentUser??>
-            <#if !games??>
-                <p>No game is currently in progress</p>
-            <#else>
+      <#if currentUser??>
+          <p>Current Games in progress:</p>
+         <#if gameLabels?size gt 0>
              <#list gameLabels as gameLabel>
-               <a href="/spectator/game?gameID=${gameLabel.getGameID()}">${gameLabel.getPlayersInGame()}</a>
+                 <a href="/spectator/game?gameID=${gameLabel.getGameID()}">${gameLabel.getPlayersInGame()}</a>
              </#list>
-               </#if>
-             <#else>
-             <p>${Num}</p>
-           </#if>
+         <#else>
+             <p>${Num_spectatable}</p>
+         </#if>
+      </#if>
 
   </div>
 
