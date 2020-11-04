@@ -146,6 +146,21 @@ public class PlayerLobby {
     }
 
     /**
+     * markPlayerAsDoneSpectating: Mark the specified player as not spectating
+     *
+     * @param playerName    The player to mark as done spectating
+     */
+    public void markPlayerAsDoneSpectating(String playerName) {
+        for (Player player : players) {
+            if (player.nameEquals(playerName)) {
+                player.doneSpectating();
+                break;
+            }
+        }
+    }
+
+
+    /**
      * markPlayerWithColor: Marks the specified player with a given color
      *
      * @param playerName    The name of the player to mark
