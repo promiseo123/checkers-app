@@ -48,6 +48,15 @@ public class Game {
     // --------------------------------- METHODS --------------------------------- //
 
     /**
+     * getID: Returns the Game ID
+     *
+     * @return      The ID
+     */
+    public String getID() {
+        return gameID;
+    }
+
+    /**
      * getRedPlayer: Returns the red player
      *
      * @return      The red player
