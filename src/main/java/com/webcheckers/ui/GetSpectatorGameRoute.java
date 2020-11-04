@@ -25,7 +25,7 @@ public class GetSpectatorGameRoute implements Route {
     private final PlayerLobby lobby;
     private final Gson gson;
     public static final String PLAYER_KEY = "player";
-    private final String GAME_ID_PARAM = "GameID";
+    private final String GAME_ID_PARAM = "gameID";
 
     /**
      * Constructor for GetStartGame route, sets up lobby and template engine for this route
@@ -54,10 +54,8 @@ public class GetSpectatorGameRoute implements Route {
         final Session session = request.session();
         Player currentUser = session.attribute(PLAYER_KEY);
         lobby.markPlayerAsSpectating(currentUser.getName());
-        String gameID=request.queryParams(GAME_ID_PARAM);
-        Game game = GameCenter.getGameByID(gameID);
-        assert game != null;
-
+        String gameID = request.queryParams(GAME_ID_PARAM);
+        Game game = Objects.requireNonNull(GameCenter.getGameByID(gameID));
 
         // Populate the variables of the game.ftl render with pertinent information
         Map<String, Object> mv = new HashMap<>();
