@@ -74,6 +74,13 @@ public class Player {
     }
 
     /**
+     * doneSpectating: Sets the state of the Player to Not Playing
+     */
+    public void doneSpectating() {
+        this.state = STATE.NOTPLAYING;
+    }
+
+    /**
      * isPlaying: Returns if this Player is playing a game or not
      */
     public boolean isPlaying() {
