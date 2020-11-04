@@ -64,7 +64,9 @@ public class WebServer {
   public static final String BACKUPMOVE_URL = "/backupMove";
   public static final String RESIGN_URL = "/resignGame";
   public static final String GAME_OVER_URL = "/GameOverState";
-  public static final String SPECTATE_GAME_URL = "/specatator/game";
+  public static final String SPECTATE_GAME_URL = "/spectator/game";
+  public static final String SPECTATE_CHECK_URL = "/spectator/checkTurn";
+  public static final String SPECTATE_STOP_URL = "/spectator/stopWatching";
 
   //
   // Attributes
@@ -169,6 +171,9 @@ public class WebServer {
     // Triggers a view of a selected game
     get(SPECTATE_GAME_URL, new GetSpectatorGameRoute(gson, playerLobby, templateEngine));
 
+    //Stops spectation
+    get(SPECTATE_STOP_URL, new GetSpectatorStopWatchingRoute(playerLobby, templateEngine));
+
     // Triggers a new game with the selected player
     post(CHECKTURN_URL, new PostCheckTurnRoute(playerLobby, templateEngine));
 
@@ -186,6 +191,9 @@ public class WebServer {
 
     //Resigns player from game
     post(RESIGN_URL, new PostResignRoute(gson,templateEngine));
+
+    //checks for changes in spectated game
+    post(SPECTATE_CHECK_URL, new PostSpectatorCheckTurnRoute(playerLobby, templateEngine, gson));
     LOG.config("WebServer is initialized.");
   }
 
