@@ -51,7 +51,6 @@ public class GetSpectatorStopWatchingRoute implements Route{
         String gameID = request.queryParams("gameID");
         Player spectator = session.attribute("player");
         playerLobby.markPlayerAsDoneSpectating(spectator.getName());
-
         response.redirect(WebServer.HOME_URL);
         halt();
         return null;

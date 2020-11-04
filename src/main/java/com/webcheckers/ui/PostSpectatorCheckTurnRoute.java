@@ -59,7 +59,6 @@ public class PostSpectatorCheckTurnRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
-        // Make the session and gson thing
         final Session session = request.session();
         Message message;
 

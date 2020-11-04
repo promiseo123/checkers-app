@@ -74,6 +74,14 @@ public class Player {
     }
 
     /**
+     * isPlaying: Returns if this Player is playing a game or not
+     */
+    public boolean isSpectating() {
+        if(this.state==STATE.SPECTATING) return true;
+        return false;
+    }
+
+    /**
      * doneSpectating: Sets the state of the Player to Not Playing
      */
     public void doneSpectating() {
