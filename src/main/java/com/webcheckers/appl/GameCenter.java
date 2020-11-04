@@ -28,9 +28,9 @@ public class GameCenter {
     /**
      * newGame: Make a new game with a game ID and the two player(red/white)
      *
-     * @param gameID    Game ID of game
-     * @param red       Red player
-     * @param white     White player
+     * @param gameID Game ID of game
+     * @param red    Red player
+     * @param white  White player
      */
     public static void newGame(String gameID, Player red, Player white) {
         Game game = new Game(gameID, red, white);
@@ -40,8 +40,8 @@ public class GameCenter {
     /**
      * getGameByID: Returns a game by the id
      *
-     * @param gameID    The game ID of the game you want to get
-     * @return          The game
+     * @param gameID The game ID of the game you want to get
+     * @return The game
      */
     public static Game getGameByID(String gameID) {
         if (gamesMap.containsKey(gameID)) {
@@ -53,7 +53,6 @@ public class GameCenter {
 
     /**
      * wipeAllGames: Clears all games from memory
-     *
      */
     public static void wipeAllGames() {
         gamesMap.clear();
@@ -61,9 +60,9 @@ public class GameCenter {
 
     /**
      * wipeGame: Clears a specified game from memory
-     * @param gameID  The gameID of the game to wipe
-     * @return        true if game was wiped, false if game was not found.
      *
+     * @param gameID The gameID of the game to wipe
+     * @return true if game was wiped, false if game was not found.
      */
     public static boolean wipeGame(String gameID) {
         if (gamesMap.containsKey(gameID)) {
@@ -74,11 +73,13 @@ public class GameCenter {
 
     }
 
-    public static List<GameLabel> getAvailableGames() {
-        List<GameLabel> gameLabels =new ArrayList<>();
+    public static List<GameLabel> getAvailableGames(){
+        List<GameLabel> gameLabels = new ArrayList<>();
         for (String gameID : gamesMap.keySet()) {
-            GameLabel gameLabel=new GameLabel(gameID);
-            gameLabels.add(gameLabel);
+            if (!GameCenter.getGameByID(gameID).hasEnded()) {
+                GameLabel gameLabel = new GameLabel(gameID);
+                gameLabels.add(gameLabel);
+            }
         }
         return gameLabels;
     }
