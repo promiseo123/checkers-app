@@ -74,11 +74,10 @@ public class Player {
     }
 
     /**
-     * isPlaying: Returns if this Player is playing a game or not
+     * isSpectating: Returns if this Player is spectating a game or not
      */
     public boolean isSpectating() {
-        if(this.state==STATE.SPECTATING) return true;
-        return false;
+        return this.state == STATE.SPECTATING;
     }
 
     /**
